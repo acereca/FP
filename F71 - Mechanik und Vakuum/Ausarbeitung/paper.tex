@@ -1,17 +1,13 @@
-\documentclass[12pt]{article}
-\usepackage{graphicx}         % fuer das Einbinden von Grafiken
-\usepackage[ngerman]{babel}   % weglassen, wenn in Englisch
-%% wenn Sie das ngerman package benutzen, koennen Umlaute als "a.. geschrieben
-%% werden, sonst \"a..
+\documentclass[12pt, a4paper]{scrartcl}
+
+\usepackage{a4wide}
+\usepackage{graphicx}      
+
 \usepackage[utf8]{inputenc}
-%% dieses package erlaubt, bei deutscher Tastatur Umlaute, ß direkt einzugeben
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
 
-\textwidth=170mm
-\textheight=250mm
-\hoffset= -20mm       % may need change
-\voffset= -25mm       % may need change
-
-%% everything after % is a comment in LATEX
+\renewcommand*\rmdefault{cmss}
 
 \begin{document}
 	
@@ -53,9 +49,38 @@
 	
 	\pagenumbering{arabic} %% start page 1 
 	\section{Einleitung}
-		Diese Reihe von Versuchen dienen zur Orientierung und Nutzung von Apparaturen die Evakuierung benötigen, sowie zur Verständnis der Vakuumtechnik und auch deren Grenzen. In geringem Maße auch der Sensibilisierung für zuvor unbekannte Fehlerquellen die in der Vakuumtechnik zu Fehlern führen können.
+		Diese Reihe von Versuchen dienen zur Orientierung und Nutzung von Apparaturen die Evakuierung benötigen, sowie zur Verständnis der Vakuumtechnik und auch deren Grenzen. In geringem Maße auch der Sensibilisierung für zuvor unbekannte Fehlerquellen die in der Vakuumtechnik zu Fehlern führen können.\\\\
+		Der komplette Versuch ist getrennt in 6 Teilversuche:
+		\begin{enumerate}
+			\item Funktionsweise einer Drehschieberpumpe
+			
+				Beobachtung einer Drehschieberpumpe in Betrieb und Bbestimmung des maximalen Vakuums
+
+			\item Abpumpen kondensierbarer Dämpfe
+				
+				Beobachtung der selben Drehschieberpumpe unter Abpumpen kondensierbarer Dämpfe und dem daraus resultierenden maximalen Vakuums
+
+			\item Funktionsweise von Molekular- und Turbomolekularpumpe (TMP)
+			
+			\item Saugvermögen der TMP
+			
+			\item Bestimmung des Leitwerts von Rohr und Blende
+			
+			\item Lecksuche
+		\end{enumerate}
 	
 	\section{Versuchsanordnung}
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=.5\paperwidth]{aufbau22}
+			\caption{Vakuum-Blockschaltbild zum Versuch des Abpumpens kondensierbarer Dämpfe}
+		\end{figure}
+	
+		\begin{figure}[bh]
+			\centering
+			\includegraphics[width=.3\paperwidth]{aufbau262}
+			\caption{Prinzipschaltbild des im Versuchsteil 6 eingesetzten Gegenstromlecksuchers}
+		\end{figure}
 		
 	
 	\section{Versuchsdurchführung}
