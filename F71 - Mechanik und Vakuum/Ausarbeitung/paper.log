@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2017.3.31)  13 APR 2017 18:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.12.6)  14 APR 2017 11:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -144,10 +144,18 @@ Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen103
 \Gin@req@width=\dimen104
 )
+(/usr/share/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count89
+\float@exts=\toks15
+\float@box=\box28
+\@float@everytoks=\toks16
+\@floatcapt=\box29
+)
 (/usr/share/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2015/03/17 v1.2c Input encoding file
-\inpenc@prehook=\toks15
-\inpenc@posthook=\toks16
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
 
 (/usr/share/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
@@ -476,43 +484,43 @@ Language: ngermanb 2016/11/02 v2.9 German support for babel (new orthography)
 
 (/usr/share/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2016/04/23 3.9r Babel common definitions
-\babel@savecnt=\count89
+\babel@savecnt=\count90
 \U@D=\dimen105
 )
 Package babel Info: Making " an active character on input line 125.
 ))) (./paper.aux)
 \openout1 = `paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Try loading font information for T1+cmss on input line 12.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 13.
 
 (/usr/share/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count90
+\scratchcounter=\count91
 \scratchdimen=\dimen106
-\scratchbox=\box28
-\nofMPsegments=\count91
-\nofMParguments=\count92
-\everyMPshowfont=\toks17
-\MPscratchCnt=\count93
+\scratchbox=\box30
+\nofMPsegments=\count92
+\nofMParguments=\count93
+\everyMPshowfont=\toks19
+\MPscratchCnt=\count94
 \MPscratchDim=\dimen107
-\MPnumerator=\count94
-\makeMPintoPDFobject=\count95
-\everyMPtoPDFconversion=\toks18
+\MPnumerator=\count95
+\makeMPintoPDFobject=\count96
+\everyMPtoPDFconversion=\toks20
 ) (/usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2016/05/21 v0.22 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -563,41 +571,52 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 20.
+(Font)              <17.28> on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 20.
+(Font)              <12> on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 24.
+(Font)              <7> on input line 25.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 24.
+(Font)              <5> on input line 25.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 34.
+(Font)              <8> on input line 35.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 34.
+(Font)              <6> on input line 35.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
-Underfull \hbox (badness 10000) in paragraph at lines 52--54
+Underfull \hbox (badness 10000) in paragraph at lines 53--55
 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 85--85
+[]\T1/cmss/m/n/12 generalisierter Auf-bau zur Be-ob-ach-tung der Funk-ti-ons-we
+i-se ei-ner
  []
 
 <aufbau22.png, id=14, 1244.65pt x 445.665pt>
 File: aufbau22.png Graphic file (type png)
  <use aufbau22.png>
-Package pdftex.def Info: aufbau22.png used on input line 75.
+Package pdftex.def Info: aufbau22.png used on input line 91.
 (pdftex.def)             Requested size: 298.75397pt x 106.96858pt.
+ [1]
+Underfull \hbox (badness 10000) in paragraph at lines 99--99
+[]\T1/cmss/m/n/12 Aufbau zur Be-ob-ach-tung der Funk-ti-ons-wei-se von Molekula
+r- und
+ []
 
-<aufbau262.png, id=16, 740.7675pt x 465.74pt>
+<aufbau262.png, id=20, 740.7675pt x 465.74pt>
 File: aufbau262.png Graphic file (type png)
  <use aufbau262.png>
-Package pdftex.def Info: aufbau262.png used on input line 81.
+Package pdftex.def Info: aufbau262.png used on input line 119.
 (pdftex.def)             Requested size: 179.2542pt x 112.69662pt.
- [1 <./aufbau22.png>] [2 <./aufbau262.png>] [3] (./paper.aux) ) 
+ [2 <./aufbau22.png> <./aufbau262.png>] [3] [4] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 4422 strings out of 493013
- 70118 string characters out of 6139317
- 218626 words of memory out of 5000000
- 7903 multiletter control sequences out of 15000+600000
+ 4481 strings out of 493013
+ 70930 string characters out of 6139317
+ 220009 words of memory out of 5000000
+ 7958 multiletter control sequences out of 15000+600000
  14206 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  49i,8n,51p,8816b,277s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -609,10 +628,10 @@ fb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfss1200.pfb></usr/share/
 texmf-dist/fonts/type1/public/cm-super/sfss1728.pfb></usr/share/texmf-dist/font
 s/type1/public/cm-super/sfsx1440.pfb></usr/share/texmf-dist/fonts/type1/public/
 cm-super/sfsx1728.pfb>
-Output written on paper.pdf (5 pages, 178146 bytes).
+Output written on paper.pdf (6 pages, 177654 bytes).
 PDF statistics:
- 54 PDF objects out of 1000 (max. 8388607)
- 35 compressed objects within 1 object stream
+ 57 PDF objects out of 1000 (max. 8388607)
+ 37 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
