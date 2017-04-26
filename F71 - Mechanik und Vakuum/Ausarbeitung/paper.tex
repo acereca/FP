@@ -10,9 +10,10 @@
 		linkcolor=white
 ]{hyperref}
 \usepackage{booktabs}
+\usepackage[font=footnotesize,labelfont=bf]{caption}
 
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+%\usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
 
 \renewcommand*\rmdefault{cmss}
@@ -95,25 +96,17 @@
 	
         \begin{figure}[H]
             \centering
-            1\includegraphics[width=.5\paperwidth]{aufbau21}
+            \includegraphics[width=.5\paperwidth]{aufbau21}
             \caption{generalisierter Aufbau zur Beobachtung der Funktionsweise einer Drehschieberpumpe}
             \label{fig:anord1}
         \end{figure}
     
     	
     	
-    	Die Erwartung des von der Pumpe zu erzeugenden Vakuums beträgt
-    	\begin{align*}
-	    	P_E=5\cdot 10^{-2}\ mbar\\
-	    	\Rightarrow \text{Schlussfolgerung: Leck}
-    	\end{align*}
-    	
-    	
-    	Messe Druck p  in der Vakuumkammer mit Dual Gauge Vakuumeter:
-    	\begin{align*}
-	    	\text{1. Lauf: }p=\cdot 10^{-1}\ mbar\\
-	    	\text{2. Lauf: }p=\cdot 10^{-1}\ mbar
-    	\end{align*}
+    	Es hat sich ein Enddruck der Drehschieberpumpe bei \begin{align*}
+            (1.2\pm 0.1)\cdot 10^{-1}\ mbar
+        \end{align*}
+        Aufgrund des zu großen Enddrucks und der darauffolgenden Lecksuche, welche neagtiv war, wird angenommen, dass sich noch Wasser im System befunden hat. (Versuchsteil 2 wurde vorgezogen)
     
     
     
@@ -128,11 +121,11 @@
 	
 		Beobachtung:
 		\begin{itemize}
-			\item Wasser beginnt bei niedrigem Druck an zu sieden ($-\ mbar$)
+			\item Wasser beginnt bei niedrigem Druck an zu sieden
 			
 			$\rightarrow$ Schalte Gasballast zu um Kondensation des Wasserdampfes zu verhindern			
 			
-			\item Wasser gefriert bei $\ mbar$
+			\item Wasser gefriert bei $\sim 5.8\ mbar$
 			
 		\end{itemize}
 
@@ -148,7 +141,11 @@
     
     	Die Turbomolekularpumpe wird nun nach \cite{skript}, wie in Aufbau \ref{fig:anord3} hinzugeschalten. Die Apparatur wurde eingeschaltet und über Nacht laufen gelassen.
     	
-    	Über Nacht hat sich der Druck im Rezipienten auf $(\pm)\cdot 10^{-6}\ mbar$ eingestellt. (gemessen mit dem Dual-Gauge-Messgerät)
+    	Über Nacht hat sich der Druck im Rezipienten auf 
+        $(1.1\pm0.1)\cdot 10^{-6}\ mbar$
+        eingestellt. (gemessen mit dem Dual-Gauge-Messgerät)
+        
+        Die Frequenz der Turbomolekularpumpe beträgt $f = 1.5\ kHz$
     
     
     \subsection{Saugvermögen der TMP}
@@ -160,45 +157,49 @@
             \label{fig:anord4}
         \end{figure}
     
-    	Es wird nun eine Kapillarröhre an den Rezipienten angeflanscht, diese hat ein Fassungsvolumen von $\ ml$
+    	Es wird nun eine Kapillarröhre an den Rezipienten angeflanscht, diese hat ein Fassungsvolumen von 
+        %TODO: $\ ml$
     
     	Mithilfe des Binärventils wird nun der gewünschte Druck eingestellt. Ein Seifentropfen wird in die Kapillare eingegeben und die Dauer gemessen, die der Tropfen benötigt um eine gewünschtes Volumen in der Kapillare zu überschreiten
     	
     	\begin{figure}[H]
     		\centering
-    		\caption{Messreihe 1.1: Saugvermögen bei Kapillare 1}
     		\input{../24-t1.tex}
+            \caption{Messreihe 1.1 - Saugvermögen bei Kapillare 1}
     	\end{figure}
     	
-    	Die Kapillare wurde nun durch eine Andere ersetzte, diese besitzt ein Fassungsvolumen von $\ ml$, und es wurden folgende Messungen gemacht:
+    	Die Kapillare wurde nun durch eine Andere ersetzte, diese besitzt ein Fassungsvolumen von 
+        %TODO: $\ ml$, 
+        und es wurden folgende Messungen gemacht:
     	
  	    \begin{figure}[H]
     		\centering
-    		\caption{Messreihe 1.2: Saugvermögen bei Kapillare 2}
-    		%TODO:  \input{24-t2.tex}
+    		\input{../24-t2.tex}
+            \caption{Messreihe 1.2 - Saugvermögen bei Kapillare 2}
     	\end{figure}
     	
     	Es erfolgt eine weitere Kapillare mit dem Fassungsvermögen von $\ ml$, mit den folgenden Messungen:
     	
     	\begin{figure}[H]
 			\centering
-			\caption{Messreihe 1.3: Saugvermögen bei Kapillare 3}
-			%TODO:  \input{24-t3.tex}
+			\input{../24-t3.tex}
+            \caption{Messreihe 1.3 - Saugvermögen bei Kapillare 3}
 		\end{figure}
     	
     	Zuletzt wird ein Kolben angebracht:
     	
     	\begin{itemize}
-    		\item Gesamtvolumen: $\ ml$
-    		\item Masse: $m=(\pm)\ g$
-    		\item Skalenteilung: $\ ml$
-    		\item Durchmesser: $d=(\pm)\cdot10^{-2}\ m$
+    		\item Gesamtvolumen: $(35\pm3)\ ml$ (Schätzung)
+    		\item Masse: $m=44.67\ g$
+    		\item Skalenteilung: $0.5\ ml$
+            % 26.5mm/5ml
+    		\item Durchmesser: $d=(15.5\pm0.1)\cdot10^{-3}\ m$
     	\end{itemize}
     
     	\begin{figure}[H]
 			\centering
-			\caption{Messreihe 1.4: Saugvermögen bei Kolben}
-			%TODO:  \input{24-t4.tex}
+            \input{../24-t4.tex}
+			\caption{Messreihe 1.4 - Saugvermögen bei Kolben}
 		\end{figure}
     	
     	(Diese Messungen geschehen bei Äußerem Normaldruck)
@@ -217,22 +218,23 @@
     	Der Rezipient wird nun leer gepumpt und anschließend mittels Binärventil der gewünschte Druck eingestellt. Bei verschiedenen Rohren und Blenden in der Führung wird der Druck jeweils oben am Führrohr und unten am Rezipienten gemessen (mithilfe der Dual-Gauge)
     	
     	\begin{itemize}
+            %TODO
     		\item Maße Blende:
     			\begin{align*}
-    				d=&(\pm)\cdot 10^{-2}\ m\\
-    				h=&(\pm)\cdot 10^{-2}\ m
+    				d=&(4.2\pm 0.1)\cdot 10^{-3}\ m\\
+    				h=&(5.0\pm 0.1)\cdot 10^{-3}\ m
     			\end{align*}
     			
     		\item Maße Rohr:
     			\begin{align*}
-    				d=&(\pm)\cdot 10^{-2}\ m\\
-    				h=&(\pm)\cdot 10^{-2}\ m
+    				d=&(12.0\pm 0.1)\cdot 10^{-3}\ m\\
+    				h=&(1.00\pm 0.05)\cdot \ m
     			\end{align*}
     			
     		\item Maße Halterohr:
     			\begin{align*}
-    				d=&(\pm)\cdot 10^{-2}\ m\\
-    				h=&(\pm)\cdot 10^{-2}\ m
+    				d=&(52.0\pm 0.1)\cdot 10^{-3}\ m\\
+    				h=&(1.00\pm 0.05)\cdot \ m
     			\end{align*}
     	\end{itemize}
     
@@ -262,9 +264,13 @@
     \subsection{Lecksuche}
     
 		Zunächst wird der Aufbau aus Versuchsteilen 4 \& 5 benutzt\\\\	
-		$\rightarrow$ Über Nacht hat sich ein Druck von $(\pm)\cdot 10^{}\ mbar$ eingestellt.\\\\
+		$\rightarrow$ Über Nacht hat sich ein Druck von 
+        $(3.6\pm0.1)\cdot 10^{-1}\ mbar$
+        eingestellt.\\\\
 		Die Pumpen werden erneut eingeschalten. Es wird ein aus Glas geschmolzenes Leck aus dem Auslass des Ventils am Rezipienten angebracht.\\
-		$\rightarrow$ Mit dem Leck stellt sich ein Druck von $(\pm)\cdot 10^{}\ mbar$ ein.\\		
+		$\rightarrow$ Mit dem Leck stellt sich ein Druck von 
+        %TODO: $(\pm)\cdot 10^{}\ mbar$
+        ein.\\		
 		Die Strahlenkanone wurde dann auf die Glaskapillare gehalten.\\
 		$\rightarrow$ Der Luftstrom war durch die Gasentladung sehr deutlich zu sehen.\\\\		
 		Für die Gegenstromlecksuche wurde folgender Aufbau verwendet:
@@ -283,16 +289,22 @@
 	
 		Nach Inbetriebnahme der Drehschieberpumpe wurde der Druck im Rezipienten mittels des Dual-Gauge-Druckmessgerätes verfolgt.
 		
-		Nach kurzer Laufzeit der Pumpe wird die Druckveränderung mitverfolgt, dabei fällt der Druck innerhalb von $\ min$ von $(\pm)\cdot 10^{-2}\ mbar$ auf $(\pm)\cdot 10^{-2}\ mbar$ ab. Aufgrund der Geschwindigkeit dieses Abfalls schätzen wir, dass der Druck nicht unter einen Wert von
-		
-		\begin{align}
+		Nach kurzer Laufzeit der Pumpe wird die Druckveränderung mitverfolgt, dabei fällt der Druck innerhalb von 
+        %TODO: $\ min
+        auf 
+        %TODO: $(\pm)\cdot 10^{-2}\ mbar$
+        ab und verweilt dort für 
+        %TODO: wieviele?
+        weitere Minuten
+		desshalt schätzen wir, dass der Enddruck bis auf
+		\begin{align*}
+            %TODO: pfffft
 			p=(\pm)\cdot 10^{-2}\ mbar
-		\end{align}
-		
+		\end{align*}
 		(Fehler ist Schätzung) fallen wird, auch wenn wir die Pumpe über mehrere Stunden Hinweg arbeiten lassen könnten.
 		
-		Das Vakuum kann mit einer Drehschieberpumpe nicht beliebig gut werden, da die Drehschieberpumpe bei einem gewissen Druck das Gas nicht mehr genügend komprimieren kann, was zuum Ausstoßen des Gases nötig wäre. 
-		Es stellt sich aber ein Gleichgewicht bei einem bestimmten Druck ein, sodass die Menge an Gas, die von der Pumpe nach außen gefördert wird, gerade der Menge Gas entspricht, die durch Lecks in den Rezipienten eintritt.
+		Das Vakuum kann mit einer Drehschieberpumpe nicht beliebig gut werden, da die Drehschieberpumpe bei einem gewissen Druck das Gas nicht mehr genügend komprimieren kann, was zum Ausstoßen des Gases nötig wäre.
+		Es stellt sich aber ein Gleichgewicht bei einem bestimmten Druck ein, sodass die Menge an Gas, die von der Pumpe nach außen gefördert wird, gerade der Menge Gas entspricht, die durch Lecks, oder Pseudolecks in den Rezipienten eintritt.
 		
 		
 	\subsection{Abpumpen kondensierbarer Dämpfe}
@@ -302,10 +314,146 @@
 			\includegraphics[width=.5\paperwidth]{phasen-wasser}
 			\caption{Phasendiagramm von Wasser (nach \cite{wikibooks})}
 		\end{figure}
+    
+        Im zweiten Teil des Versuchs konnten wir beobachten, wie Wasser verschiedene Zustände durchläuft:
+        
+        \begin{itemize}
+            \item Das Wasser startet bei Normaldruck und Raumtemperatur
+            
+            \item Der Druck im Rezipienten fällt zu Beginn sehr stark, da die Pumpe eine große Gasmenge fördern kann. Die Temperatur des Wassers sollte dabei konstant bleiben. Ab einem Druck um $11\ mbar$ sollte das Wasser zu kochen beginnen.
+            
+            \item Durch das siedende Wasser und den entstehenden Wasserdampf kann die Drehschieberpumpe nicht weiter arbeiten\\
+            $\rightarrow$ Das Gasballastventil wird geöffnet
+            
+            \item Die Pumpe kann nun weiter arbeiten und der Zustand des Wassers wandert entlang der Dampfdruckkurve
+            
+            \item bei etwa $(5.8\pm0.1)\ mbar$, gefriert das Wasser, da nun der Tripelpunkt überschritten ist\\(Literaturwert: $6\ mbar\ \rightarrow\ 2\sigma$)
+        \end{itemize}
+
+    \subsection{Inbetriebnahme einer TMP}
+    
+        Die TMP erreichte (nach einer Nacht) einen Druck von 
+        %TODO: $(\pm 0.1)\cdot10^{-6}\ mbar$, 
+        was den durch die Drehschieberpumpe errreichten Druck um 
+        %TODO 
+        Größenordnungen absenkt, was solange dauert da Gase im Rezipienten desorbieren (Pseudoleck)
+        
+    \subsection{Saugvermögen der TMP}
+        
+        Nach dem Anbringen der Kapillare stellt sich ein Gleichgewicht ein, das durch die Kapillare eingesaugte Luftvolumen $V6$ entspricht dann genau dem im Reipienten abgesaugten Volumen $V_R$ (pro Zeit):
+        \begin{align}
+            pV=nRT
+        \end{align}
+        (Druck p, Volumen V, Stoffmenge n, Gaskonstante R und Temperatur T)
+        \begin{align}
+            \frac{p_{außen}V}{t} =& \frac{p_{innen}V_R}{t}\\
+            \Leftrightarrow S=&\frac{V_R}{t}=\frac{V_R}{t}\cdot \frac{p_{außen}}{p_{innen}}\\
+            \Delta S=&\sqrt{
+                (\frac{\Delta t}t)^2
+                (\frac{\Delta V}V)^2
+                (\frac{\Delta p_{innen}}{p_{innen}})^2
+            }\cdot S
+        \end{align}
 	
-	% continuation: 47727...
+        Auf den Fehler von $p_{außen}$ wurde verzichtet und es wurde der Literaturwert von $1013\ hPa$ verwendet.
+        Die errechneten Wee für das Saugvermögen sind in Tabelle
+        %TODO: ref
+        zu finden, die Daten wurden zudem in Abbildung
+        %TODO ref
+        aufgetragen und ein linearer Fit durchgeführt
+        
+        \begin{figure}[H]
+            \centering
+            %TODO: tabelle 34-t1.tex?
+            \caption{Tabelle der errechnete Werte des Saugvermögens}
+        \end{figure}
+    
+        \begin{figure}[H]
+            \centering
+            %TODO: diagramm 34-f1.png?
+            \caption{Messwerte des Saugvermögens einer TMP}
+        \end{figure}
+        
+        \begin{align*}
+            %TODO val
+            S=(\pm)\ \frac{l}{s}
+        \end{align*}
+        
+        \begin{itemize}
+            \item Deutlich zu sehen ist, dass die mit dem Kolben gemessenen Werte systematisch zu hoch liegen. Dies liegt daran, dass der Kolben durch sein eigenes Gewicht noch zusätzlich Luftvon außen hereindrückt.
+            
+            \item Es war zudem ein recht poröser Schlauch am Kolben angebracht, der für ein größeres Leck sorgt und somit die Messung verfälscht.
+            
+            \item Fehler bei den Kapillaren können dadurch zustande gekommen sein, dass die Kapillare in ihrer Halterung leicht schräg war und nicht senkrecht. Der Tropfer erfuhr daher eine Hangabtriebskraft weg vom Rezipienten
+        \end{itemize}
+        Wie könnte man die Genauigkeit der Messung erhöhen?
+        
+        Zu Beginn bei sehr kleinem eingesaugten Volumen könnten noch dünnere Kapillare die zeitliche Genauigkeit erhöhen, da der Tropfen dann mit höherer Geschwindigkeit durch die Kapillare laufen würde.
+    
+    \subsection{Leitwert von Rohr und Blende}
+    
+        Bei verschiedenen eingebauten Teilen (Rohr, Blende) wurden die Druckdifferenzen oberhalb und unterhalb des Bauteils gemessen um den Leitwert des Aufbaus zu bestimmen. Mit dem in Teil 3 bestimmten Saugvermögen lässt sich über die Druckdifferenz $\delta p$ auf den Leitwert L schließen, mittels:
+        
+        \begin{align}
+            L=&\frac{Q}{\delta p}
+            \intertext{(Saugleistung Q)}
+            \text{mit } Q=&S\cdot p_{unten}\\
+            \Rightarrow L=&\frac{S\cdot p_{unten}}{\delta p}\\
+            \delta p=& p_{oben} - p_{unten}
+            \intertext{mit dem Fehler:}
+            \Delta (\delta p) =& \sqrt{\Delta p_{oben}^2+ \Delta p_{unten}^2}\\
+            \Delta L=&\sqrt{(\frac{\Delta S}S)^2+(\frac{\Delta p_{unten}}{p_{unten}})^2+(\frac{\Delta (\delta p)}{\delta p})^2}\cdot L
+        \end{align}
+        Die Berechnung für die 3 Konfigurationen aus Rohr und Blende sind in den Tabellen
+        %TODO: ref
+        zu finden
+        
+        \begin{figure}[H]
+            \centering
+            %TODO: \input{34-t1.tex}
+            \caption{}
+        \end{figure}
+    
+        \begin{figure}[H]
+            \centering
+            %TODO: \input{34-t2.tex}
+            \caption{}
+        \end{figure}
+    
+        \begin{figure}[H]
+            \centering
+            %TODO: \input{34-t3.tex}
+            \caption{}
+        \end{figure}
+    
+        Die Daten der Leitwerte sind in den Diagrammen
+        %TODO: ref
+        aufgetragen. zu sehen ist bei allen 3 Konfigurationen ein Anstieg des Leitwertes hin zu kleinen Drücken
+        %TODO: ($p < 10^-4\ mbar$)
+        und hin zu sehr großen Drücken.
+        %TODO: ($p > 3\cdot 10^-3\ mbar$)
+        Dies hat damit zu tun, dass in dieser Berechnung das Saugvermögen über den gesamten Druckbereich als konstant angenommen wurde. Wie in Diagramm
+        %TODO: ref
+        zu sehen, ist dies keinesfalls so.
+        Der Leitwert ist in diesen Bereichen wegen des zu groß angenommenen Saugvermögens selbst auch viel zu hoch. Bei den hohen Drücken gibt es außerdem den Effekt, dass hier schon der Übergang von der molekularen Strömung zur laminaren Strömung kommt und der Leitwert damit ansteigt.
+        Zur Bestimmung des Leitwerts im molekularen Bereich wurde daher ein Fit (konstant) an die Messpunkte im Bereich 
+        %TODO: $2\cdot 10^{-4}$ bis $2\cdot 10^{-3}\ mbar$
+        gemacht:
+        
+        \begin{align*}
+            %TODO: val
+            \text{Rohr: }L_R=&(\pm)\ \frac l s\\
+            \text{Blende: } L_B=&(\pm)\ \frac l s\\
+            \text{Rohr + Blende: } L_{R+B}=&(\pm)\ \frac l s
+        \end{align*}
+        
+        \subsubsection*{Überprüfung der kirchhoffschen Regeln}
+    
+    \subsection{Lecksuche}
 	
 	\section{Diskussion}
+    
+    (Teil 5: Rohrdurchmesser zu groß gewählt?)
 	
 	Hier werden alle wesentlichen Ergebnisse nochmals ausgefuehrt und diskutiert. 
 	

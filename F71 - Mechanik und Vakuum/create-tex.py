@@ -5,8 +5,6 @@ import uncertainties.unumpy as un
 filelist = {
     "24-d1.dat":"24-t1.tex",
     "24-d2.dat":"24-t2.tex",
-    "24-d3.dat":"24-t3.tex",
-    "24-d4.dat":"24-t4.tex",
     "25-d1.dat":"25-t1.tex",
     "25-d2.dat":"25-t2.tex",
     "25-d3.dat":"25-t3.tex",
@@ -29,5 +27,8 @@ for infile, outfile in filelist.items():
 
     datasets = un.uarray(data[:, ::2], data[:, 1::2])
 
+
     f = open(outfile, 'w')
     f.write(pd.DataFrame(datasets, columns=names).to_latex(escape=False))
+
+    print("successfully written data from " + infile + " to " + outfile)
