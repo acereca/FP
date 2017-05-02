@@ -4,7 +4,7 @@ import uncertainties.unumpy as un
 
 # formatting
 plt.style.use('bmh')
-plt.figure(figsize=(10,5))
+plt.figure(figsize=(14,7))
 
 filelist = [
     "24-d1.dat",
@@ -53,7 +53,7 @@ for infile in filelist:
 
     #print(infile)
     #print(L)
-    print(po)
+    #print(po)
     with open(infile) as f:
         firstline =f.readline()[2:-1]
 
@@ -66,5 +66,23 @@ for infile in filelist:
         yerr=un.std_devs(L)
     )
 
+    # constant fit
+    pu_best = np.where(np.logical_and(pu >= 2e-4, pu <= 2e-3))
+    L_fit = np.mean(L[pu_best])
+    plt.plot(
+        un.nominal_values(pu),
+        [L_fit.n]*pu.size,
+        label='Fit für $L_{{{0}}}$'.format(firstline)
+    )
+    print(L_fit)
+    plt.annotate('${:.2eL}$'.format(L_fit),
+                 xy=(1e-2, L_fit.n), xycoords='data',
+                 ytext=(0, (5 if L_fit.n > .65 else -10)), textcoords='offset points', fontsize=14,
+                 bbox=dict(boxstyle="round", fc="1"))
+
+
 plt.legend()
+plt.title('Leiwertbestimmung von Rohr und Blende')
+plt.ylabel('Leitwert')
+plt.xlabel('$p_{unten}$')
 plt.savefig('25-f1.png')
