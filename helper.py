@@ -31,7 +31,7 @@ def uprint(name: str, unc: ufloat, unit='', aftercomma=2, addwidth=1):
     string += '{num:0{width}.{comma}f}'.format(num=unc.n, width=width, comma=aftercomma)
     string += '\pm{num:0{width}.{comma}f})'.format(num=unc.s, width=width, comma=aftercomma)
 
-    string += '\ ' + unit
+    string += '\  ' + unit
     disp.display(disp.Math(string))
 
 def plot_prep(title='', xlabel='x', ylabel='y', style='bmh', xscale='linear', yscale='linear', plot_scale=1.5, plot_height=10):
