@@ -23,9 +23,26 @@ V2 = un.uarray(data2[:,4],data2[:,5])
 p2 = un.uarray(data2[:,0],data2[:,1])
 t2 = un.uarray(data2[:,2],data2[:,3])
 
+plat = np.mean((V1/p1/t1)[3:4])
+print("{:.2eL}".format(plat))
+
+plt.plot([1e-5,4e-2], [plat.n]*2)
+plt.annotate(
+    "${:.2eL}".format(plat) + "\\frac{l}{s}$",
+    xy=(2e-2, plat.n),
+    xycoords='data',
+    xytext=(0, 0),
+    textcoords='offset points',
+    fontsize=14,
+    bbox=dict(boxstyle="round",
+    fc="1")
+)
+
 plt.errorbar(data[:,0], un.nominal_values(V1/p1/t1), fmt='.', xerr=un.std_devs(p1), yerr=un.std_devs(V1/p1/t1))
 plt.errorbar(data2[:,0], un.nominal_values(V2/t2/p2), fmt='.', xerr=un.std_devs(p2), yerr=un.std_devs(V2/p2/t2))
 
+plt.xlabel('p / mbar')
+plt.ylabel('S / $\\frac{l}{s}$')
 plt.savefig('24-f1.png')
 plt.clf()
 S = ( (V1/p1/t1)[-2] + (V1/p1/t1)[-1] + (V2/p2/t2)[0] )/3
@@ -75,14 +92,16 @@ for infile in filelist:
         label='Fit für $L_{{{0}}}$'.format(firstline)
     )
     print(L_fit)
-    plt.annotate('${:.2eL}$'.format(L_fit),
-                 xy=(1e-2, L_fit.n), xycoords='data',
-                 ytext=(0, (5 if L_fit.n > .65 else -10)), textcoords='offset points', fontsize=14,
-                 bbox=dict(boxstyle="round", fc="1"))
+    plt.annotate('${:.2eL}$'.format(L_fit) + " $\\frac{l}{s}$",
+                 xy=(1e-2, L_fit.n),
+                 xycoords='data',
+                 xytext=(0, (5 if L_fit.n > .65 else -10)), textcoords='offset points', fontsize=14,
+                 bbox=dict(boxstyle="round", fc="1")
+                )
 
 
 plt.legend()
 plt.title('Leiwertbestimmung von Rohr und Blende')
-plt.ylabel('Leitwert')
-plt.xlabel('$p_{unten}$')
+plt.ylabel('L / $\\frac{l}{s}$')
+plt.xlabel('p$_{unten}$ / mbar')
 plt.savefig('25-f1.png')

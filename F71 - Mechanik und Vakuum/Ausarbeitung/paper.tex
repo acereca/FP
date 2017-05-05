@@ -5,7 +5,11 @@
 \usepackage{pdflscape}
 \usepackage{float}
 \usepackage{amsmath}
+\usepackage{siunitx}
+\sisetup{seperr}
+\sisetup{expproduct=\cdot}
 \usepackage{afterpage}
+\usepackage{microtype}
 \usepackage[
 		colorlinks=false,
 		urlcolor=blue,
@@ -28,8 +32,7 @@
 	\null\vspace{40mm}
 	\begin{center}
 		{
-			\Large  Die Nutzung von Vakuumpumpen für\\ unterschiedliche Anwendungen aufgrund ihrer Funktionsweise,\\ 
-			sowie die Mechanik der Evakuierung	
+			\Large Mechanik und Vakuum
 			\footnote{
 				\noindent Versuch F71, ausgeführt am 24.4.17,
 				Betreuer: Frederik Arand,
@@ -41,16 +44,16 @@
 		\vspace{25mm}
 		
 		\parbox{0.9\textwidth}{
-			Abstract:    
-			\small The abstract should preferentially be in English. Here we explain in a
-			few lines (i) what was done, and (ii) what the results were.
+			Abstract:\\    
+			\small Wir beobachten die Nutzung von Vakuumpumpen für unterschiedliche Anwendungen, sowie die Mechanik der Evakuierung, hierbei liegt das Hauptaugenmerk auf einer Drehschieberpumpe und einer Turbomolekularpumpe (TMP).
+            
+            Der Inhalt des Versuchs bezieht sich hierbei auf die Bestimmung des Saugvermögens der TMP, sowie Leitwert und Lecksuche.
 		}
 	\end{center}
 	
 	\vfill
-	Als besondere Auswertung testiert: Datum, Unterschrift:
+	Als besondere (kurze) Auswertung testiert: Datum, Unterschrift:
 	\vspace{20mm}
-	
 	%% Rueckseite des Titelblatts leer. Bei einseitigem Druck entfernen
 	\newpage  
 	\null\thispagestyle{empty} 
@@ -113,6 +116,7 @@
     	Es hat sich ein Enddruck der Drehschieberpumpe bei \begin{align*}
             (1.2\pm 0.1)\cdot 10^{-1}\ mbar
         \end{align*}
+        eingestell.
         Aufgrund des zu großen Enddrucks und der darauffolgenden Lecksuche, welche neagtiv war, wird angenommen, dass sich noch Wasser im System befunden hat. (Versuchsteil 2 wurde vorgezogen)
     
     
@@ -164,26 +168,26 @@
             \label{fig:anord4}
         \end{figure}
     
-    	Es wird nun eine Kapillarröhre an den Rezipienten angeflanscht, diese hat ein Fassungsvolumen von 
-        %TODO: $\ ml$
-    
-    	Mithilfe des Binärventils wird nun der gewünschte Druck eingestellt. Ein Seifentropfen wird in die Kapillare eingegeben und die Dauer gemessen, die der Tropfen benötigt um eine gewünschtes Volumen in der Kapillare zu überschreiten
-    	
-    	\begin{figure}[H]
-    		\centering
-    		\input{../24-t1.tex}
-            \caption{Messreihe 1.1 - Saugvermögen bei Kapillaren}
-    	\end{figure}
-    	
-    	Die Kapillare wurde nun durch eine Andere ersetzte, diese besitzt ein Fassungsvolumen von 
-        %TODO: $\ ml$, 
-        und es wurden folgende Messungen gemacht:
     	
     	
-    	Es erfolgt eine weitere Kapillare mit dem Fassungsvermögen von $\ ml$, mit den folgenden Messungen:
+    	
+    	
+        Zum Messen des Saugvermögens werden nun Glaskapillaren an die Vakuumkammer angeflanscht. Dann wird der gewünschte Druck eingestellt und ein Tropfen Seifenwasser in die Kapillare gegeben. Dieser wird beobachtet und das angesaugte Volumen pro Zeit notiert.
+    	
+    	Die Kapillaren haben die folgenden Größen:
+        \begin{itemize}
+            \item $0.1\ ml$
+            \item $0.2\ ml$
+            \item $0.5\ ml$
+            \item $1\ ml$
+        \end{itemize}
     	
     	
     	Zuletzt wird ein Kolben angebracht:
+        
+        
+        (Diese Messungen geschehen bei Äußerem Normaldruck)
+        Anschließend wird langsam belüftet um die TMP nicht zu überhitzen
     	
     	\begin{itemize}
     		\item Gesamtvolumen: $(35\pm3)\ ml$ (Schätzung)
@@ -192,23 +196,18 @@
             % 26.5mm/5ml
     		\item Durchmesser: $d=(15.5\pm0.1)\cdot10^{-3}\ m$
     	\end{itemize}
-    
-    	\begin{figure}[H]
-			\centering
-            \input{../24-t2.tex}
-			\caption{Messreihe 1.2 - Saugvermögen bei Kolben}
-		\end{figure}
-    	
-    	(Diese Messungen geschehen bei Äußerem Normaldruck)
-    	Anschließend wird langsam belüftet um die TMP nicht zu überhitzen
     	
     	
-    	\begin{figure}[H]
-    		\centering
-    		%TODO: add fit and labels
-    		\includegraphics[width=.6\paperwidth]{../24-f1}
-    		\caption{Saugvermögen der TMP inklusive linearem Fit}
-    	\end{figure}
+    	\begin{landscape}
+            %\thispagestyle{empty}
+            \begin{figure}[h!]
+                %TODO: add fit and labels
+                \hspace*{-40mm}\includegraphics[width=1.8\textwidth]{../24-f1}
+                \caption{Saugvermögen der TMP inklusive linearem Fit}
+                \label{diagram:saugv}
+            \end{figure}
+            
+        \end{landscape}
     
     \subsection{Leitwert von Rohr und Blende}
     
@@ -242,34 +241,21 @@
     			\end{align*}
     	\end{itemize}
     
-    	\begin{figure}[H]
-    		\centering
-    		\input{../25-t1.tex}
-    		\caption{Messreihe 2.1: Rohr und Blende}
-   		\end{figure}
+    	
    	
    		Nach der Messung wird die Pumpe belüftet. Das Halterohr abgeschraubt und die Blende entfernt. Nach erneutem anbringen des Halterohrs wird erneut eine Druckmessung durchgeführt.
    	
-   		\begin{figure}[H]
-   			\centering
-   			\input{../25-t2.tex}
-   			\caption{Messreihe 2.2: Rohr}
-   		\end{figure}
-   	
    		Die Pumpe wird belüftet und als letzte Messreihe lediglich die Blende in das Halterohr montiert. Der Rezipient wird erneut evakuiert und eine erneute Druckmessung durchgeführt.
    	
-   		\begin{figure}[H]
-   			\centering
-   			\input{../25-t3.tex}
-   			\caption{Messreihe 2.3: Blende}
-   		\end{figure}    
+   		   
    	
   		
    		\begin{landscape}
-   			\thispagestyle{empty}
+   			%\thispagestyle{empty}
    			\begin{figure}[h!]
    				\hspace*{-40mm}\includegraphics[width=1.8\textwidth]{../25-f1.png}
    				\caption{Leitwertbestimmung anhand des Diagramms}
+                \label{diagram:leitwert}
    			\end{figure}
    		\end{landscape}
    		
@@ -279,14 +265,16 @@
     
 		Zunächst wird der Aufbau aus Versuchsteilen 4 \& 5 benutzt\\\\	
 		$\rightarrow$ Über Nacht hat sich ein Druck von 
-        $(3.6\pm0.1)\cdot 10^{-1}\ mbar$
+        \SI{3.6+-0.1 e-1}{mbar}
         eingestellt.\\\\
 		Die Pumpen werden erneut eingeschalten. Es wird ein aus Glas geschmolzenes Leck aus dem Auslass des Ventils am Rezipienten angebracht.\\
-		$\rightarrow$ Mit dem Leck stellt sich ein Druck von 
-        %TODO: $(\pm)\cdot 10^{}\ mbar$
-        ein.\\		
-		Die Strahlenkanone wurde dann auf die Glaskapillare gehalten.\\
-		$\rightarrow$ Der Luftstrom war durch die Gasentladung sehr deutlich zu sehen.\\\\		
+		Der Teslatrafo wurde dann auf die Glaskapillare gehalten.\\
+		$\rightarrow$ Der Luftstrom war durch die Gasentladung sehr deutlich zu sehen.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=.6\paperwidth]{foto2}
+            \caption{Lecksuche mit Teslatrafo}
+        \end{figure}	
 		Für die Gegenstromlecksuche wurde folgender Aufbau verwendet:
 		
 		\begin{figure}[H]
@@ -296,31 +284,20 @@
 			\label{fig:anord6}
 		\end{figure}
 		Mittels einer Heliumgasflasche wurde am verschiedenen Stellen Helium auf die Apparatur gegeben und der Ausschlag am Spektrometer beobachtet.\\
-		$\rightarrow$ Es konnte eine poröse Schweißnaht ausfindig gemacht werden, die offensichtlich für das Leck im Aufbau verantwortlich ist.
+		$\rightarrow$ Es konnte eine poröse Dichtung und ein Materialfehler im Bauteil ausfindig gemacht werden, die offensichtlich für das Leck im Aufbau verantwortlich sind.
 
 	\section{Ergebnisse}
 	\subsection{Inbetriebnahme der Drehschieberpumpe}
 	
-		Nach Inbetriebnahme der Drehschieberpumpe wurde der Druck im Rezipienten mittels des Dual-Gauge-Druckmessgerätes verfolgt.
-		
-		Nach kurzer Laufzeit der Pumpe wird die Druckveränderung mitverfolgt, dabei fällt der Druck innerhalb von 
-        %TODO: $\ min
+		Nach Inbetriebnahme der Drehschieberpumpe fiel der Druck innerhalb von
+        $2\ min$
         auf 
-        %TODO: $(\pm)\cdot 10^{-2}\ mbar$
-        ab und verweilt dort für 
-        %TODO: wieviele?
-        weitere Minuten
-		desshalt schätzen wir, dass der Enddruck bis auf
-		\begin{align*}
-            %TODO: pfffft
-			p=(\pm)\cdot 10^{-2}\ mbar
-		\end{align*}
-		(Fehler ist Schätzung) fallen wird, auch wenn wir die Pumpe über mehrere Stunden Hinweg arbeiten lassen könnten.
+        $(1.2\pm0.1)\cdot 10^{-1}\ mbar$
+        und verweilt dort.
 		
 		Das Vakuum kann mit einer Drehschieberpumpe nicht beliebig gut werden, da die Drehschieberpumpe bei einem gewissen Druck das Gas nicht mehr genügend komprimieren kann, was zum Ausstoßen des Gases nötig wäre.
-		Es stellt sich aber ein Gleichgewicht bei einem bestimmten Druck ein, sodass die Menge an Gas, die von der Pumpe nach außen gefördert wird, gerade der Menge Gas entspricht, die durch Lecks, oder Pseudolecks in den Rezipienten eintritt.
-		
-		
+		Es stellt sich aber ein Gleichgewicht bei einem bestimmten Druck ein.
+        		
 	\subsection{Abpumpen kondensierbarer Dämpfe}
 		
 		\begin{figure}[H]
@@ -347,9 +324,8 @@
     \subsection{Inbetriebnahme einer TMP}
     
         Die TMP erreichte (nach einer Nacht) einen Druck von 
-        %TODO: $(\pm 0.1)\cdot10^{-6}\ mbar$, 
-        was den durch die Drehschieberpumpe errreichten Druck um 
-        %TODO 
+        $(1.1\pm 0.1)\cdot10^{-6}\ mbar$, 
+        was den durch die Drehschieberpumpe errreichten Druck um 5
         Größenordnungen absenkt, was solange dauert da Gase im Rezipienten desorbieren (Pseudoleck)
         
     \subsection{Saugvermögen der TMP}
@@ -361,12 +337,12 @@
         (Druck p, Volumen V, Stoffmenge n, Gaskonstante R und Temperatur T)
         \begin{align}
             \frac{p_{außen}V}{t} =& \frac{p_{innen}V_R}{t}\\
-            \Leftrightarrow S=&\frac{V_R}{t}=\frac{V_R}{t}\cdot \frac{p_{außen}}{p_{innen}}\\
-            \Delta S=&\sqrt{
-                (\frac{\Delta t}t)^2
-                (\frac{\Delta V}V)^2
-                (\frac{\Delta p_{innen}}{p_{innen}})^2
-            }\cdot S
+            \Leftrightarrow S=&\frac{V_R}{t}=\frac{V_R}{t}\cdot \frac{p_{außen}}{p_{innen}}
+            %\Delta S=&\sqrt{
+            %    (\frac{\Delta t}t)^2
+            %    (\frac{\Delta V}V)^2
+            %    (\frac{\Delta p_{innen}}{p_{innen}})^2
+            %}\cdot S
         \end{align}
 	
         Auf den Fehler von $p_{außen}$ wurde verzichtet und es wurde der Literaturwert von $1013\ hPa$ verwendet.
@@ -376,29 +352,18 @@
         %TODO ref
         aufgetragen und ein linearer Fit durchgeführt
         
-        \begin{figure}[H]
-            \centering
-            %TODO: tabelle 34-t1.tex?
-            \caption{Tabelle der errechnete Werte des Saugvermögens}
-        \end{figure}
-    
-        \begin{figure}[H]
-            \centering
-            %TODO: diagramm 34-f1.png?
-            \caption{Messwerte des Saugvermögens einer TMP}
-        \end{figure}
-        
         \begin{align*}
-            %TODO val
             S=(\pm)\ \frac{l}{s}
         \end{align*}
         
         \begin{itemize}
-            \item Deutlich zu sehen ist, dass die mit dem Kolben gemessenen Werte systematisch zu hoch liegen. Dies liegt daran, dass der Kolben durch sein eigenes Gewicht noch zusätzlich Luftvon außen hereindrückt.
+            \item Deutlich zu sehen ist, dass die mit dem Kolben gemessenen Werte systematisch zu hoch liegen. Dies liegt daran, dass der Kolben durch sein eigenes Gewicht noch zusätzlich Luft von außen hereindrückt.
             
             \item Es war zudem ein recht poröser Schlauch am Kolben angebracht, der für ein größeres Leck sorgt und somit die Messung verfälscht.
             
             \item Fehler bei den Kapillaren können dadurch zustande gekommen sein, dass die Kapillare in ihrer Halterung leicht schräg war und nicht senkrecht. Der Tropfer erfuhr daher eine Hangabtriebskraft weg vom Rezipienten
+            
+            \item nach der zweiten Messung wurde dem Wasser etwas mehr Seife hinzugefügt, um die Reibung des Tropfens in der Kapillare zu minimieren
         \end{itemize}
         Wie könnte man die Genauigkeit der Messung erhöhen?
         
@@ -412,58 +377,36 @@
             L=&\frac{Q}{\delta p}
             \intertext{(Saugleistung Q)}
             \text{mit } Q=&S\cdot p_{unten}\\
-            \Rightarrow L=&\frac{S\cdot p_{unten}}{\delta p}\\
-            \delta p=& p_{oben} - p_{unten}
-            \intertext{mit dem Fehler:}
-            \Delta (\delta p) =& \sqrt{\Delta p_{oben}^2+ \Delta p_{unten}^2}\\
-            \Delta L=&\sqrt{(\frac{\Delta S}S)^2+(\frac{\Delta p_{unten}}{p_{unten}})^2+(\frac{\Delta (\delta p)}{\delta p})^2}\cdot L
+            \Rightarrow L=&\frac{S\cdot p_{unten}}{\delta p},\quad
+            \delta p= p_{oben} - p_{unten}
+%            \intertext{mit dem Fehler:}
+%            \Delta (\delta p) =& \sqrt{\Delta p_{oben}^2+ \Delta p_{unten}^2}\\
+%4            \Delta L=&\sqrt{(\frac{\Delta S}S)^2+(\frac{\Delta p_{unten}}{p_{unten}})^2+(\frac{\Delta (\delta p)}{\delta p})^2}\cdot L
         \end{align}
-        Die Berechnung für die 3 Konfigurationen aus Rohr und Blende sind in den Tabellen
-        %TODO: ref
-        zu finden
-        
-        \begin{figure}[H]
-            \centering
-            %TODO: \input{34-t1.tex}
-            \caption{}
-        \end{figure}
+        Die Berechnung für die 3 Konfigurationen aus Rohr und Blende sind in den Tabellen \ref{m21},\ref{m22} und \ref{m23} zu finden
     
-        \begin{figure}[H]
-            \centering
-            %TODO: \input{34-t2.tex}
-            \caption{}
-        \end{figure}
-    
-        \begin{figure}[H]
-            \centering
-            %TODO: \input{34-t3.tex}
-            \caption{}
-        \end{figure}
-    
-        Die Daten der Leitwerte sind in den Diagrammen
-        %TODO: ref
+        Die Daten der Leitwerte sind in Diagramm \ref{diagram:leitwert}
         aufgetragen. zu sehen ist bei allen 3 Konfigurationen ein Anstieg des Leitwertes hin zu kleinen Drücken
-        %TODO: ($p < 10^-4\ mbar$)
+        ($p < 10^{-4}\ mbar$)
         und hin zu sehr großen Drücken.
-        %TODO: ($p > 3\cdot 10^-3\ mbar$)
+        ($p > 2\cdot 10^{-3}\ mbar$)
         Dies hat damit zu tun, dass in dieser Berechnung das Saugvermögen über den gesamten Druckbereich als konstant angenommen wurde. Wie in Diagramm
-        %TODO: ref
-        zu sehen, ist dies keinesfalls so.
+        \ref{diagram:saugv} sehen, ist dies keinesfalls so.
         Der Leitwert ist in diesen Bereichen wegen des zu groß angenommenen Saugvermögens selbst auch viel zu hoch. Bei den hohen Drücken gibt es außerdem den Effekt, dass hier schon der Übergang von der molekularen Strömung zur laminaren Strömung kommt und der Leitwert damit ansteigt.
         Zur Bestimmung des Leitwerts im molekularen Bereich wurde daher ein Fit (konstant) an die Messpunkte im Bereich 
-        %TODO: $2\cdot 10^{-4}$ bis $2\cdot 10^{-3}\ mbar$
+        $2\cdot 10^{-4}$ bis $2\cdot 10^{-3}$ mbar
         gemacht:
         
         \begin{align*}
             %TODO: val
-            \text{Rohr: }L_R=&(\pm)\ \frac l s\\
-            \text{Blende: } L_B=&(\pm)\ \frac l s\\
-            \text{Rohr + Blende: } L_{R+B}=&(\pm)\ \frac l s
+            \text{Rohr: }L_R=&(.659\pm.032)\ \frac l s\\
+            \text{Blende: } L_B=&(.524\pm.029)\ \frac l s\\
+            \text{Rohr + Blende: } L_{R+B}=&(2.13\pm0.08)\ \frac l s
         \end{align*}
         
         \subsubsection*{Überprüfung der kirchhoffschen Regeln}
-    
-    \subsection{Lecksuche}
+        
+        
 	
 	\section{Diskussion}
     
@@ -484,4 +427,44 @@
 		
 	\end{thebibliography}
 	
+    \newpage
+    \section{Anhang}
+    
+    \begin{figure}[H]
+        \centering
+        \input{../24-t1.tex}
+        \caption{Messreihe 1.1 - Saugvermögen bei Kapillaren}
+        \label{m11}
+    \end{figure}
+
+   	\begin{figure}[H]
+        \centering
+        \input{../24-t2.tex}
+        \caption{Messreihe 1.2 - Saugvermögen bei Kolben}
+        \label{m12}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \input{../25-t1.tex}
+        \caption{Messreihe 2.1: Rohr und Blende}
+        \label{m21}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \input{../25-t2.tex}
+        \caption{Messreihe 2.2: Rohr}
+        \label{m22}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \input{../25-t3.tex}
+        \caption{Messreihe 2.3: Blende}
+        \label{m23}
+    \end{figure} 
+
+
+
 \end{document}
