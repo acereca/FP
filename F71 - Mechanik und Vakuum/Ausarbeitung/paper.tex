@@ -7,7 +7,7 @@
 \usepackage{amsmath}
 \usepackage{siunitx}
 \sisetup{seperr}
-\sisetup{expproduct=\cdot}
+\sisetup{expproduct=\cdot,per=frac,fraction=nice}
 \usepackage{afterpage}
 \usepackage{microtype}
 \usepackage[
@@ -353,7 +353,7 @@
         aufgetragen und ein linearer Fit durchgeführt
         
         \begin{align*}
-            S=(\pm)\ \frac{l}{s}
+            \SI{8.28+-0.04}{\litre\per\second}
         \end{align*}
         
         \begin{itemize}
@@ -399,13 +399,48 @@
         
         \begin{align*}
             %TODO: val
-            \text{Rohr: }L_R=&(.659\pm.032)\ \frac l s\\
-            \text{Blende: } L_B=&(.524\pm.029)\ \frac l s\\
-            \text{Rohr + Blende: } L_{R+B}=&(2.13\pm0.08)\ \frac l s
+            L_{Rohr}=&\SI{.659+-.032}{\litre\per\second}\\
+            L_{Rohr und Blende}=&\SI{.524+-.029}{\litre\per\second}\\
+            L_{Blende}=&\SI{2.13+-0.08}{\litre\per\second}
         \end{align*}
         
-        \subsubsection*{Überprüfung der kirchhoffschen Regeln}
+        \subsubsection*{Überprüfung der Kirchhoffschen Regeln}
         
+        Serienschaltung:
+        \begin{align}
+			\frac 1{L_{R+B}} = \frac 1 {L_R} + \frac 1 {L_B} \quad \Leftrightarrow \quad L_{R+B} = \frac{L_R L_B}{L_R+L_B}
+			\label{f:kirch}
+        \end{align}
+        
+        Mit den experimentell bestimmten Werten für $L_R$ und $L_B$ folgt:
+        \begin{align}
+        	L_{R+B} = \SI{.503+-.019}{\litre\per\second}
+        \end{align}
+        
+        (Abw: \SI{0.6}{\sigma}) Was mit unserem experimentellen Wert sehr gut übereinstimmt und die kirchhoffschen Regeln als Analogir bestätigt.
+        
+        \subsubsection*{theoretische Leitwerte}
+        
+        \begin{align}
+        	L_{\text{theo,lam,Rohr}}&=\frac{\pi}{8} r^4 \frac{\overline p}{\eta l}&\overline p = (p_o+p_u)/2, \eta= 
+        	\SI{17.1}{\micro\pascal\per\second}\\
+        	&= \SI{0.48+-0.03}{\litre\per\second} &\text{(letzte Drücke aus Tab \ref{m22})}\\
+        	\Rightarrow \text{Abw.: } \SI{4}{\sigma}\\
+        	\hline\nonumber\\
+        	L_{\text{theo,mol,Rohr}}&=\frac 8 3 \frac{r^3}{l} \sqrt{\frac{\pi R T}{2 M}} &R=\SI{8.314}{\joule\per\mole\per\kelvin}, M_{Luft} = \SI{28.96}{\gram\per\mole}\\
+        	&=\SI{.209+-.012}{\litre\per\second}\\
+        	\Rightarrow \text{Abw.: } \SI{13.2}{\sigma}\\
+        	\hline\nonumber\\
+        	L_{\text{theo,mol,Blende}}
+        	&=\SI{362}{\meter\per\second} r^2\\
+        	&=\SI{}{\litre\per\second}\\
+        	\Rightarrow \text{Abw.: } \SI{4.8}{\sigma}\\
+        	\hline\nonumber\\
+        	\Rightarrow L_{theo,R+B} 
+        	&= \SI{.368+-.02}{\litre\per\second}
+        	&(\text{nach }\ref{f:kirch})\\
+        	\Rightarrow \text{Abw.: \SI{4.5}{\sigma}}&&\text{zum experimentellen Wert}
+        \end{align}
         
 	
 	\section{Diskussion}

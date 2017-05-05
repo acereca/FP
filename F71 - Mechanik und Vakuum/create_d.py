@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import uncertainties.unumpy as un
+import uncertainties as uc
 
 # formatting
 plt.style.use('bmh')
@@ -91,7 +92,7 @@ for infile in filelist:
         [L_fit.n]*pu.size,
         label='Fit für $L_{{{0}}}$'.format(firstline)
     )
-    print(L_fit)
+    print("L_{{{0}}} = {1}".format(firstline,L_fit))
     plt.annotate('${:.2eL}$'.format(L_fit) + " $\\frac{l}{s}$",
                  xy=(1e-2, L_fit.n),
                  xycoords='data',
@@ -105,3 +106,47 @@ plt.title('Leiwertbestimmung von Rohr und Blende')
 plt.ylabel('L / $\\frac{l}{s}$')
 plt.xlabel('p$_{unten}$ / mbar')
 plt.savefig('25-f1.png')
+
+LR = uc.ufloat(.659,.032)
+LB = uc.ufloat(2.13,.08)
+LRB = uc.ufloat(.524,.029)
+
+print("LRB {}".format((LR*LB)/(LR+LB)))
+print((LRB -(LR*LB)/(LR+LB)).n/(LRB -(LR*LB)/(LR+LB)).s)
+
+# theo Leitwerte
+# lam R
+rR = uc.ufloat(12e-3,.1e-3)/2 #m
+eta = 17.1e-8 # hPa/s
+l = uc.ufloat(1,.05) # m
+dp1 = (uc.ufloat(3.1e-1,.1e-1)
+    +uc.ufloat(1.1e-2,.1e-2))/2 # mbar
+LTR1 = np.pi/8*rR**4*dp1/eta/l
+print("LTR1: {} l/s".format(LTR1*1000))
+diff = uc.ufloat(.659,.032)-LTR1*1000
+print("sig LTR1: {} sigma".format(
+        diff.n / diff.s
+    )
+)
+# mol R
+R = 8.314 # J/mol/K
+M = 28.96e-3 # kg/mol
+LTR2 = 8/3*rR**3/l*np.sqrt(np.pi*R*293.15/2/M)
+print("LTR2: {} l/s".format(LTR2*1000))
+diff2 = uc.ufloat(.659,.032)-LTR2*1000
+print("sig LTR2: {} sigma".format(
+    diff2.n/diff2.s
+))
+
+# mol B
+rB = uc.ufloat(4.2e-3,.1e-3)/2 # m
+LTB = 362 * rB**2
+print("LTB: {} l/s".format(LTB*1000))
+diff3 = uc.ufloat(2.13,.08) - LTB*1000
+print("sig LTB: {} sigma".format(
+    diff3.n/diff3.s
+))
+
+LTRB = (LTR1*LTB)*1e3/(LTR1+LTB)
+print("LTRB {}".format(LTRB))
+print("Abw: {}".format((LRB-LTRB).n/(LRB-LTRB).s))
