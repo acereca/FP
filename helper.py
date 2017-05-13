@@ -26,10 +26,10 @@ def uprint(name: str, unc: ufloat, unit='', aftercomma=2, addwidth=1):
         pretty printing values given as uncertainties.ufloat, for jupyter notebook
     """
     width = aftercomma+addwidth+1
-    string = '{name} = ('.format(name=name)
+    string = '{name} = '.format(name=name)
 
-    string += '{num:0{width}.{comma}f}'.format(num=unc.n, width=width, comma=aftercomma)
-    string += '\pm{num:0{width}.{comma}f})'.format(num=unc.s, width=width, comma=aftercomma)
+    string += '{num:0{width}.{comma}eL}'.format(num=unc, width=width, comma=aftercomma)
+    #string += '\pm{num:0{width}.{comma}f})'.format(num=unc.s, width=width, comma=aftercomma)
 
     string += '\  ' + unit
     disp.display(disp.Math(string))
