@@ -47,3 +47,45 @@ def plot_prep(title='', xlabel='x', ylabel='y', style='bmh', xscale='linear', ys
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+
+def urepr(name: str, unc: ufloat, unit='', aftercomma=2, addwidth=1, latex=True):
+    """
+        returning values given as uncertainties.ufloat, for jupyter notebook
+    """
+    width = aftercomma+addwidth+1
+    string = '{name} = '.format(name=name)
+
+    string += '{num:0{width}.{comma}e'
+    if latex:
+        string += 'L}'
+    else:
+        string += 'P}'
+
+    string = string.format(num=unc, width=width, comma=aftercomma)
+    string += '\  ' + unit
+
+    return string
+
+def prepr(name: str, nom: float, stdd=0, unit='', formatting='f', aftercomma=2, addwidth=1, latex=True):
+    """
+        pretty printing values given as seperate nominal and stddev values for jupyter notebook
+    """
+    width = aftercomma+addwidth+1
+
+    string = '{name} = '.format(name=name)
+
+    if stdd != 0:
+        string += '('
+
+    string += '{num:0{width}.{comma}f}'.format(num=nom, width=width, comma=aftercomma)
+
+    if stdd != 0:
+        if latex:
+            string += '\pm{num:0{width}.{comma}{fmt}})'.format(num=stdd, width=width, comma=aftercomma, fmt=formatting)
+            string += '\ '
+        else:
+            string += '±{num:0{width}.{comma}{fmt}})'.format(num=stdd, width=width, comma=aftercomma, fmt = formatting)
+            string += ' '
+
+    string += unit
+    return string
