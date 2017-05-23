@@ -1,6 +1,6 @@
 from uncertainties import ufloat
 import IPython.display as disp
-import matplotlib.pyplot as plt
+
 
 def pprint(name: str, nom: float, stdd=0, unit='', aftercomma=2, addwidth=1):
     """
@@ -38,6 +38,8 @@ def plot_prep(title='', xlabel='x', ylabel='y', style='bmh', xscale='linear', ys
     """
         prepares matplotlib.pyplot with custom formatting
     """
+
+    import matplotlib.pyplot as plt
     plt.figure(figsize=(plot_scale*plot_height,plot_height))
     plt.style.use(style)
 
@@ -89,3 +91,40 @@ def prepr(name: str, nom: float, stdd=0, unit='', formatting='f', aftercomma=2, 
 
     string += unit
     return string
+
+
+class OutputTable():
+    __list = []
+
+    def add(self, name: str, nom: float, stdd=0, unit='', aftercomma=2, addwidth=1):
+
+        self.__list.append({
+            'name': name,
+            'nom': nom,
+            'stdd': stdd,
+            'unit': unit,
+            'aftercomma': aftercomma,
+            'addwidth': addwidth
+        })
+
+    def print(self):
+        out = r'\begin{align}' + '\n'
+
+        for entry in self.__list:
+            inter = '\t' + entry['name'] + r' &= '
+            inter += r'\SI{' + '{:e}'.format(entry['nom']) + r'\pm 2' + '{:e}'.format(entry['stdd']) + r'}'
+            inter += r'{' + entry['unit'] + r'}\\' + '\n'
+
+            out += inter
+
+        out += r'\end{align}'
+
+        print(out)
+        return out
+
+    def display(self):
+        out = self.display()
+        disp.display(disp.Math(out))
+
+    def empty(self):
+        self.__list.clear()
