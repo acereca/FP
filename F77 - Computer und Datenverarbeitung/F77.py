@@ -1,48 +1,47 @@
-
-# coding: utf-8
-
 # # F77 - Computer und Datenverarbeitung
 # 
 # ## Versuchsteil A
 
-# $$\nu_n$$
-
-# In[1]:
-
+# setup
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from lmfit import Model
-# import uncertainties as unc
-# import uncertainties.unumpy as unp
+import uncertainties as unc
+import uncertainties.unumpy as unp
 from helper import *
 
-plt.style.use('dark_background')
+plt.style.use('bmh')
 
 str_f = 'f / Hz'
 str_A = 'A / V'
 str_dA = 'dA / V'
 
-
 def lorentz(omega, gamma, f_0, omega_0):    
     return f_0 / np.sqrt((omega_0**2-omega**2)**2+gamma**2*omega**2)
 
 
-# In[2]:
-
+# data import
 df_a = pd.read_csv('data/a.dat', decimal=',', delimiter='\t')
 
+# korrektur für falschen output
+for row in df_a.index:
+    if row > 0 and row < max(df_a.index) and df_a[str_f][row] == df_a[str_f][row+1]:
+        for i in range(5,1,-1):
+            if row+i <= max(df_a.index) and df_a[str_f][row+i] == df_a[str_f][row]:
+                df_a[str_f][row+i] += .2*i
+
+# trennung in 3 frequenzbereiche
 df_a1 = df_a.ix[df_a[str_f] < 400]
 df_a2 = df_a.ix[df_a[str_f] > 400]
 df_a2 = df_a2.ix[df_a2[str_f] < 3e3]
 df_a3 = df_a.ix[df_a[str_f] > 3e3]
 
-
-# In[3]:
-
+# least square linear model fit
+lmod = Model(lorentz)
 for it, e in enumerate([df_a1, df_a2, df_a3]):
-    lmod = Model(lorentz)
-    
+
+    # reduziere zu fittende daten
     if it == 0:
         x = e[str_f][e[str_f] > 260]
         y = e[str_A][e[str_f] > 260]
@@ -64,35 +63,130 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
         omega_0=(np.max(x)+np.min(x))/2, 
         weights=1/dy
     )
-    
-    pd.DataFrame()
-    
-    otl = OutputTable()
-    otl.add("\omega_0", fitdata.params['omega_0'].value, fitdata.params['omega_0'].stderr, "Hz", aftercomma=3)
-    otl.add("f_0", fitdata.params['f_0'].value, fitdata.params['f_0'].stderr, "V", aftercomma=3)
-    otl.add("\gamma", fitdata.params['gamma'].value, fitdata.params['gamma'].stderr)
-    otl.add("\chi^2_{red}", fitdata.redchi, aftercomma=3)
 
-    otl.print()
+    # generiere output
+    otl = OutputTable("Teil A - lorentz Fit Nr." + str(it+1))
+    otl.add("\omega_{0," + str(it+1) + "}", fitdata.params['omega_0'].value, fitdata.params['omega_0'].stderr, "Hz", aftercomma=3)
+    otl.add("f_{0," + str(it+1) + "}", fitdata.params['f_0'].value, fitdata.params['f_0'].stderr, "V", aftercomma=3)
+    otl.add("\gamma_" + str(it+1), fitdata.params['gamma'].value, fitdata.params['gamma'].stderr)
+    otl.add("\chi^2_{" + str(it+1) + "}", fitdata.chisqr)
+    otl.add("\chi^2_{red," + str(it+1) + "}", fitdata.redchi, aftercomma=3)
+
+    otl.save('a_' + str(it+1) + '.tex')
     
     otl.empty()
 
-    plt.figure(figsize=(12.8,7.2))
+    plt.figure(figsize=(19.2,10.8))
     
-    plt.errorbar(e[str_f], e[str_A]*1e6, yerr=e[str_dA]*1e6, fmt='.')
+    plt.errorbar(
+        e[str_f], 
+        e[str_A]*1e6, 
+        yerr=e[str_dA]*1e6, 
+        fmt='.', 
+        c='#00000033', 
+        label='Messdaten'
+    )
     plt.plot(x, fitdata.best_fit*1e6, 'r-')    
     
     
-    plt.xlim((np.min(e[str_f])*.99, np.max(e[str_f])*1.01))
+    plt.xlim((np.min(e[str_f]), np.max(e[str_f])))
     plt.ylim((np.min(y*1e6), np.max(y*1e6)))
     
+    plt.title(r'Frequenzgang der Schwingungsamplitude eines "Vibrating Reed" um $\nu_' 
+              + str(it) + '$')
     plt.xlabel(str_f)
     plt.ylabel('A / $\mu$V')
-    
-    plt.plot()
+    plt.tight_layout()
+    plt.savefig('a_' + str(it+1) + '.png')
 
 
-# In[ ]:
+## Versuchsteil B
+
+str_f = 'f'
+str_A = 'A'
+str_dA = 'dA'
+
+df_b = pd.read_csv('data/b.dat', decimal=',', delimiter='\t')
 
 
+# trennung in temperaturbereiche
+df_blist = []
+#df_b.set_index(keys=['T'], drop=False,inplace=True)
+temps=df_b['T'].unique().tolist()
+temps[0], temps[1] = temps[1], temps[0]
+for temp in temps:
+    if temp < 62.0:
+        df_blist.append(df_b[df_b['T'] == temp])
 
+
+plt.cla()
+f, axarr = plt.subplots(3,3, sharex='col', sharey='row', figsize=(19.2, 10.8))
+
+positions = []
+dpositions = []
+temps = []
+dtemps = []
+
+for it, part_df in enumerate(df_blist):
+
+    temp = part_df['T'].unique().tolist()[0]
+    dtemp = part_df['dT'].unique().tolist()[0]
+    x  = np.array(part_df[str_f].tolist()[1:])
+    y  = np.array(part_df[str_A].tolist()[1:])
+    dy = np.array(part_df[str_dA].tolist()[1:])
+
+    fitdata = lmod.fit(
+        y,
+        omega=x,
+        gamma=2,
+        f_0=np.max(y),
+        omega_0=(np.max(x) + np.min(x)) / 2,
+        weights=1 / dy
+    )
+
+    positions.append(fitdata.params['omega_0'].value)
+    dpositions.append(fitdata.params['omega_0'].stderr)
+    temps.append(temp+273.15)
+    dtemps.append(dtemp)
+
+    splt = axarr[int(it / 3), int(it % 3)]
+    splt.errorbar(x, y*1e6, yerr=dy*1e6,fmt='.',c='#00000033')
+    splt.plot(x, fitdata.best_fit*1e6, 'r-')
+    splt.set_title(r"T = ${:.2fL}$ °C".format(ufloat(temp, dtemp)))
+    splt.axvline(np.abs(fitdata.params['omega_0'].value))
+    splt.set_xlim(275,285)
+
+f.subplots_adjust(wspace=.01)
+f.text(0.5, 0.04, 'f / Hz', ha='center')
+f.text(0.04, 0.5, 'A / $\mu$V', va='center', rotation='vertical')
+f.suptitle(r'Frequenzgänge um die Resonanzfrequenz $\nu_0$ für unterschiedliche Temperaturen T')
+plt.savefig('b.png')
+
+plt.clf()
+
+lmod = Model(lambda x, m, c: m*x+c)
+
+fitdata = lmod.fit(
+        np.abs(positions),
+        x=temps,
+        m=-.1,
+        c=300,
+        weights=1/np.sqrt((np.array(positions)/np.array(dpositions))**2 + (np.array(temp)/np.array(dtemps))**2)
+    )
+
+otl = OutputTable("Teil B - linearer Fit")
+otl.add("m", fitdata.params['m'].value, fitdata.params['m'].stderr, r'\frac{Hz}{K}')
+otl.add("c", fitdata.params['c'].value, fitdata.params['c'].stderr, 'Hz')
+otl.add("\chi^2_{" + str(it+1) + "}", fitdata.chisqr)
+otl.add("\chi^2_{red," + str(it+1) + "}", fitdata.redchi, aftercomma=3)
+
+otl.save('b_2.tex')
+
+plt.figure(figsize=(12.8, 7.20))
+plt.errorbar(temps, np.abs(positions), yerr=dpositions, xerr=dtemps, fmt='.')
+plt.plot(temps, fitdata.best_fit, 'r-')
+plt.title("Resonanzfrequenz in Abhängigkeit der Temperatur")
+plt.xlabel('T / K')
+plt.ylabel('$\omega_0$ / Hz')
+plt.tight_layout()
+plt.savefig('b_2.png')

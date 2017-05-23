@@ -96,34 +96,40 @@ def prepr(name: str, nom: float, stdd=0, unit='', formatting='f', aftercomma=2, 
 class OutputTable():
     __list = []
 
+    def __init__(self, name):
+        self.__name = name
+
     def add(self, name: str, nom: float, stdd=0, unit='', aftercomma=2, addwidth=1):
 
         self.__list.append({
             'name': name,
-            'nom': nom,
-            'stdd': stdd,
+            'uf': ufloat(nom,stdd),
             'unit': unit,
             'aftercomma': aftercomma,
             'addwidth': addwidth
         })
 
     def print(self):
-        out = r'\begin{align}' + '\n'
+        out = r'\begin{align*}' + '\n'
 
         for entry in self.__list:
             inter = '\t' + entry['name'] + r' &= '
-            inter += r'\SI{' + '{:e}'.format(entry['nom']) + r'\pm 2' + '{:e}'.format(entry['stdd']) + r'}'
-            inter += r'{' + entry['unit'] + r'}\\' + '\n'
+            inter += '{:.3ueL}'.format(entry['uf'])
+            inter += r'\ ' + entry['unit'] + r'\\' + '\n'
 
             out += inter
 
-        out += r'\end{align}'
+        out += r'\end{align*}'
 
-        print(out)
         return out
 
+    def save(self, filename):
+        with open(filename, 'w') as f:
+            f.write(r'{\LARGE ' + self.__name + r'}' + '\n')
+            f.write(self.print())
+
     def display(self):
-        out = self.display()
+        out = self.print()
         disp.display(disp.Math(out))
 
     def empty(self):
