@@ -6,6 +6,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.ticker as tck
 from lmfit import Model
 import uncertainties as unc
 import uncertainties.unumpy as unp
@@ -77,8 +78,30 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
     otl.empty()
 
     plt.figure(figsize=(19.2,10.8))
-    
     plt.errorbar(
+        e[str_f],
+        e[str_A] * 1e6,
+        yerr=e[str_dA] * 1e6,
+        fmt='.',
+        c='#00000033',
+        label='Messdaten'
+    )
+    plt.plot(x, fitdata.best_fit * 1e6, 'r-')
+
+    plt.xlim((np.min(e[str_f]), np.max(e[str_f])))
+    plt.ylim((np.min(y * 1e6), np.max(y * 1e6)))
+
+    plt.title(r'Frequenzgang der Schwingungsamplitude eines "Vibrating Reed" um $\nu_'
+                       + str(it) + '$')
+    plt.xlabel(str_f)
+
+    plt.ylabel('A / $\mu$V')
+    plt.tight_layout()
+    plt.savefig('a_1' + str(it + 1) + '.png')
+
+
+    f, axarr = plt.subplots(2,1, sharex='col', figsize=(19.2,10.8))
+    axarr[0].errorbar(
         e[str_f], 
         e[str_A]*1e6, 
         yerr=e[str_dA]*1e6, 
@@ -86,18 +109,37 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
         c='#00000033', 
         label='Messdaten'
     )
-    plt.plot(x, fitdata.best_fit*1e6, 'r-')    
+    axarr[0].plot(x, fitdata.best_fit*1e6, 'r-')
+    axarr[1].errorbar(
+        e[str_f],
+        e['phi / rad'],
+        yerr=e['dphi/rad'],
+        fmt='.',
+        c='#00000033'
+    )
     
+    axarr[0].set_xlim((np.min(e[str_f]), np.max(e[str_f])))
+    axarr[0].set_ylim((np.min(y*1e6), np.max(y*1e6)))
+    axarr[1].set_ylim((-1,3))
+
+    axarr[1].yaxis.set_major_formatter(tck.FormatStrFormatter('%g $\pi$'))
+    axarr[1].yaxis.set_major_locator(tck.MultipleLocator(base=1.0))
+
+    axarr[0].set_ylabel('A / $\mu$V')
+    axarr[1].set_ylabel('$\phi$')
     
-    plt.xlim((np.min(e[str_f]), np.max(e[str_f])))
-    plt.ylim((np.min(y*1e6), np.max(y*1e6)))
-    
-    plt.title(r'Frequenzgang der Schwingungsamplitude eines "Vibrating Reed" um $\nu_' 
+    axarr[0].set_title(r'Frequenzgang der Schwingungsamplitude eines "Vibrating Reed" um $\nu_'
               + str(it) + '$')
-    plt.xlabel(str_f)
-    plt.ylabel('A / $\mu$V')
-    plt.tight_layout()
-    plt.savefig('a_' + str(it+1) + '.png')
+    axarr[1].set_title(r'Frequenzgang der Schwingungsphase')
+
+    f.subplots_adjust(wspace=.01)
+    f.text(0.5, 0.04, 'f / Hz', ha='center')
+
+    #plt.xlabel(str_f)
+
+    #plt.ylabel('A / $\mu$V')
+    plt.tight_layout(rect=(0,0.05,1,1))
+    plt.savefig('a_2' + str(it+1) + '.png')
 
 
 ## Versuchsteil B
@@ -171,7 +213,7 @@ fitdata = lmod.fit(
         x=temps,
         m=-.1,
         c=300,
-        weights=1/np.sqrt((np.array(positions)/np.array(dpositions))**2 + (np.array(temp)/np.array(dtemps))**2)
+        weights=1/np.sqrt((np.array(positions)/np.array(dpositions))**2 + (np.array(temp)/np.array(dtemps))**2)/np.array(np.abs(positions))
     )
 
 otl = OutputTable("Teil B - linearer Fit")
