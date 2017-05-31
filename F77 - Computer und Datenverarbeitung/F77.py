@@ -1,5 +1,8 @@
+#! /usr/bin/python3
+# coding=utf8
+
 # # F77 - Computer und Datenverarbeitung
-# 
+#
 # ## Versuchsteil A
 
 # setup
@@ -18,7 +21,7 @@ str_f = 'f / Hz'
 str_A = 'A / V'
 str_dA = 'dA / V'
 
-def lorentz(omega, gamma, f_0, omega_0):    
+def lorentz(omega, gamma, f_0, omega_0):
     return f_0 / np.sqrt((omega_0**2-omega**2)**2+gamma**2*omega**2)
 
 
@@ -55,13 +58,13 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
         x = e[str_f]
         y = e[str_A]
         dy = e[str_dA]
-    
+
     fitdata = lmod.fit(
-        y, 
-        omega=x, 
-        gamma=2, 
-        f_0=np.max(y), 
-        omega_0=(np.max(x)+np.min(x))/2, 
+        y,
+        omega=x,
+        gamma=2,
+        f_0=np.max(y),
+        omega_0=(np.max(x)+np.min(x))/2,
         weights=1/dy
     )
 
@@ -74,9 +77,10 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
     otl.add("\chi^2_{red," + str(it+1) + "}", fitdata.redchi, aftercomma=3)
 
     otl.save('a_' + str(it+1) + '.tex')
-    
+
     otl.empty()
 
+    # plot gen 1
     plt.figure(figsize=(19.2,10.8))
     plt.errorbar(
         e[str_f],
@@ -99,14 +103,14 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
     plt.tight_layout()
     plt.savefig('a_1' + str(it + 1) + '.png')
 
-
+    # plot gen 2
     f, axarr = plt.subplots(2,1, sharex='col', figsize=(19.2,10.8))
     axarr[0].errorbar(
-        e[str_f], 
-        e[str_A]*1e6, 
-        yerr=e[str_dA]*1e6, 
-        fmt='.', 
-        c='#00000033', 
+        e[str_f],
+        e[str_A]*1e6,
+        yerr=e[str_dA]*1e6,
+        fmt='.',
+        c='#00000033',
         label='Messdaten'
     )
     axarr[0].plot(x, fitdata.best_fit*1e6, 'r-')
@@ -117,7 +121,7 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
         fmt='.',
         c='#00000033'
     )
-    
+
     axarr[0].set_xlim((np.min(e[str_f]), np.max(e[str_f])))
     axarr[0].set_ylim((np.min(y*1e6), np.max(y*1e6)))
     axarr[1].set_ylim((-1,3))
@@ -127,7 +131,7 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
 
     axarr[0].set_ylabel('A / $\mu$V')
     axarr[1].set_ylabel('$\phi$')
-    
+
     axarr[0].set_title(r'Frequenzgang der Schwingungsamplitude eines "Vibrating Reed" um $\nu_'
               + str(it) + '$')
     axarr[1].set_title(r'Frequenzgang der Schwingungsphase')
@@ -141,6 +145,58 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
     plt.tight_layout(rect=(0,0.05,1,1))
     plt.savefig('a_2' + str(it+1) + '.png')
 
+    # plot gen 3
+    f, axarr = plt.subplots(2,1, sharex='col', figsize=(19.2,10.8))
+    axarr[0].errorbar(
+        e[str_f],
+        e[str_A]*1e6,
+        yerr=e[str_dA]*1e6,
+        fmt='.',
+        c='#00000033',
+        label='Messdaten'
+    )
+    axarr[0].plot(x, fitdata.best_fit*1e6, 'r-')
+    axarr[1].errorbar(
+        e[str_f],
+        (e[str_A]-fitdata.best_fit)/e[str_dA],
+        fmt='.',
+        c='#00000033'
+    )
+    sys_res = np.mean((e[str_A]-fitdata.best_fit)/e[str_dA])
+    axarr[1].axhline(sys_res)
+    axarr[1].annotate(
+        '${:.2e}$'.format(sys_res),
+        xy=(np.min(e[str_f])+1 ,sys_res),
+        xycoords='data',
+        xytext=(0, 0),
+        textcoords='offset points',
+        fontsize=14,
+        bbox=dict(boxstyle="round",
+        fc="1")
+    )
+
+    axarr[0].set_xlim((np.min(e[str_f]), np.max(e[str_f])))
+    axarr[0].set_ylim((np.min(y*1e6), np.max(y*1e6)))
+    axarr[0].set_ylabel('A / $\mu$V')
+    axarr[1].set_ylabel('residual')
+
+    axarr[0].set_title(r'Frequenzgang der Schwingungsamplitude eines "Vibrating Reed" um $\nu_'
+              + str(it) + '$')
+    axarr[1].set_title(r'Residuen')
+
+    f.subplots_adjust(wspace=.01)
+    f.text(0.5, 0.04, 'f / Hz', ha='center')
+
+    #plt.xlabel(str_f)
+
+    #plt.ylabel('A / $\mu$V')
+    plt.tight_layout(rect=(0,0.05,1,1))
+    plt.savefig('a_3' + str(it+1) + '.png')
+
+    d_stat = np.mean(e[str_dA])
+    print(x.shape[0])
+    s_sys = 1/(fitdata.chisqr/fitdata.redchi) * np.sum(((e[str_A]-fitdata.best_fit)*1e6)**2) - d_stat**2
+    print(np.sqrt(s_sys), d_stat)
 
 ## Versuchsteil B
 
