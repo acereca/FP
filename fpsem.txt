@@ -4,7 +4,7 @@ F47     Zyklotronfrequenz in der Penningfalle           17.05   x        x
 F13     Lebensdauer von Myonen                          16.05   x        x
 F30     Stellare CCD-Fotometrie                         23.05            x
 F61     Kernresonanzspektroskopie (NMR)                 24.05   x        x
-F65     Radioaktive TRacer in der Umwelttechnik         12.06
+F65     Radioaktive TRacer in der Umwelttechnik         12.06   x        x
 E01     Elektronik Grundpraktikum                       Mittw?
 E01     Elektronik Grundpraktikum                       18.07
 
