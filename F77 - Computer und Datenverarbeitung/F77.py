@@ -71,7 +71,7 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
     # generiere output
     otl = OutputTable("Teil A - lorentz Fit Nr." + str(it+1))
     otl.add("\omega_{0," + str(it+1) + "}", fitdata.params['omega_0'].value, fitdata.params['omega_0'].stderr, "Hz", aftercomma=3)
-    otl.add("f_{0," + str(it+1) + "}", fitdata.params['f_0'].value, fitdata.params['f_0'].stderr, "V", aftercomma=3)
+    otl.add("A_{0," + str(it+1) + "}", fitdata.params['f_0'].value, fitdata.params['f_0'].stderr, "V", aftercomma=3)
     otl.add("\gamma_" + str(it+1), fitdata.params['gamma'].value, fitdata.params['gamma'].stderr)
     otl.add("\chi^2_{" + str(it+1) + "}", fitdata.chisqr)
     otl.add("\chi^2_{red," + str(it+1) + "}", fitdata.redchi, aftercomma=3)
@@ -81,7 +81,7 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
     otl.empty()
 
     # plot gen 1
-    plt.figure(figsize=(19.2,10.8))
+    plt.figure(figsize=(11.7,8.3))
     plt.errorbar(
         e[str_f],
         e[str_A] * 1e6,
@@ -91,6 +91,12 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
         label='Messdaten'
     )
     plt.plot(x, fitdata.best_fit * 1e6, 'r-')
+    d_f0h = np.sqrt((np.sqrt(fitdata.params['gamma'].value**4+8)-fitdata.params['gamma'].value**2)/2)
+    w0 = np.abs(fitdata.params['omega_0'].value)
+    f0 = fitdata.params['f_0'].value*(2*np.pi)**2
+    print(w0-d_f0h, w0+d_f0h, 2*d_f0h, f0)
+
+    plt.plot([w0- d_f0h, w0 + d_f0h],[f0, f0], 'b-')
 
     plt.xlim((np.min(e[str_f]), np.max(e[str_f])))
     plt.ylim((np.min(y * 1e6), np.max(y * 1e6)))
@@ -104,7 +110,7 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
     plt.savefig('a_1' + str(it + 1) + '.png')
 
     # plot gen 2
-    f, axarr = plt.subplots(2,1, sharex='col', figsize=(19.2,10.8))
+    f, axarr = plt.subplots(2,1, sharex='col', figsize=(11.7,8.3))
     axarr[0].errorbar(
         e[str_f],
         e[str_A]*1e6,
@@ -114,6 +120,8 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
         label='Messdaten'
     )
     axarr[0].plot(x, fitdata.best_fit*1e6, 'r-')
+
+
     axarr[1].errorbar(
         e[str_f],
         e['phi / rad'],
@@ -146,7 +154,7 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
     plt.savefig('a_2' + str(it+1) + '.png')
 
     # plot gen 3
-    f, axarr = plt.subplots(2,1, sharex='col', figsize=(19.2,10.8))
+    f, axarr = plt.subplots(2,1, sharex='col', figsize=(11.7,8.3))
     axarr[0].errorbar(
         e[str_f],
         e[str_A]*1e6,
@@ -194,9 +202,9 @@ for it, e in enumerate([df_a1, df_a2, df_a3]):
     plt.savefig('a_3' + str(it+1) + '.png')
 
     d_stat = np.mean(e[str_dA])
-    print(x.shape[0])
+    #print(x.shape[0])
     s_sys = 1/(fitdata.chisqr/fitdata.redchi) * np.sum(((e[str_A]-fitdata.best_fit)*1e6)**2) - d_stat**2
-    print(np.sqrt(s_sys), d_stat)
+    #print(np.sqrt(s_sys), d_stat)
 
 ## Versuchsteil B
 
@@ -218,7 +226,7 @@ for temp in temps:
 
 
 plt.cla()
-f, axarr = plt.subplots(3,3, sharex='col', sharey='row', figsize=(19.2, 10.8))
+f, axarr = plt.subplots(3,3, sharex='col', sharey='row', figsize=(11.7,8.3))
 
 positions = []
 dpositions = []
@@ -280,7 +288,7 @@ otl.add("\chi^2_{red," + str(it+1) + "}", fitdata.redchi, aftercomma=3)
 
 otl.save('b_2.tex')
 
-plt.figure(figsize=(12.8, 7.20))
+plt.figure(figsize=(11.7,8.3))
 plt.errorbar(temps, np.abs(positions), yerr=dpositions, xerr=dtemps, fmt='.')
 plt.plot(temps, fitdata.best_fit, 'r-')
 plt.title("Resonanzfrequenz in Abhängigkeit der Temperatur")
