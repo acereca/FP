@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import scipy.ndimage as nd
 import peakutils as pu
 import numpy as np
 
@@ -22,9 +23,12 @@ for c,d in enumerate(['10A', '12A', '13A']):
         axarr[i,c].plot(data['px'], data['int']-offset, label=d+f)
         axarr[i,c].errorbar(data['px'][peaks], data['int'][peaks]-offset+1e5, fmt='v', label=d+f +"-Peaks")
 
-        x0,x1 = axarr[i,c].get_xlim()
+        #x0,x1 = axarr[i,c].get_xlim()
         y0,y1 = axarr[i,c].get_ylim()
-        imgarr = axarr[i,c].imshow(img, extent=[min(data['px']),max(data['px']),y0,y1], aspect='auto')
+
+        #rotate and colorcorrect image
+        rotated = nd.rotate(img, 1.5)
+        imgarr = axarr[i,c].imshow(rotated, extent=[min(data['px']),max(data['px']),y0,y1], aspect='auto')
         imgarr.set_cmap('binary')
 
         if i == 2:
