@@ -74,6 +74,12 @@ for fitstr in ['Bu/mT', 'Bd/mT']:
         fmt='.'
     )
 
+for i in range(2):
+    print('c_{} = {:.3f}'.format(i,fitted_params[i][0]))
+    print('m_{} = {:.3f}'.format(i,fitted_params[i][1]))
+
+    print('mean_{} = {:.3f}'.format(i, (fitted_params[0][i]+fitted_params[1][i])/2))
+
 print('abw_c = {:.2} sigma'.format(abs(fitted_params[0][0].n - fitted_params[1][0].n) / (fitted_params[0][0].s + fitted_params[1][0].s) * 2))
 print('abw_m = {:.2} sigma'.format(abs(fitted_params[0][1].n - fitted_params[1][1].n) / (fitted_params[0][1].s + fitted_params[1][1].s) * 2))
 

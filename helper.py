@@ -1,5 +1,6 @@
 from uncertainties import ufloat
 import IPython.display as disp
+import matplotlib as mpl
 
 
 def pprint(name: str, nom: float, stdd=0, unit='', aftercomma=2, addwidth=1):
@@ -91,6 +92,30 @@ def prepr(name: str, nom: float, stdd=0, unit='', formatting='f', aftercomma=2, 
 
     string += unit
     return string
+
+def mpl_annotate_val(fig, value, error, data_pos=(0,0)):
+    fig.annotate(
+        '${} = {:.2e}\pm{:.2e}$'.format(value, error),
+        xy=data_pos,
+        xycoords='data',
+        xytext=(0, 0),
+        textcoords='offset points',
+        fontsize=14,
+        bbox=dict(boxstyle="round",
+        fc="1")
+    )
+
+def mpl_annotate(fig, value: str, data_pos=(0,0)):
+    fig.annotate(
+        value,
+        xy=data_pos,
+        xycoords='data',
+        xytext=(0, 0),
+        textcoords='offset points',
+        fontsize=14,
+        bbox=dict(boxstyle="round",
+        fc="1")
+    )
 
 
 class OutputTable():
