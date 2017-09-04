@@ -11,15 +11,15 @@ from helper import mpl_annotate
 
 plt.style.use('bmh')
 
-deltatable = pd.DataFrame(columns=('I','delta_1/m','delta_2/m'))
+deltatable = pd.DataFrame(columns=('I/A',r'$\delta_1/\si{m}$',r'$\delta_2/\si{m}$'))
 
-for c,d in enumerate(['10A', '12A', '13A']):
+for c,d in enumerate(['10', '12', '13']):
     #i = 1
     #f = '_pi'
     i = 0
     f = ''
 
-    data = pd.read_table("data/trans/"+d +"/" + d + f, header=None, names=['px','int','d'])
+    data = pd.read_table("data/trans/"+d +"A/" + d  + 'A' + f, header=None, names=['px','int','d'])
 
     peaks = pu.indexes(data['int'], min_dist=15, thres=0.02)
     offset = min(data['int'])
@@ -86,14 +86,14 @@ for c,d in enumerate(['10A', '12A', '13A']):
 
         peak_pos_exp.append(unc.ufloat(
             pfinal[1],
-            np.sqrt(pcov[1,1]**2+pfinal[2]**2)
+            2.4*pfinal[2]/2
         ))
 
     fig.savefig('gauss/peak_' +d+f+'.png')
 
     # from here: plot scatterorder by position
     plt.clf()
-    plt.figure(figsize=(19.2,10.8))
+    plt.figure(figsize=(5,10))
     xdata = peak_pos_exp
     ydata = [i for i,item in enumerate(peak_pos_exp)]
     plt.errorbar(
@@ -118,7 +118,7 @@ for c,d in enumerate(['10A', '12A', '13A']):
         peaks_x[~peaks_x.mask][2::3],
         ydata,
         xerr=unp.std_devs(xdata),
-        color='#eedd00',
+        color='#ffa800',
         fmt='.',
         markersize=10,
         label='gemessene Ordnung der $\sigma_2$-Linie'
@@ -148,15 +148,15 @@ for c,d in enumerate(['10A', '12A', '13A']):
             unc.ufloat(pfinal[1], np.sqrt(pcov[0,0])),
             unc.ufloat(pfinal[2], np.sqrt(pcov[0,0]))
         ),
-        data_pos=(max(unp.nominal_values(xdata))/2,1)
+        data_pos=(200,0)
     )
 
     plt.xlabel('Position / px')
     plt.ylabel('Beugungsordnung')
-    plt.title('Fit der Polynomfunktion an die beobachteten Werte, B(' + d + ')')
+    plt.title('Polynomfit 2. Grades, B(' + d + ' A)')
     plt.legend()
 
-    plt.savefig('scatterorder/sco_' +d+'.png')
+    plt.savefig('scatterorder/sco_' +d+'A.png')
 
     # fit the difference in orders between sigma and pi lines
     plt.clf()
@@ -183,7 +183,7 @@ for c,d in enumerate(['10A', '12A', '13A']):
         ydata,
         fitpoly(peaks_x[~peaks_x.mask][2::3], *pfinal) - ydata,
         yerr=(fitpoly(peaks_x[~peaks_x.mask][2::3]+unp.std_devs(xdata), *pfinal) - fitpoly(peaks_x[~peaks_x.mask][2::3]-unp.std_devs(xdata), *pfinal))/2,
-        color='#eedd00',
+        color='#ffa800',
         fmt='.',
         markersize=10,
         label='Verschiebung der $\sigma_2$-Linie'
@@ -195,7 +195,7 @@ for c,d in enumerate(['10A', '12A', '13A']):
     plt.ylim((-.4, .4))
     plt.legend()
 
-    plt.savefig('scatterorder/diff_sco' + d + '.png')
+    plt.savefig('scatterorder/diff_sco' + d + 'A.png')
 
 
     #print(unp.std_devs(peak_pos_exp))
@@ -220,23 +220,32 @@ ld = 643.847e-9 #theoretischer wert
 # ld = unc.float(600e-9, .)
 diff_wl = ld**2/(2*d*np.sqrt(n**2-1))
 
-deltatable['delta_1/m'] = deltatable['delta_1/m']*diff_wl
-deltatable['delta_2/m'] = deltatable['delta_2/m']*diff_wl
+deltatable[r'$\delta_1/\si{m}$'] = deltatable[r'$\delta_1/\si{m}$']*diff_wl
+deltatable[r'$\delta_2/\si{m}$'] = deltatable[r'$\delta_2/\si{m}$']*diff_wl
 
-deltatable['DE_1/J'] = hc/ld - hc/(ld + deltatable['delta_1/m'])
-deltatable['DE_2/J'] = hc/ld - hc/(ld + deltatable['delta_2/m'])
+deltatable[r'$\Delta E_1/\si{\joule}$'] = hc/ld - hc/(ld + deltatable[r'$\delta_1/\si{m}$'])
+deltatable[r'$\Delta E_2/\si{\joule}$'] = hc/ld - hc/(ld + deltatable[r'$\delta_2/\si{m}$'])
 
 # fitted params of Hysteresis
 B_c = unc.ufloat(130.765, 15.849) #in T/A
 B_m = unc.ufloat(39.168, 1.552)   #in T
 deltatable['B/T'] = [v*B_m+B_c for v in [10,12,13]]
 
-deltatable['mu_B_1*T/J'] = abs(deltatable['DE_1/J'] / deltatable['B/T'])
-deltatable['mu_B_2*T/J'] = abs(deltatable['DE_2/J'] / deltatable['B/T'])
+deltatable[r'$\mu_{B1}/\si{\joule\per\tesla}$'] = abs(deltatable[r'$\Delta E_1/\si{\joule}$'] / deltatable['B/T'])
+deltatable[r'$\mu_{B2}/\si{\joule\per\tesla}$'] = abs(deltatable[r'$\Delta E_2/\si{\joule}$'] / deltatable['B/T'])
 
 print(deltatable)
+
+def form(x):
+    #print(type(x))
+    if type(x) == unc.core.AffineScalarFunc:
+        return "${:.2eL}$".format(x)
+    else:
+        return x
+
+deltatable.to_latex('deltatable.tex', escape=False, formatters=[form]*len(deltatable.columns), index = False, encoding='utf-8')
 print()
-print('mu_B1 = {}'.format(np.sum(deltatable['mu_B_1*T/J']+deltatable['mu_B_2*T/J'])/6))
+print('mu_B1 = {}'.format(np.sum(deltatable[r'$\mu_{B1}/\si{\joule\per\tesla}$']+deltatable[r'$\mu_{B2}/\si{\joule\per\tesla}$'])/6))
 
 plt.clf()
 mua = []
@@ -244,10 +253,12 @@ for line in range(1,3):
 
     fitfunc = lambda x, m, c: x*m+c
 
+    DEstr = ["",r'$\Delta E_1/\si{\joule}$', r'$\Delta E_2/\si{\joule}$']
+
     pfinal, pcov = opt.curve_fit(
         fitfunc,
         unp.nominal_values(deltatable['B/T']),
-        abs(unp.nominal_values(deltatable['DE_'+ str(line) +'/J'])),
+        abs(unp.nominal_values(deltatable[DEstr[line]])),
         p0=[100/.7, 1-100/.7]
     )
 
@@ -259,9 +270,9 @@ for line in range(1,3):
 
     plt.errorbar(
         unp.nominal_values(deltatable['B/T']),
-        abs(unp.nominal_values(deltatable['DE_'+ str(line) +'/J'])),
+        abs(unp.nominal_values(deltatable[DEstr[line]])),
         xerr=unp.std_devs(deltatable['B/T']),
-        yerr=unp.std_devs(deltatable['DE_'+ str(line) +'/J']),
+        yerr=unp.std_devs(deltatable[DEstr[line]]),
         label='Energieverschiebung $\sigma$-Linie {}'.format(line),
         fmt='.',
         lw=1

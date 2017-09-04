@@ -1,10 +1,17 @@
-\documentclass[12pt, a4paper]{scrartcl}
+\documentclass[a4paper]{scrartcl}
 
+\usepackage{fontspec}
+\setmonofont{DroidSansMono}
+\setmainfont{Open Sans}
+\setsansfont{Open Sans Light}
 \usepackage{a4wide}
 \usepackage{graphicx}
 \usepackage{pdflscape}
 \usepackage{float}
 \usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{afterpage}
+\usepackage{geometry}
 \usepackage{siunitx}
 \sisetup{seperr}
 \sisetup{expproduct=\cdot,per=frac,fraction=nice}
@@ -23,31 +30,6 @@
 \usepackage[ngerman]{babel}
 
 \begin{document}
-\thispagestyle{empty}
-	\null\vspace{40mm}
-	\begin{center}
-		{
-			\Large Mechanik und Vakuum
-			\footnote{
-				\noindent Versuch F44, ausgeführt am 26.6.17,
-				Betreuer: Frans ,
-				lange besondere Auswertung
-			}
-		}\\[15mm]
-		P. Nisblé und D. Bubeck
-
-		\vspace{25mm}
-
-		\parbox{0.9\textwidth}{
-			Abstract:\\
-			\small d
-		}
-	\end{center}
-
-	\vfill
-	Als besondere (kurze) Auswertung testiert: Datum, Unterschrift:
-	\vspace{20mm}
-	%% Rueckseite des Titelblatts leer. Bei einseitigem Druck entfernen
-	\newpage
-	\null\thispagestyle{empty}
+  \input{parts/front}
+  \input{parts/ch2_magneton}
 \end{document}
