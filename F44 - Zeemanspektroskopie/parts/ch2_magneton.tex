@@ -90,7 +90,12 @@
         \begin{align}
           \Delta k(a) = k(a+\Delta a) - k(a)
         \end{align}
-        wobei die Fehler der Fitparameter vernachlässigt werden. $a$ ist hier die Position der Linien in Pixel, $k$ die zugeordnete Beugungsordnung. Jetzt werden die Verschiebungen der $\sigma$-Linien zur zugehörigen $\pi$-Linie, in Bruchteilen einer Beugungsordnung, berechnet und geplottet (\hyperref[plot::3]{Abb. \ref*{plot::3}})
+        wobei die Fehler der Fitparameter vernachlässigt werden. $a$ ist hier die Position der Linien in Pixel, $k$ die zugeordnete Beugungsordnung. Jetzt werden die Verschiebungen der $\sigma$-Linien zur zugehörigen $\pi$-Linie, in Bruchteilen einer Beugungsordnung, berechnet und geplottet (\hyperref[plot::3]{Abb. \ref*{plot::3}}), für die berechnung dient:
+        \begin{align}
+          \delta k = k(a) - k_{theo}\\
+          \Delta (\delta k) = \Delta k(a)
+        \end{align}
+        Dabei entspricht die theoretische Beugungsordnung $k_{theo}$ den diskreten Werten, die den $\pi$-Linien zureornetwerden können. Der Fehler geht hier aus derm Fehler der errechneten Beugungsordung der $\sigma$-Linien hervor, da $k_{theo}$ keinen Fehler besitzt.
 
         \begin{landscape}
           \thispagestyle{empty}
@@ -102,7 +107,8 @@
             \includegraphics[width=.45\paperwidth]{Auswertung/scatterorder/sco_12A}
             \includegraphics[width=.45\paperwidth]{Auswertung/scatterorder/sco_13A}
           \end{figure}
-
+        \end{landscape}
+        \begin{landscape}
           \thispagestyle{empty}
           \begin{figure}
             \vspace*{-2cm}
@@ -113,3 +119,65 @@
             \includegraphics[width=.45\paperwidth]{Auswertung/scatterorder/diff_sco13A}
           \end{figure}
         \end{landscape}
+
+      \subsubsection{Wellenlängenverschiebung}
+        Um die Verschiebung der Wellenlänge zu erhalten nutzen wir die errechneten Werte in Bruchteilen der Beugungsordnung.
+        \begin{align}
+          \delta \lambda = \frac{\delta a}{\Delta a}\cdot \Delta \lambda \approx \delta k\cdot \Delta\lambda \label{fml::2}
+        \end{align}
+        Wobei die benutzte Näherung nur für kleine Verschiebungen gilt, in der der betrachtete Bereich der quadratischen Funktion als linear angesehen werden kann. Mithilfe von \hyperref[fml::1]{Gl. (\ref*{fml::1})} %TODO: die sollte in der Einführung sein
+        und \hyperref[fml::2]{Gl. (\ref*{fml::2})} kann jetzt die Wellenlangenverschiebung berechnet werden. Für die wellenlänge $\lambda$ der roten Cadmium-Linie sowie deren Fehler verwenden wir den in Teil 2 ermittelten Wert:
+        \begin{align}
+          \lambda_{Cd} = \SI{643.927+-0.571}{\nano\metre}
+        \end{align}
+        ($n = \SI{1.4567}{}, d=\SI{4.04e-3}{m}$)
+
+        Aus den Ergebnissen der untersuchten Ordnungen lässt sich ein Mittelwert mit statistischem Fehler berechnen, um so jeweils einen Wert für die Wellenlängenverschiebung der beiden σ-Linien zu erhalten. Da das Experiment bei drei verschiedenen Magnetfeldern durchgeführt wurde, ergeben sich so sechs Werte, die nachfolgend in einer Tabelle zusammengefasst sind.
+        \begin{table}[H]
+          \centering
+          \input{Auswertung/deltatable1}
+          \caption{Wellenlängenverschiebung}%TODO: name
+          \label{tab::1}
+        \end{table}
+
+      \subsection{Bestimmung des Bohrschen Magnetons}
+        Das äußere Magnetfeld verursacht eine Verschiebung des Energieniveaus in Cadmium, diese Differenz lässt sich mit Hilfe der zuvor bestimmten Wellenlängenverschiebung der Spektrallinien berechnen:
+        \begin{align}
+          \Delta E         &= \frac{hc}\lambda-\frac{hc}{\lambda+\delta\lambda}\\
+          \Delta(\Delta E) &= \frac{hc}{(\lambda+\delta\lambda)^2}\cdot\Delta(\delta\lambda)
+        \end{align}
+        Zwischen angelegtem Magnetfeld und der Energieverschiebung gilt \hyperref[fml::3]{Gl. (\ref*{fml::3})}%TODO: find fml 5: \Delta E_{pot}
+
+        Wir bestimmen das Magneton nun auf zwei unterschiedliche Arten:
+
+        \subsubsection{Methode 1 - statistisches Mittel}
+          Wir kennen jetzt die Werte des Magnetfeldes, sowie die entsprechende Energieverschiebung und können nun das Magneton berechnen:
+          \begin{align}
+            \mu_B=\left| \frac{\Delta E}{B} \right|
+          \end{align}
+          Wir erhalten wieder sechs Werte, sowie deren Fehler:
+          \begin{table}[H]
+            \centering
+            \input{Auswertung/deltatable2}
+            \caption{Bohrsches Magneton, nach Methode 1, für beide $\sigma$-Linien}
+            \label{tab::2}
+          \end{table}
+          Der gesamte Mittelwert aus diesen Daten ist dann:
+          \begin{align}
+            \mu_B         &= \SI{9.956+-0.414e-24}{\joule\per\tesla}\\
+            \mu_{B, theo} &= \SI{9.274009994e-24}{\joule\per\tesla}%TODO insert source
+          \end{align}
+          Der hier ermittelte Wert und der gegebene Theoriewert stimmen dabei innerhalb von \SI{1.6}{\sigma} überein.
+
+        \subsubsection{Methode 2 - linearer Fit}
+        Der lineare Zusammenhang zwischen Magnetfeld und Energieverschiebung lässt auch eine graphische Bestimmung des Bohrschen Magnetons zu. Dazu wird die Energieverschiebung gegen das Magnetfeld aufgetragen und linear gefittet. Die Steigung dieses Fits entspricht dem Wert für das Bohrsche Magneton. Der Mittelwert beider Werte gibt das Endergebnis an.
+        \begin{align}
+          \mu_B = \SI{8.138+-0.271e-24}{\joule\per\tesla}
+        \end{align}
+        Allerdings liegt hier die Abweichung zum Literaturwert bei \SI{4.2}{\sigma}, und ist somit signifikant.
+        \begin{figure}[H]
+          \centering
+          \hspace*{-1.5cm}\includegraphics[width=1.2\textwidth]{Auswertung/mu_B2}
+          \caption{Graphische Bestimmung des Bohrschen Magneton}
+          \label{plot::4}
+        \end{figure}

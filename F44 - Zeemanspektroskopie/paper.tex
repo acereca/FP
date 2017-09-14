@@ -1,9 +1,9 @@
-\documentclass[a4paper]{scrartcl}
+\documentclass[12pt, a4paper, draft]{scrartcl}
 
 \usepackage{fontspec}
 \setmonofont{DroidSansMono}
-\setmainfont{Open Sans}
-\setsansfont{Open Sans Light}
+\setmainfont{Liberation Serif}
+\setsansfont{Liberation Sans}
 \usepackage{a4wide}
 \usepackage{graphicx}
 \usepackage{pdflscape}
@@ -29,7 +29,12 @@
 %\usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
 
+\usepackage{amsmath, amssymb}
+
 \begin{document}
   \input{parts/front}
+  \input{parts/ch1_intro}
   \input{parts/ch2_magneton}
+  \input{parts/ch3_wl}
+  \input{parts/ch4_discussion}
 \end{document}

@@ -11,7 +11,7 @@ from helper import mpl_annotate
 
 plt.style.use('bmh')
 
-deltatable = pd.DataFrame(columns=('I/A',r'$\delta_1/\si{m}$',r'$\delta_2/\si{m}$'))
+deltatable = pd.DataFrame(columns=('I/A',r'$\delta\lambda_1/\si{m}$',r'$\delta\lambda_2/\si{m}$'))
 
 for c,d in enumerate(['10', '12', '13']):
     #i = 1
@@ -191,7 +191,7 @@ for c,d in enumerate(['10', '12', '13']):
 
     plt.ylabel('Verschiebung')
     plt.xlabel('Ordnung')
-    plt.title('Verschiebung dr Beugungsordnungen')
+    plt.title('Verschiebung der Beugungsordnungen')
     plt.ylim((-.4, .4))
     plt.legend()
 
@@ -216,19 +216,19 @@ for c,d in enumerate(['10', '12', '13']):
 n = 1.4567
 d = 4.04e-3
 hc = 1.986e-25 # J*m
-ld = 643.847e-9 #theoretischer wert
-# ld = unc.float(600e-9, .)
+#ld = 643.847e-9 #theoretischer wert
+ld = unc.ufloat(643.927e-9,0.571e-9)
 diff_wl = ld**2/(2*d*np.sqrt(n**2-1))
 
-deltatable[r'$\delta_1/\si{m}$'] = deltatable[r'$\delta_1/\si{m}$']*diff_wl
-deltatable[r'$\delta_2/\si{m}$'] = deltatable[r'$\delta_2/\si{m}$']*diff_wl
+deltatable[r'$\delta\lambda_1/\si{m}$'] = deltatable[r'$\delta\lambda_1/\si{m}$']*diff_wl
+deltatable[r'$\delta\lambda_2/\si{m}$'] = deltatable[r'$\delta\lambda_2/\si{m}$']*diff_wl
 
-deltatable[r'$\Delta E_1/\si{\joule}$'] = hc/ld - hc/(ld + deltatable[r'$\delta_1/\si{m}$'])
-deltatable[r'$\Delta E_2/\si{\joule}$'] = hc/ld - hc/(ld + deltatable[r'$\delta_2/\si{m}$'])
+deltatable[r'$\Delta E_1/\si{\joule}$'] = hc/ld - hc/(ld + deltatable[r'$\delta\lambda_1/\si{m}$'])
+deltatable[r'$\Delta E_2/\si{\joule}$'] = hc/ld - hc/(ld + deltatable[r'$\delta\lambda_2/\si{m}$'])
 
 # fitted params of Hysteresis
-B_c = unc.ufloat(130.765, 15.849) #in T/A
-B_m = unc.ufloat(39.168, 1.552)   #in T
+B_c = unc.ufloat(130.765, 15.849)*1e-3 #in T/A
+B_m = unc.ufloat(39.168, 1.552)*1e-3   #in T
 deltatable['B/T'] = [v*B_m+B_c for v in [10,12,13]]
 
 deltatable[r'$\mu_{B1}/\si{\joule\per\tesla}$'] = abs(deltatable[r'$\Delta E_1/\si{\joule}$'] / deltatable['B/T'])
@@ -239,15 +239,28 @@ print(deltatable)
 def form(x):
     #print(type(x))
     if type(x) == unc.core.AffineScalarFunc:
-        return "${:.2eL}$".format(x)
+        return "${:.3fL}$".format(x)
     else:
         return x
 
-deltatable.to_latex('deltatable.tex', escape=False, formatters=[form]*len(deltatable.columns), index = False, encoding='utf-8')
-print()
-print('mu_B1 = {}'.format(np.sum(deltatable[r'$\mu_{B1}/\si{\joule\per\tesla}$']+deltatable[r'$\mu_{B2}/\si{\joule\per\tesla}$'])/6))
+out_filter = ['I/A', r'$\delta\lambda_1/\si{pm}$', r'$\delta\lambda_2/\si{pm}$']
+deltatable[r'$\delta\lambda_1/\si{pm}$'] = deltatable[r'$\delta\lambda_1/\si{m}$']*1e12
+deltatable[r'$\delta\lambda_2/\si{pm}$'] = deltatable[r'$\delta\lambda_2/\si{m}$']*1e12
+deltatable[out_filter].to_latex('deltatable1.tex', escape=False, formatters=[form]*len(deltatable[out_filter].columns), index = False, encoding='utf-8')
+
+out_filter = ['I/A', r'$\mu_{B1}/(10^{-24}\si{\joule\per\tesla})$', r'$\mu_{B2}/(10^{-24}\si{\joule\per\tesla})$']
+deltatable[r'$\mu_{B1}/(10^{-24}\si{\joule\per\tesla})$'] = deltatable[r'$\mu_{B1}/\si{\joule\per\tesla}$']*1e24
+deltatable[r'$\mu_{B2}/(10^{-24}\si{\joule\per\tesla})$'] = deltatable[r'$\mu_{B2}/\si{\joule\per\tesla}$']*1e24
+deltatable[out_filter].to_latex('deltatable2.tex', escape=False, formatters=[form]*len(deltatable[out_filter].columns), index = False, encoding='utf-8')
+
+mub1 = sum(deltatable[r'$\mu_{B1}/\si{\joule\per\tesla}$']+deltatable[r'$\mu_{B2}/\si{\joule\per\tesla}$'])/6
+mubt = 9.274009994e-24
+print('\n'+'mu_B1 = {:.3e}'.format(mub1))
+print('Abw.: {:.1f} sig'.format(abs(mub1.n-mubt)/mub1.s))
+
 
 plt.clf()
+plt.figure(figsize=(10,5))
 mua = []
 for line in range(1,3):
 
@@ -263,8 +276,8 @@ for line in range(1,3):
     )
 
     plt.plot(
-        [490, 670],
-        fitfunc(np.array([490, 670]), *pfinal),
+        [.49, .67],
+        fitfunc(np.array([.49, .67]), *pfinal),
         label='gefittete Gerade für $\mu_{}$'.format(line)
     )
 
@@ -282,7 +295,7 @@ for line in range(1,3):
     mpl_annotate(
         plt,
         '$\mu_{}\ \!_B$'.format(line) +'$ = {:.3eL}$'.format(mu) + r'$\frac{T}{J}$',
-        (547,fitfunc(560, *pfinal))
+        (.547,fitfunc(.545, *pfinal))
     )
 
     mua.append(mu)
@@ -290,13 +303,15 @@ for line in range(1,3):
 mu = (mua[0]+mua[1])/2
 mpl_annotate(
     plt,
-    '$\mu_B = {:.3eL}$'.format(mu) + r'$\frac{T}{J}$',
-    (620, 5.25e-24)
+    '$\Rightarrow \mu_B = {:.3eL}$'.format(mu) + r'$\frac{T}{J}$',
+    (.610, 5.15e-24)
 )
+print("mu_B2 = {:.3e}".format(mu))
+print('Abw.: {:.1f} sig'.format(abs(mubt-mu.n)/mu.s))
 
 plt.legend()
 
-plt.xlim([490,670])
+#plt.xlim([490,670])
 plt.xlabel('Magnetfeld / T')
 plt.ylabel('Energiedifferenz / J')
 plt.title('2te Bestimmung des Bohrschen Magneton')

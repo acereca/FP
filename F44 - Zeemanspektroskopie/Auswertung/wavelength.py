@@ -10,7 +10,7 @@ import uncertainties.unumpy as unp
 from helper import mpl_annotate
 
 plt.style.use('bmh')
-plt.figure(figsize=(19.2, 10.8))
+plt.figure(figsize=(8, 4))
 
 data_ne = pd.read_table(
     'data/part2/ne_2_colorcorr_evaluation',
@@ -39,8 +39,13 @@ plt.plot(
 )
 
 plt.savefig('wavelength_analysis/wl.png')
-plt.clf()
 
+
+
+# new plot
+
+plt.clf()
+plt.figure(figsize=(19.2,10.5))
 peaks = [470, 505, 520, 600, 620, 670]
 fitted_peaks = []
 
@@ -134,7 +139,7 @@ plt.errorbar(
 )
 
 mpl_annotate(plt, '$x_{cd} = $' + '${:.1fL}$ px'.format(cd_pos), (543, 635))
-mpl_annotate(plt, '$\lambda_{cd} = $' + '${:.1fL}$ nm'.format(cd_wl), (500, 643.5) )
+mpl_annotate(plt, '$\lambda_{cd} = $' + '${:.1fL}$ nm'.format(cd_wl), (475, 643.5) )
 
 plt.ylim([min(fitfunc(xdata, *pfinal)), max(fitfunc(xdata, *pfinal))])
 plt.xlim([min(xdata), max(xdata)])
@@ -182,7 +187,11 @@ plt.plot(
 )
 
 mpl_annotate(plt, '$x_{uk} = $' + '${:.1fL}$ px'.format(uk_pos), (605, 645))
-mpl_annotate(plt, '$\lambda_{uk} = $' + '${:.1fL}$ nm'.format(uk_wl), (565, 652))
+mpl_annotate(plt, '$\lambda_{uk} = $' + '${:.1fL}$ nm'.format(uk_wl), (550, 652))
+
+print('uk: {:.3f}nm'.format(uk_wl))
+
+print('dl: {:.3f} sig'.format(abs(uk_wl.n-656.281)/uk_wl.s))
 
 plt.legend()
 
