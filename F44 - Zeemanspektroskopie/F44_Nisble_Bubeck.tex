@@ -30,6 +30,17 @@
 \usepackage[ngerman]{babel}
 
 \usepackage{amsmath, amssymb}
+\usepackage{mathtools}
+
+% testing
+\newcommand{\var}{\newcommand}
+
+% vars
+\var\magnetonOne{\SI{9.956+-0.414e-24}{\joule\per\tesla}}
+\var\magnetonTheo{\SI{9.274e-24}{\joule\per\tesla}\quad\cite{fp.booklet}} % 0099942
+\var\magnetonTwo{\SI{8.138+-0.271e-24}{\joule\per\tesla}}
+\var\lambdaCdTheo{\SI{643.847}{nm}\quad\cite{nist.gov.cd}}
+\var\lambdaCd{\SI{643.927+-0.571}{\nano\metre}}
 
 \begin{document}
   \input{parts/front}
@@ -37,4 +48,5 @@
   \input{parts/ch2_magneton}
   \input{parts/ch3_wl}
   \input{parts/ch4_discussion}
+  \input{parts/bib}
 \end{document}

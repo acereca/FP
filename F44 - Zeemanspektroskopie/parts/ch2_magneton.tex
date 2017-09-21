@@ -1,6 +1,6 @@
 \section{Teil 1: Bohr'sches Magneton}
   \subsection{Hysterese-Effekt}
-    Mit dem Teslameter wird die Stärke des Magnetfeldes zwichen den Spulen bei 6 Stromstärken, von \SI{8}{\ampere} bis \SI{13}{\ampere}, gemessen. Für den Fehler nehmen wir \SI{0.1}{\ampere} an. Der Hysterese-Effekt wird nun eingeschätzt, indem wir den zusammenhang zwischen Stromstärke und Magnetfeld ermitteln. Und wir führen diese Messung bei fallender und steigender Stronstärke durch. Für alle Messpunkte gilt: wir nutzen drei Messwerte und bilden daraus ein Mittel. In \hyperref[plot::1]{Abb. \ref*{plot::1}}\\\\
+    Mit dem Teslameter wird die Stärke des Magnetfeldes zwichen den Spulen bei 6 Stromstärken, von \SI{8}{\ampere} bis \SI{13}{\ampere}, gemessen. Für den Fehler nehmen wir \SI{0.1}{\ampere} an. Der Hysterese-Effekt wird nun eingeschätzt, indem wir den Zusammenhang zwischen Stromstärke und Magnetfeld ermitteln. Und wir führen diese Messung dowohl bei fallender als auch bei steigender Stromstärke durch. Für alle Messpunkte gilt: wir nutzen drei Messwerte und bilden daraus ein Mittel. (s. \hyperref[plot::1]{Abb. \ref*{plot::1}})\\\\
     Die aus den Werten ermittelten linearen Fits ergaben folgende Steigungen:\\\\
     \textbf{bei aufsteigender Stromstärke:}
       \begin{align}
@@ -10,7 +10,7 @@
       \begin{align}
         m_d = \SI{38.874+-2.192}{\milli\tesla\per\ampere}
       \end{align}\\
-    Die beiden Geraden stimmen dabei mit weniger als \SI{1}{\sigma} überein, und in unserem Fall kann der Hsyterese-Effekt vernachlässigt werden. Für die folgenden Berechnungen wird ein Mittel gebildet, es ergibt sich:
+    Die beiden Geraden stimmen dabei mit weniger als \SI{1}{\sigma} überein, und in unserem Fall kann der Hsyterese-Effekt vernachlässigt werden. Für die folgenden Berechnungen wird ein Mittel gebildet, es ergibt sich für den Zusammenhang zwischen Strom und Magnetfeld:
     \begin{align}
       B(I) = \SI{39.168+-1.552}{\milli\tesla\per\ampere} \cdot I + \SI{130.765+-15.849}{\milli\tesla}
     \end{align}
@@ -24,10 +24,12 @@
     \end{figure}
 
   \subsection{Polarisation}
-    Das Licht der Cadmium Lampe wird in longitudinaler und transversalter Richtung zum Magnetfeld beobachtet. Durch Verwendung eines linearen Polarisationsfilters und eins $\lambda$/4-Plättchens kann de Polarisation analysiert werden.
+    Das Licht der Cadmium Lampe wird in longitudinaler und transversalter Richtung zum Magnetfeld beobachtet. Durch Verwendung eines linearen Polarisationsfilters und eine $\lambda$/4-Plättchens kann die Polarisation analysiert werden.
 
     \subsubsection{Beobachtung in longitudinaler Richtung}
       Bei dieser Beobachtungsrichtung sind sowohl mit als auch ohne linearen Polarisationsfilter 2 Linien pro Beugungsordnung zu sehen. Daraus ist zu schließen, dass es sich bei dem Licht um zirkular polarisiertes Licht handelt. (s. \hyperref[pic::1]{Abb. \ref*{pic::1}})
+
+      Wandelt man nun mit Hilfe des $\lambda$/4-Filters das Licht in linear Polarisiertes um, so kann man mit dem Polarisationsfilter eine der beiden Linien herausfiltern und bei Rotation um \SI{90}{°} des $\lambda$/4-Filters die jeweils andere beobachten. (s. \hyperref[pic::2]{Abb. \ref*{pic::2}})
 
       \begin{figure}[H]
         \centering
@@ -35,9 +37,6 @@
         \caption{Beobachtete Linien in longitudinaler Ausrichtung, ohne Filter}
         \label{pic::1}
       \end{figure}
-
-      Wandelt man nun das Licht mitlilfe des $\lambda$/4-Filters das Licht in linear Polarisiertes um, so kann man mit dem Polarisationsfilter eine der beiden Linien herausfiltern und bei Rotation um \SI{90}{\deg} des $\lambda$/4-Filters die jeweils andere. (s. \hyperref[pic::2]{Abb. \ref*{pic::2}})
-
       \begin{figure}[H]
         \centering
         \includegraphics[width=.6\paperwidth, trim={0 650pt 0 200pt}, clip]{Auswertung/data/long/10A_2}
@@ -45,7 +44,7 @@
         \caption{Beobachtete Linien in longitudinaler Richtung, mit $\lambda$/4-Filter und linearem Polarisationsfilter}
         \label{pic::2}
       \end{figure}
-
+    \newpage
     \subsubsection{Beobachtung in transversaler Richtung}
       Hier können wir eine Aufspaltung in drei Linien beobachten. Der Polarisationsfilter lässt entweder die beiden äusseren Linen ($\sigma$-Linien) verschwinden, oder nach einer \SI{90}{\deg} Drehung die mittlere Linie ($\pi$-Linie) (s. \hyperref[pic::3]{Abb. \ref*{pic::3}}). Das Licht ist also linear polarisiert, mit senkrechter Polarisationsrichtung zwichen $\sigma$- und $\pi$-Linien
 
@@ -57,7 +56,7 @@
         \label{pic::3}
       \end{figure}
 
-      Bei Variation der Stromstärke und des damit resultierenden Magnetfeldes, kann man beobachten, dass die Aufspaltung der Spektrallinien mit zunaehmender Stromstärke größer wird.
+      Bei Variation der Stromstärke und des damit resultierenden Magnetfeldes, kann man beobachten, dass die Aufspaltung der Spektrallinien mit zunehmender Stromstärke größer wird.
 
       \begin{figure}[H]
         \centering
@@ -69,39 +68,45 @@
 
     \subsection{Bestimmung der Wellenlängenverschiebung}
       \subsubsection{Position der $\pi$- und $\sigma$-Linien}
-        Wir nutzen das Programm \textbf{JImage} um die zweidimensionalen Bilder der beobachteten spektralen Aufspaltung in eine eindimensionale Intensitätsverteilung zu konvertieren. Mit \textbf{Python} kann jetzt die Position (in Pixel) jeder $\pi$- und $\sigma$-Linie von etwa 5 Ordnungen (wegen der Reflektion in der Mitte der Bilder) pro Messung bestimmt werden.
-        %TODO: add github repo refs
+        Wir nutzen das Programm \textbf{JImage} um die zweidimensionalen Bilder, der beobachteten spektralen Aufspaltung in eine eindimensionale Intensitätsverteilung zu konvertieren. Mit \textbf{Python}\footnote{Repo mit den benutzten Skripten zur Auswertung:  \href{github.com/acereca/FP/tree/master/F44 - Zeemanspektroskopie}{github.com/acereca/FP $\rightarrow$ F44}} kann jetzt die Position (in Pixel) jeder $\pi$- und $\sigma$-Linie von etwa 5 Ordnungen (wegen der Reflektion in der Mitte der Bilder) pro Messung bestimmt werden.
 
-        Jeder gemessene Peak wird jetzt mit einer Gausskurve gefittet und daraus die Breite und Position bestimmt. Die Gaussfunktion berücksichtigt, dass durch die thermische Bewegung der Atome ein Doppler-Effekt entsteht und dadurch ist die ausgesandte Wellenlänge je nach Bewegungsrichtung des Atoms leicht verschoben, sodass die Linien im Vergleich zur Lorentz-Kurve breiter erscheinen. Als Fehler der Position wird hier der $\sigma^2$-Parameter der Gaussfunktion genutzt ($\Delta x = \sigma * 2.4 / 2$, also die halbe Halbwertsbreite).
+        Jeder gemessene Peak wird jetzt mit einer Gausskurve gefittet und daraus die Breite und Position bestimmt. Die Gaussfunktion berücksichtigt, dass durch die thermische Bewegung der Atome ein Doppler-Effekt entsteht und dadurch ist die ausgesandte Wellenlänge je nach Bewegungsrichtung des Atoms leicht verschoben, sodass die Linien im Vergleich zur Lorentz-Kurve breiter erscheinen. Als Fehler der Position wird hier der $\sigma^2$-Parameter der Gaussfunktion genutzt
+        \begin{align}
+          \Delta x = \sigma * 2.4 / 2
+        \end{align}
+        also die halbe Halbwertsbreite (HWHM).
+
+      \subsubsection{Verschiebung der Ordungen}
+        Wir ordnen nun den $\pi$-Linien Ordnungszahlen zu, diese sollten nur diskrete, ganzzahlige Werte sein, allerdings möchten wir den $\sigma$-Linien auch eine solche Ordnung zuordnen, also betrachten wir eine kontinuierliche Fitfunktion. In unserem Fall ist diese eine Polynomfunktion 2. Grades (s. \hyperref[plot::2]{Abb. \ref*{plot::2}}). Diese Beobachtung ist innerhalb unserer Näherung ausreichend, da ein Polynom höheren Grades keine signifikante Verbesserung der Beschreibung unserer Daten liefert.
+
+        Um die Fehler der Beugungsordnung zu bestimmen nutzen wir:
+        \begin{align}
+          \Delta k(a) = k(a+\Delta a) - k(a)
+        \end{align}
+        wobei die Fehler der Fitparameter vernachlässigt werden. $a$ ist hier die Position der Linien in Pixel, $k$ die zugeordnete Beugungsordnung.
+
+        Jetzt werden die Verschiebungen der $\sigma$-Linien zur zugehörigen $\pi$-Linie, in Bruchteilen einer Beugungsordnung, berechnet und geplottet (\hyperref[plot::3]{Abb. \ref*{plot::3}}), für die Berechnung dient:
+        \begin{align}
+          \delta k = k(a) - k_{theo}\\
+          \Delta (\delta k) = \Delta k(a)
+        \end{align}
+        Dabei entspricht die theoretische Beugungsordnung $k_{theo}$ den diskreten Werten, die den $\pi$-Linien zugeornet werden können. Der Fehler geht hier aus dem Fehler der errechneten Beugungsordung der $\sigma$-Linien hervor, da $k_{theo}$ keinen Fehler besitzt.
 
         \begin{landscape}
           \thispagestyle{empty}
           \begin{figure}
             \vspace*{-2cm}
             \caption{Gefittete Positionen der Peaks}
+            \label{plot::2}
             \hspace*{-6cm}\includegraphics[width=1.5\paperwidth]{Auswertung/peaks}
           \end{figure}
         \end{landscape}
-
-      \subsubsection{Verschiebung der Ordungen}
-        Wir ordnen nun den $\pi$-Linien nun Ordnungszahlen zu, diese sollten nur diskrete, ganzzahlige Werte sein, allerdings möchten wir den $\sigma$-Linien auch eine solche Ordnung zuordnen, also betrachten wir eine kontinuierliche Fitfunktion. In unserem Fall ist diese eine Polynomfunktion 2.Grades (s. \hyperref[plot::2]{Abb. \ref*{plot::2}}). Diese Näherung ist innerhalb unserer Näherung ausreichend, da ein Polynom höheren Grades keine signifikante Verbesserung der Beschreibung unserer Daten liefert.
-
-        Um die Fehler der Beugungsordnung zu bestimmen nutzen wir:
-        \begin{align}
-          \Delta k(a) = k(a+\Delta a) - k(a)
-        \end{align}
-        wobei die Fehler der Fitparameter vernachlässigt werden. $a$ ist hier die Position der Linien in Pixel, $k$ die zugeordnete Beugungsordnung. Jetzt werden die Verschiebungen der $\sigma$-Linien zur zugehörigen $\pi$-Linie, in Bruchteilen einer Beugungsordnung, berechnet und geplottet (\hyperref[plot::3]{Abb. \ref*{plot::3}}), für die berechnung dient:
-        \begin{align}
-          \delta k = k(a) - k_{theo}\\
-          \Delta (\delta k) = \Delta k(a)
-        \end{align}
-        Dabei entspricht die theoretische Beugungsordnung $k_{theo}$ den diskreten Werten, die den $\pi$-Linien zureornetwerden können. Der Fehler geht hier aus derm Fehler der errechneten Beugungsordung der $\sigma$-Linien hervor, da $k_{theo}$ keinen Fehler besitzt.
-
         \begin{landscape}
           \thispagestyle{empty}
           \begin{figure}
             \vspace*{-2cm}
             \caption{Polynomfits für die drei Stromstärken}
+            \label{plot::3}
             \hspace*{-5cm}
             \includegraphics[width=.45\paperwidth]{Auswertung/scatterorder/sco_10A}
             \includegraphics[width=.45\paperwidth]{Auswertung/scatterorder/sco_12A}
@@ -113,6 +118,7 @@
           \begin{figure}
             \vspace*{-2cm}
             \caption{Verschiebung der Beugungsordnung}
+            \label{plot::3.5}
             \hspace*{-5cm}\vspace{-1cm}
             \includegraphics[width=.45\paperwidth]{Auswertung/scatterorder/diff_sco10A}
             \includegraphics[width=.45\paperwidth]{Auswertung/scatterorder/diff_sco12A}
@@ -125,18 +131,18 @@
         \begin{align}
           \delta \lambda = \frac{\delta a}{\Delta a}\cdot \Delta \lambda \approx \delta k\cdot \Delta\lambda \label{fml::2}
         \end{align}
-        Wobei die benutzte Näherung nur für kleine Verschiebungen gilt, in der der betrachtete Bereich der quadratischen Funktion als linear angesehen werden kann. Mithilfe von \hyperref[fml::1]{Gl. (\ref*{fml::1})} %TODO: die sollte in der Einführung sein
-        und \hyperref[fml::2]{Gl. (\ref*{fml::2})} kann jetzt die Wellenlangenverschiebung berechnet werden. Für die wellenlänge $\lambda$ der roten Cadmium-Linie sowie deren Fehler verwenden wir den in Teil 2 ermittelten Wert:
+        Wobei die benutzte Näherung nur für kleine Verschiebungen gilt, in der der betrachtete Bereich der quadratischen Funktion als linear angesehen werden kann. Mithilfe von \hyperref[fml::1]{Gl. (\ref*{fml::1})}
+        und \hyperref[fml::2]{Gl. (\ref*{fml::2})} kann jetzt die Wellenlängenverschiebung berechnet werden. Für die Wellenlänge $\lambda_{Cd}$ der roten Cadmium-Linie sowie deren Fehler verwenden wir den in Teil 2 ermittelten Wert \hyperref[val::lcd]{Gl. (\ref*{val::lcd})}:
         \begin{align}
           \lambda_{Cd} = \SI{643.927+-0.571}{\nano\metre}
         \end{align}
         ($n = \SI{1.4567}{}, d=\SI{4.04e-3}{m}$)
 
-        Aus den Ergebnissen der untersuchten Ordnungen lässt sich ein Mittelwert mit statistischem Fehler berechnen, um so jeweils einen Wert für die Wellenlängenverschiebung der beiden σ-Linien zu erhalten. Da das Experiment bei drei verschiedenen Magnetfeldern durchgeführt wurde, ergeben sich so sechs Werte, die nachfolgend in einer Tabelle zusammengefasst sind.
+        Aus den Ergebnissen der untersuchten Ordnungen (\hyperref[plot::3.5]{Abb. \ref*{plot::3.5}}) lässt sich ein Mittelwert mit statistischem Fehler berechnen, um so jeweils einen Wert für die Wellenlängenverschiebung der beiden σ-Linien zu erhalten. Da das Experiment bei drei verschiedenen Magnetfeldern durchgeführt wurde, ergeben sich so sechs Werte, die nachfolgend in einer Tabelle zusammengefasst sind.
         \begin{table}[H]
           \centering
           \input{Auswertung/deltatable1}
-          \caption{Wellenlängenverschiebung}%TODO: name
+          \caption{Wellenlängenverschiebung für die drei beobachteten Stromstärken, sowie für beide $\sigma$-Linien}
           \label{tab::1}
         \end{table}
 
@@ -146,7 +152,7 @@
           \Delta E         &= \frac{hc}\lambda-\frac{hc}{\lambda+\delta\lambda}\\
           \Delta(\Delta E) &= \frac{hc}{(\lambda+\delta\lambda)^2}\cdot\Delta(\delta\lambda)
         \end{align}
-        Zwischen angelegtem Magnetfeld und der Energieverschiebung gilt \hyperref[fml::3]{Gl. (\ref*{fml::3})}%TODO: find fml 5: \Delta E_{pot}
+        Zwischen angelegtem Magnetfeld und der Energieverschiebung gilt \hyperref[fml::3]{Gl. (\ref*{fml::3})}
 
         Wir bestimmen das Magneton nun auf zwei unterschiedliche Arten:
 
@@ -155,24 +161,26 @@
           \begin{align}
             \mu_B=\left| \frac{\Delta E}{B} \right|
           \end{align}
-          Wir erhalten wieder sechs Werte, sowie deren Fehler:
+          Wir erhalten erneut sechs Werte, sowie deren Fehler:
           \begin{table}[H]
             \centering
             \input{Auswertung/deltatable2}
             \caption{Bohrsches Magneton, nach Methode 1, für beide $\sigma$-Linien}
             \label{tab::2}
-          \end{table}
+          \end{table}~\\
           Der gesamte Mittelwert aus diesen Daten ist dann:
+
           \begin{align}
-            \mu_B         &= \SI{9.956+-0.414e-24}{\joule\per\tesla}\\
-            \mu_{B, theo} &= \SI{9.274009994e-24}{\joule\per\tesla}%TODO insert source
+            \mu_B         &= \magnetonOne\\
+            \mu_{B, theo} &= \magnetonTheo %TODO insert source
           \end{align}
           Der hier ermittelte Wert und der gegebene Theoriewert stimmen dabei innerhalb von \SI{1.6}{\sigma} überein.
 
         \subsubsection{Methode 2 - linearer Fit}
-        Der lineare Zusammenhang zwischen Magnetfeld und Energieverschiebung lässt auch eine graphische Bestimmung des Bohrschen Magnetons zu. Dazu wird die Energieverschiebung gegen das Magnetfeld aufgetragen und linear gefittet. Die Steigung dieses Fits entspricht dem Wert für das Bohrsche Magneton. Der Mittelwert beider Werte gibt das Endergebnis an.
+        Der lineare Zusammenhang, zwischen Magnetfeld und Energieverschiebung, lässt auch eine graphische Bestimmung des Bohrschen Magnetons zu. Hier wird die Energieverschiebung gegen das Magnetfeld aufgetragen und linear gefittet. Die Steigung dieses Fits entspricht dem Wert für das Bohrsche Magneton. Der Mittelwert beider Werte gibt das Endergebnis an.
+
         \begin{align}
-          \mu_B = \SI{8.138+-0.271e-24}{\joule\per\tesla}
+          \mu_B = \magnetonTwo
         \end{align}
         Allerdings liegt hier die Abweichung zum Literaturwert bei \SI{4.2}{\sigma}, und ist somit signifikant.
         \begin{figure}[H]

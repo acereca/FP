@@ -1,8 +1,8 @@
 \section{Teil 2: Wellenlänge}
-  In diesem Versuchsteil gilt es die geneue Wellenlänge der Cadmium-Linie zu bestimmen, Wir nutzen dazu zunächst das Spektrum einer Neon-Lampe als Referenz.
+  In diesem Versuchsteil gilt es die genaue Wellenlänge der Cadmium-Linie zu bestimmen, Wir nutzen dazu zunächst das Spektrum einer Neon-Lampe als Referenz.
   Wir bestimmen wie zuvor mit \textbf{JImage} und \textbf{Python} die Position der Linien mit Hilfe eines Gauss-Fits.
 
-  Das aufgenommene Spektrum von sowohl der Neon-Lampe, als auch das Cadmium Spektrum sind in \hyperref[plt::5]{Abb. \ref*{plt::5}} zu sehen. Aus welchem die folgenden Referenzwerte genutzt wurden:
+  Das aufgenommene Spektrum sowohl der Neon-, als auch der Cadmium-Lampe sind in \hyperref[plt::5]{Abb. \ref*{plt::5}} zu sehen, für welches die folgenden Referenzwerte genutzt werden:
   \begin{align}
     \lambda_{Ne,1} = \SI{633.443}{\nano\metre}\nonumber\\
     \lambda_{Ne,2} = \SI{638.299}{\nano\metre}\nonumber\\
@@ -24,16 +24,18 @@
     Aus den so bestimmten Werten ergibt sich der folgende Zusammenhang (\hyperref[plt::6]{Abb. \ref*{plt::6}}), für Position und Wellenlänge, sowie die Wellenlänge der Cadmium-Linie.
     \begin{align}
       a_{Cd}       &= \SI{547.945+-4.310}{px}\\
-      \lambda_{Cd} &= \SI{643.927+-0.571}{\nano\metre}
+      \lambda_{Cd} &= \lambdaCd \label{val::lcd}
+      \intertext{mit dem Theoriewert}
+      \lambda_{Cd,theo} &= \lambdaCdTheo
     \end{align}
+    und einer Abweichung von \SI{.14}{\sigma}
 
     \subsection{unbekannte Linie}
       In unserem Spektrum sollte sich eine weitere Linie befinden, welche bei etwa $\SI{643}{\nano\metre}$ zu erkennen sei. Wir haben zwar eine weitere Linie rechts der Cd-Linie aufgenommen, diese befindet sich allerdings bei
       \begin{align}
         \lambda = \SI{652.253+-0.269}{nm}
       \end{align}
-      und nicht bei \SI{646.494}{nm} oder \SI{672.578}{nm}
-      %TODO: src https://physics.nist.gov/PhysRefData/Handbook/Tables/cadmiumtable2.htm
+      und nicht bei \SI{646.494}{nm} oder \SI{672.578}{nm} \cite{nist.gov.cd}
 
 
 
