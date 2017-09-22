@@ -1,6 +1,6 @@
 \section{Teil 1: Bohr'sches Magneton}
   \subsection{Hysterese-Effekt}
-    Mit dem Teslameter wird die Stärke des Magnetfeldes zwichen den Spulen bei 6 Stromstärken, von \SI{8}{\ampere} bis \SI{13}{\ampere}, gemessen. Für den Fehler nehmen wir \SI{0.1}{\ampere} an. Der Hysterese-Effekt wird nun eingeschätzt, indem wir den Zusammenhang zwischen Stromstärke und Magnetfeld ermitteln. Und wir führen diese Messung dowohl bei fallender als auch bei steigender Stromstärke durch. Für alle Messpunkte gilt: wir nutzen drei Messwerte und bilden daraus ein Mittel. (s. \hyperref[plot::1]{Abb. \ref*{plot::1}})\\\\
+    Mit dem Teslameter wird die Stärke des Magnetfeldes zwichen den Spulen bei 6 Stromstärken, von \SI{8}{\ampere} bis \SI{13}{\ampere}, gemessen. Für den Fehler nehmen wir \SI{0.1}{\ampere} an. Der Hysterese-Effekt wird nun eingeschätzt, indem wir den Zusammenhang zwischen Stromstärke und Magnetfeld ermitteln. Und wir führen diese Messung sowohl bei fallender als auch bei steigender Stromstärke durch. Für alle Messpunkte gilt: wir nutzen drei Messwerte und bilden daraus ein Mittel. (s. \hyperref[plot::1]{Abb. \ref*{plot::1}})\\\\
     Die aus den Werten ermittelten linearen Fits ergaben folgende Steigungen:\\\\
     \textbf{bei aufsteigender Stromstärke:}
       \begin{align}
@@ -24,12 +24,12 @@
     \end{figure}
 
   \subsection{Polarisation}
-    Das Licht der Cadmium Lampe wird in longitudinaler und transversalter Richtung zum Magnetfeld beobachtet. Durch Verwendung eines linearen Polarisationsfilters und eine $\lambda$/4-Plättchens kann die Polarisation analysiert werden.
+    Das Licht der Cadmium Lampe wird in longitudinaler und transversaler Richtung zum Magnetfeld beobachtet. Durch Verwendung eines linearen Polarisationsfilters und eine $\lambda$/4-Plättchens kann die Polarisation analysiert werden.
 
     \subsubsection{Beobachtung in longitudinaler Richtung}
-      Bei dieser Beobachtungsrichtung sind sowohl mit als auch ohne linearen Polarisationsfilter 2 Linien pro Beugungsordnung zu sehen. Daraus ist zu schließen, dass es sich bei dem Licht um zirkular polarisiertes Licht handelt. (s. \hyperref[pic::1]{Abb. \ref*{pic::1}})
+      Bei dieser Beobachtungsrichtung sind sowohl mit als auch ohne linearen Polarisationsfilter zwei Linien pro Beugungsordnung zu sehen. Daraus ist zu schließen, dass es sich bei dem Licht um zirkular polarisiertes Licht handelt. (s. \hyperref[pic::1]{Abb. \ref*{pic::1}})
 
-      Wandelt man nun mit Hilfe des $\lambda$/4-Filters das Licht in linear Polarisiertes um, so kann man mit dem Polarisationsfilter eine der beiden Linien herausfiltern und bei Rotation um \SI{90}{°} des $\lambda$/4-Filters die jeweils andere beobachten. (s. \hyperref[pic::2]{Abb. \ref*{pic::2}})
+      Wandelt man nun mit Hilfe des $\lambda$/4-Filters das Licht in linear polarisiertes um, so kann man mit dem Polarisationsfilter eine der beiden Linien herausfiltern und bei Rotation um \SI{90}{°} des $\lambda$/4-Filters die jeweils andere beobachten. (s. \hyperref[pic::2]{Abb. \ref*{pic::2}})
 
       \begin{figure}[H]
         \centering
@@ -68,11 +68,11 @@
 
     \subsection{Bestimmung der Wellenlängenverschiebung}
       \subsubsection{Position der $\pi$- und $\sigma$-Linien}
-        Wir nutzen das Programm \textbf{JImage} um die zweidimensionalen Bilder, der beobachteten spektralen Aufspaltung in eine eindimensionale Intensitätsverteilung zu konvertieren. Mit \textbf{Python}\footnote{Repo mit den benutzten Skripten zur Auswertung:  \href{github.com/acereca/FP/tree/master/F44 - Zeemanspektroskopie}{github.com/acereca/FP $\rightarrow$ F44}} kann jetzt die Position (in Pixel) jeder $\pi$- und $\sigma$-Linie von etwa 5 Ordnungen (wegen der Reflektion in der Mitte der Bilder) pro Messung bestimmt werden.
+        Wir nutzen das Programm \textbf{JImage} um die zweidimensionalen Bilder, der beobachteten spektralen Aufspaltung in eine eindimensionale Intensitätsverteilung zu konvertieren. Mit \textbf{Python}\footnote{Repo mit den benutzten Skripten zur Auswertung:  \href{github.com/acereca/FP/tree/master/F44 - Zeemanspektroskopie}{github.com/acereca/FP $\rightarrow$ F44}} kann jetzt die Position (in Pixel) jeder $\pi$- und $\sigma$-Linie von etwa fünf Ordnungen (wegen der Reflektion in der Mitte der Bilder) pro Messung bestimmt werden.
 
         Jeder gemessene Peak wird jetzt mit einer Gausskurve gefittet und daraus die Breite und Position bestimmt. Die Gaussfunktion berücksichtigt, dass durch die thermische Bewegung der Atome ein Doppler-Effekt entsteht und dadurch ist die ausgesandte Wellenlänge je nach Bewegungsrichtung des Atoms leicht verschoben, sodass die Linien im Vergleich zur Lorentz-Kurve breiter erscheinen. Als Fehler der Position wird hier der $\sigma^2$-Parameter der Gaussfunktion genutzt
         \begin{align}
-          \Delta x = \sigma * 2.4 / 2
+          \Delta x = \sigma \cdot 2.4 / 2
         \end{align}
         also die halbe Halbwertsbreite (HWHM).
 
@@ -146,7 +146,7 @@
           \label{tab::1}
         \end{table}
 
-      \subsection{Bestimmung des Bohrschen Magnetons}
+      \subsection{Bestimmung des Bohr'schen Magnetons}
         Das äußere Magnetfeld verursacht eine Verschiebung des Energieniveaus in Cadmium, diese Differenz lässt sich mit Hilfe der zuvor bestimmten Wellenlängenverschiebung der Spektrallinien berechnen:
         \begin{align}
           \Delta E         &= \frac{hc}\lambda-\frac{hc}{\lambda+\delta\lambda}\\
@@ -165,7 +165,7 @@
           \begin{table}[H]
             \centering
             \input{Auswertung/deltatable2}
-            \caption{Bohrsches Magneton, nach Methode 1, für beide $\sigma$-Linien}
+            \caption{Bohr'sches Magneton, nach Methode 1, für beide $\sigma$-Linien}
             \label{tab::2}
           \end{table}~\\
           Der gesamte Mittelwert aus diesen Daten ist dann:
@@ -177,7 +177,7 @@
           Der hier ermittelte Wert und der gegebene Theoriewert stimmen dabei innerhalb von \SI{1.6}{\sigma} überein.
 
         \subsubsection{Methode 2 - linearer Fit}
-        Der lineare Zusammenhang, zwischen Magnetfeld und Energieverschiebung, lässt auch eine graphische Bestimmung des Bohrschen Magnetons zu. Hier wird die Energieverschiebung gegen das Magnetfeld aufgetragen und linear gefittet. Die Steigung dieses Fits entspricht dem Wert für das Bohrsche Magneton. Der Mittelwert beider Werte gibt das Endergebnis an.
+        Der lineare Zusammenhang, zwischen Magnetfeld und Energieverschiebung, lässt auch eine graphische Bestimmung des Bohr'schen Magnetons zu. Hier wird die Energieverschiebung gegen das Magnetfeld aufgetragen und linear gefittet. Die Steigung dieses Fits entspricht dem Wert für das Bohr'sche Magneton. Der Mittelwert beider Werte gibt das Endergebnis an.
 
         \begin{align}
           \mu_B = \magnetonTwo
@@ -186,6 +186,6 @@
         \begin{figure}[H]
           \centering
           \hspace*{-1.5cm}\includegraphics[width=1.2\textwidth]{Auswertung/mu_B2}
-          \caption{Graphische Bestimmung des Bohrschen Magneton}
+          \caption{Graphische Bestimmung des Bohr'schen Magneton}
           \label{plot::4}
         \end{figure}
