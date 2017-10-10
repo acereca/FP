@@ -35,13 +35,13 @@ def uprint(name: str, unc: ufloat, unit='', aftercomma=2, addwidth=1):
     string += '\  ' + unit
     disp.display(disp.Math(string))
 
-def plot_prep(title='', xlabel='x', ylabel='y', style='bmh', xscale='linear', yscale='linear', plot_scale=1.5, plot_height=10):
+def plot_prep(title='', xlabel='x', ylabel='y', style='bmh', xscale='linear', yscale='linear', plot_aspect=1.5, plot_height=10):
     """
         prepares matplotlib.pyplot with custom formatting
     """
 
     import matplotlib.pyplot as plt
-    plt.figure(figsize=(plot_scale*plot_height,plot_height))
+    plt.figure(figsize=(plot_aspect*plot_height,plot_height))
     plt.style.use(style)
 
     plt.xscale(xscale)
@@ -93,7 +93,7 @@ def prepr(name: str, nom: float, stdd=0, unit='', formatting='f', aftercomma=2, 
     string += unit
     return string
 
-def mpl_annotate_val(fig, value, error, data_pos=(0,0)):
+def mpl_annotate_val(fig: mpl.figure.Figure, value: float, error: float, data_pos=(0,0)):
     fig.annotate(
         '${} = {:.2e}\pm{:.2e}$'.format(value, error),
         xy=data_pos,
@@ -105,7 +105,7 @@ def mpl_annotate_val(fig, value, error, data_pos=(0,0)):
         fc="1")
     )
 
-def mpl_annotate(fig, value: str, data_pos=(0,0)):
+def mpl_annotate(fig: mpl.figure.Figure, value: str, data_pos=(0,0)):
     fig.annotate(
         value,
         xy=data_pos,
