@@ -527,8 +527,13 @@ int fp13Analysis::findDecayUpward(int timeBin)
 // 		  -1, falls nichts gefunden wurde
 int fp13Analysis::findDecayDownward(int timeBin)
 {
-	// FIXME: Studenten sollen diese Routine selber schreiben
-	// gib -1 zurueck, falls kein Zerfall nach unten stattfand
+
+    if (nLayers-1 == lastMuonLayer)
+        return -1;
+
+	if ((1 << lastMuonLayer-1 ) & detectorHitMask[timeBin])
+        return  lastMuonLayer-1;
+
 	return -1;
 }
 
@@ -580,6 +585,17 @@ int fp13Analysis::findAfterpulsesUsingThroughGoingMuons(int timeBin,
 // Verbesserung(en)
 int fp13Analysis::findAfterpulsesImproved(int timeBin, int startLayer)
 {
+
+    if (-1 == startLayer)
+        startLayer = nLayers - 1;
+
+    for (int iLayer = startLayer - 1; iLayer >= 0; iLayer--) {
+        // teste, ob nur in der Lage iLayer ein Puls registriert wurde
+        if ((1 << iLayer) & detectorHitMask[timeBin]) {
+            // ja, gib die Lage zurueck
+            return iLayer;
+        }
+    }
 	// momentan findet diese Methode nichts
 	return -1;
 }
