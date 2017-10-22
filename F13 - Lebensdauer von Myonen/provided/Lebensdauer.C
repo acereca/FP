@@ -28,17 +28,57 @@ double getAfterpulseScaleFactor(int scintNr, bool up, TH1D* h8)
 	// Zerfaelle nach oben/nach unten eingetragen
 	// alternativ koennen Sie auch Code schreiben, der die
 	// benoetigten Informationen direkt aus h8 ausliest
-	static const double scaleFactorUp[] = {
-		0.0, 0.0, 0.0, 0.0,
-		0.0, 0.0, 0.0, 0.0
-	};
+
+
+
+
+//	static const double scaleFactorUp[] = {
+//		0.0,      .33827, .32445, .29346,
+//		 .26621, 0.0,    0.0,    0.0
+//	};
 	static const double scaleFactorDown[] = {
-		0.0, 0.0, 0.0, 0.0,
-		0.0, 0.0, 0.0, 0.0
+		0.0,     0.0,  .01019, .00180,
+	         .06838, 0.0, 0.0,    0.0
 	};
+
+    static const double efficiencyPerLayer[] = {
+            .926, .946, .957, .921,
+            .936, .973, .0,   .0
+    };
+
+    // INFO: get scaling Factor out of h8
 	if (up) {
-		return scaleFactorUp[scintNr];
+		double Nstart = 0;
+		for (int i = scintNr+1; i <= 5; i++) {
+			Nstart += h8->GetBinContent(i + 1);
+		}
+
+//        double Nstop = 0;
+//        for (int i = 0; i <= scintNr; i++){
+//            Nstop += h8->GetBinContent(i+1);
+//        }
+
+		double Nstop = h8 -> GetBinContent(scintNr+1);
+		double scaleFactor = Nstop/Nstart;
+        cout << endl << endl << "Scaling a" << scintNr << " by " << scaleFactor << endl << endl;
+
+		return scaleFactor;
 	} else {
+        double Nstart = 0;
+        for (int i = scintNr+2; i <= 5; i++) {
+            Nstart += h8->GetBinContent(i + 1);
+        }
+
+//        double Nstop = 0;
+//        for (int i = 0; i <= scintNr; i++){
+//            Nstop += h8->GetBinContent(i+1);
+//        }
+
+        double Nstop = h8 -> GetBinContent(scintNr+2);
+
+
+        double scalingFactor = (1-efficiencyPerLayer[scintNr])/efficiencyPerLayer[scintNr]/Nstart*Nstop;
+        cout << endl << endl << "Scaling b" << scintNr << " by " << scaleFactorDown[scintNr] << " or " << scalingFactor << endl << endl;
 		return scaleFactorDown[scintNr];
 	}
 }
@@ -108,9 +148,11 @@ void Lebensdauer(double xmin = 300., double xmax = 20000.,
 		a[i] = (TH1D*) f->Get(Form("a%d", i));
 		b[i] = (TH1D*) f->Get(Form("b%d", i));
 		x[i] = (TH1D*) f->Get(Form("x%d", i));
-		a[i]->Sumw2();
-		b[i]->Sumw2();
-		x[i]->Sumw2();
+
+        //INFO: somehow already done???
+		//a[i]->Sumw2();
+		//b[i]->Sumw2();
+		//x[i]->Sumw2();
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -121,8 +163,10 @@ void Lebensdauer(double xmin = 300., double xmax = 20000.,
 	for (int iLayer = 1; iLayer <= nLayers-2; ++iLayer) {
 		// die skalierten Nachpulsspektren werden hier
 		// von den gemessenen Zerfallsspektren abgezogen
+
+        //FIXME
 		a[iLayer]->Add(x[iLayer],
-				- getAfterpulseScaleFactor(iLayer, true, h8));
+				- .6* getAfterpulseScaleFactor(iLayer, true, h8));
 		b[iLayer]->Add(x[iLayer],
 				- getAfterpulseScaleFactor(iLayer, false, h8));
 	}
@@ -198,34 +242,35 @@ void Lebensdauer(double xmin = 300., double xmax = 20000.,
 	TCanvas *c0 = new TCanvas("c0", "Zerfaelle nach oben");
 	c0->cd(); 		// Canvas ansteuern
 	c0->Clear();		// und leeren
-	c0->Divide(2, 3);	// in sechs Felder aufteilen
-	gPad->SetLogy();	// in y logarithmische Skala setzen
+	c0->Divide(2, (nLayers-2)/2);	// in sechs Felder aufteilen
+	//gPad->SetLogy();	// in y logarithmische Skala setzen
+
 	for (int i = 1; i < nLayers-1; ++i) {
 		c0->cd(i);	// ein Feld ansteuern
-		gPad->SetLogy();// in y logarithmische Skala setzen
+		//gPad->SetLogy();// in y logarithmische Skala setzen
 		a[i]->DrawClone("e"); // und zeichnen
 	}
 
 	TCanvas *c1 = new TCanvas("c1", "Zerfaelle nach unten");
 	c1->cd();
 	c1->Clear();
-	c1->Divide(2,3);
-	gPad->SetLogy();
+	c1->Divide(2,(nLayers-2)/2);
+	//gPad->SetLogy();
 	for (int i = 1; i < nLayers-1; ++i) {
 		c1->cd(i);
-		gPad->SetLogy();
+		//gPad->SetLogy();
 		b[1 + i]->DrawClone("e");
 	}
 
 	TCanvas *c2 = new TCanvas("c2", "Nachpulse");
 	c2->cd();
 	c2->Clear();
-	c2->Divide(2, 3);
-	gPad->SetLogy();
+	c2->Divide(2, (nLayers-2)/2);
+	//gPad->SetLogy();
 
 	for (int i = 1; i < nLayers-1; ++i) {
 		c2->cd(i);
-		gPad->SetLogy();
+		//gPad->SetLogy();
 		x[i]->DrawClone("e");
 	}
 

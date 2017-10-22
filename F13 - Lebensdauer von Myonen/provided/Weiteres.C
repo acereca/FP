@@ -149,7 +149,7 @@ void canvas4(const char *filename = "fp13.root") {
 	TCanvas *c4 = new TCanvas("c4");
 
 	c4->Clear();
-	c4->Divide(2,3);
+	c4->Divide(2,2);
 
 	for (int i = 1; i < nLayers-1; ++i) {
 		c4->cd(i);

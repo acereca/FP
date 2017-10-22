@@ -532,7 +532,7 @@ int fp13Analysis::findDecayDownward(int timeBin)
         return -1;
 
 	if ((1 << lastMuonLayer-1 ) & detectorHitMask[timeBin])
-        return  lastMuonLayer-1;
+        return  lastMuonLayer+1;
 
 	return -1;
 }
@@ -586,8 +586,8 @@ int fp13Analysis::findAfterpulsesUsingThroughGoingMuons(int timeBin,
 int fp13Analysis::findAfterpulsesImproved(int timeBin, int startLayer)
 {
 
-    if (-1 == startLayer)
-        startLayer = nLayers - 1;
+    if (-1 == startLayer || startLayer >= 6)
+        startLayer = 6 - 1;
 
     for (int iLayer = startLayer - 1; iLayer >= 0; iLayer--) {
         // teste, ob nur in der Lage iLayer ein Puls registriert wurde
