@@ -28,17 +28,49 @@ double getAfterpulseScaleFactor(int scintNr, bool up, TH1D* h8)
 	// Zerfaelle nach oben/nach unten eingetragen
 	// alternativ koennen Sie auch Code schreiben, der die
 	// benoetigten Informationen direkt aus h8 ausliest
-	static const double scaleFactorUp[] = {
-		0.0, 0.0, 0.0, 0.0,
-		0.0, 0.0, 0.0, 0.0
+    static const double scaleFactorDown[] = {
+		0.0,     0.0,  .01019, .00180,
+	         .06838, 0.0, 0.0,    0.0
 	};
-	static const double scaleFactorDown[] = {
-		0.0, 0.0, 0.0, 0.0,
-		0.0, 0.0, 0.0, 0.0
-	};
+
+    static const double efficiencyPerLayer[] = {
+            .926, .946, .957, .921,
+            .936, .973, .0,   .0
+    };
+
+    // INFO: get scaling Factor out of h8
 	if (up) {
-		return scaleFactorUp[scintNr];
+		double Nstart = 0;
+		for (int i = scintNr+1; i <= 5; i++) {
+			Nstart += h8->GetBinContent(i + 1);
+		}
+
+//        double Nstop = 0;
+//        for (int i = 0; i <= scintNr; i++){
+//            Nstop += h8->GetBinContent(i+1);
+//        }
+
+		double Nstop = h8 -> GetBinContent(scintNr+1);
+		double scaleFactor = Nstop/Nstart;
+        cout << endl << endl << "Scaling a" << scintNr << " by " << scaleFactor << endl << endl;
+
+		return scaleFactor;
 	} else {
+        double Nstart = 0;
+        for (int i = scintNr+2; i <= 5; i++) {
+            Nstart += h8->GetBinContent(i + 1);
+        }
+
+//        double Nstop = 0;
+//        for (int i = 0; i <= scintNr; i++){
+//            Nstop += h8->GetBinContent(i+1);
+//        }
+
+        double Nstop = h8 -> GetBinContent(scintNr+2);
+
+
+        double scalingFactor = (1-efficiencyPerLayer[scintNr])/efficiencyPerLayer[scintNr]/Nstart*Nstop;
+        cout << endl << endl << "Scaling b" << scintNr << " by " << scaleFactorDown[scintNr] << " or " << scalingFactor << endl << endl;
 		return scaleFactorDown[scintNr];
 	}
 }
@@ -77,7 +109,7 @@ TF1* setFitFunction()
 	fitFunc->SetParLimits(3, 100., 1500.);
 	fitFunc->SetParLimits(4, 0.05, 20.);
 	// Startwerte fuer Parameter setzen
-	fitFunc->SetParameters(10., 5000., 2000., 800., 1.4);
+	fitFunc->SetParameters(10., 5000., 2500., 800., 1.4);
 	// Verhaeltnis von pos. zu neg. Myonen festsetzen (oder auch nicht!)
 	fitFunc->FixParameter(4, 1.275);
 	// Farbe setzen
@@ -130,7 +162,7 @@ void Einfangzeiten(double xmin = 300., double xmax = 20000.,
 		// die skalierten Nachpulsspektren werden hier
 		// von den gemessenen Zerfallsspektren abgezogen
 		a[iLayer]->Add(x[iLayer],
-				- getAfterpulseScaleFactor(iLayer, true, h8));
+				- .6* getAfterpulseScaleFactor(iLayer, true, h8));
 		b[iLayer]->Add(x[iLayer],
 				- getAfterpulseScaleFactor(iLayer, false, h8));
 	}
@@ -205,7 +237,7 @@ void Einfangzeiten(double xmin = 300., double xmax = 20000.,
 	TCanvas *c0 = new TCanvas("c0", "Zerfaelle nach oben");
 	c0->cd();
 	c0->Clear();
-	c0->Divide(2, 3);
+	c0->Divide(2, 2);
 	gPad->SetLogy();
 	for (int i = 1; i < nLayers-1; ++i) {
 		c0->cd(i);
@@ -216,7 +248,7 @@ void Einfangzeiten(double xmin = 300., double xmax = 20000.,
 	TCanvas *c1 = new TCanvas("c1", "Zerfaelle nach unten");
 	c1->cd();
 	c1->Clear();
-	c1->Divide(2,3);
+	c1->Divide(2, 2);
 	gPad->SetLogy();
 	for (int i = 1; i < nLayers-1; ++i) {
 		c1->cd(i);
@@ -227,7 +259,7 @@ void Einfangzeiten(double xmin = 300., double xmax = 20000.,
 	TCanvas *c2 = new TCanvas("c2", "Nachpulse");
 	c2->cd();
 	c2->Clear();
-	c2->Divide(2, 3);
+	c2->Divide(2, 2);
 	gPad->SetLogy();
 
 	for (int i = 1; i < nLayers-1; ++i) {
