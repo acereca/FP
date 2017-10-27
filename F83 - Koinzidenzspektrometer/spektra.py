@@ -14,32 +14,31 @@ values = {
         "marked_ch":        [76, 196, 708, 927, 1047],
         "marked_ch_err":    [5, 10, 30, 20, 10, 10],
         "energy_theo":      [1.17323, 1.33248],
-        "fitting_interval": [[875,990],[990,1200]]
+        "fitting_interval": [[875, 990], [990, 1200]]
     },
     "cs137": {
         "marked_ch":        [78, 171, 370, 543],
         "marked_ch_err":    [5, 10, 15, 10],
         "energy_theo":      [0.6616],
-        "fitting_interval": [[480,700]]
+        "fitting_interval": [[480, 700]]
     },
     "mn54":  {
         "marked_ch":        [14, 75, 178, 497, 678],
         "marked_ch_err":    [2, 5, 10, 15, 10],
         "energy_theo":      [0.8353],
-        "fitting_interval": [[600,800]]
+        "fitting_interval": [[600, 800]]
     },
     "ba133": {
         "marked_ch":        [78, 102, 144, 257, 308],
         "marked_ch_err":    [5, 10, 10, 10, 10],
         "energy_theo":      [0.356],
-        "fitting_interval": [[275,400]]
+        "fitting_interval": [[275, 400]]
     },
     "na22":  {
         "marked_ch":        [76, 162, 420, 804, 1005],
         "marked_ch_err":    [5, 20, 10, 15, 15, 20],
         "energy_theo":      [1.2746],
-        #"fitting_interval": [[375,500]]
-        "fitting_interval": [[900,1100]]
+        "fitting_interval": [[900, 1100]]
     }
 }
 
@@ -78,8 +77,6 @@ for f in values.keys():
         x_data = np.arange(interv[0],interv[1])
 
         distr = lambda x, m, gamma, intens: intens*(gamma**2/((x-m)**2+gamma**2))
-        #print(f,len(fitting_intervals[f[:-4]]),i, -len(fitting_intervals[f[:-4]])+i, marked_channels[f][-len(fitting_intervals[f[:-4]])+i])
-        #plt.plot(x_data, distr(x_data, marked_channels[f][-len(fitting_intervals[f[:-4]])+i], 50, 2000))
 
         p0 = [
             values[f]["marked_ch"][-depth+i],
@@ -87,7 +84,6 @@ for f in values.keys():
             data[f + "_int"][values[f]["marked_ch"][-depth+i]]
         ]
 
-        #print(p0)
         fparams = vtp.fit(
             x_data,
             data[f + "_int"][interv[0]:interv[1]],
@@ -95,8 +91,8 @@ for f in values.keys():
             p0,
             [10]*len(x_data)
         )
-        #print([interv[0],interv[1]],fparams[0])
 
+        ## replace the old estimations with the fitted peak positions
         values[f]["marked_ch"][-depth+i]      = fparams[0].n
         values[f]["marked_ch_err"][-depth+i] += fparams[0].s
         values[f]["marked_ch_err"][-depth+i]  = values[f]["marked_ch_err"][-depth+i]/2
@@ -122,9 +118,6 @@ fit_en_m, fit_en_c = vtp.fit_linear(
     None
 )
 
-#print(fit_en_m, fit_en_c)
-#print(values)
-
 # calibration plot
 ## figure setup
 fig = plt.figure(figsize=(11.7,8.3))
@@ -132,6 +125,7 @@ plt.style.use('bmh')
 plt.minorticks_on()
 plt.grid(b=True, which="minor", color="#cccccc")
 
+## plotting the fitted linear curve
 calib_xdata = np.array([200, 1100])
 plt.plot(
     calib_xdata,
@@ -140,6 +134,7 @@ plt.plot(
     color="#c0c0c0"
 )
 
+## plotting the used points
 for e in values.keys():
     for i, v in enumerate(values[e]["energy_theo"]):
         depth = len(values[e]["energy_theo"])
@@ -153,10 +148,10 @@ for e in values.keys():
             fmt=".",
             ms=4
         )
-        #print(values[e]["marked_ch"][-depth +i],v)
 
+## add the curve parameters to plot
 plt.annotate(
-    "Energy = Channel $\cdot$ m + c\nm = ${:.3fL}$ keV\nc = ${:.3fL}$".format(fit_en_m*1000, fit_en_c),
+    "Energy = Channel $\cdot$ m + c\n\nm = ${:.3fL}$ keV\nc  = ${:.3fL}$ keV".format(fit_en_m*1000, fit_en_c*1000),
     xy=(800, 0.6),
     xycoords='data',
     xytext=(0, 0),
@@ -167,12 +162,18 @@ plt.annotate(
         fc="1"
     )
 )
+
+## plot meta
 plt.legend()
 plt.xlabel("channel")
 plt.ylabel("Energy / MeV")
 plt.title("Calibration Fit, Channel vs. Energy")
 plt.savefig("calibration.png")
 
+
+#########################################
+# CODE GRAVEYARD                        #
+#########################################
 
 # for ch in marked_channels[f]:
 #     plt.vlines(ch, 0, data[f][ch], linestyles='dotted', colors='gray')
