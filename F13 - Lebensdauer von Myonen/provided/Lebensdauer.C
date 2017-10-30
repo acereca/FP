@@ -12,6 +12,7 @@
 #include <TArrayD.h>
 #include <TMath.h>
 #include <TColor.h>
+#include <TLegend.h>
 #include <TROOT.h>
 #include <iostream>
 #include <cmath>
@@ -22,20 +23,13 @@ using namespace std;
 const int nLayers = 6;
 
 // Hilfsfunktionen
-double getAfterpulseScaleFactor(int scintNr, bool up, TH1D* h8)
+double getAfterpulseScaleFactor(int scintNr, bool up, TH1D* h8, bool ver = false, double var = 1.0)
 {
 	// FIXME: im folgenden Array werden die Skalierungsfaktoren fuer
 	// Zerfaelle nach oben/nach unten eingetragen
 	// alternativ koennen Sie auch Code schreiben, der die
 	// benoetigten Informationen direkt aus h8 ausliest
 
-
-
-
-//	static const double scaleFactorUp[] = {
-//		0.0,      .33827, .32445, .29346,
-//		 .26621, 0.0,    0.0,    0.0
-//	};
 	static const double scaleFactorDown[] = {
 		0.0,     0.0,  .01019, .00180,
 	         .06838, 0.0, 0.0,    0.0
@@ -62,7 +56,7 @@ double getAfterpulseScaleFactor(int scintNr, bool up, TH1D* h8)
 		double scaleFactor = Nstop/Nstart;
         cout << endl << endl << "Scaling a" << scintNr << " by " << scaleFactor << endl << endl;
 
-		return scaleFactor;
+		return scaleFactor * var;
 	} else {
         double Nstart = 0;
         for (int i = scintNr+2; i <= 5; i++) {
@@ -79,7 +73,7 @@ double getAfterpulseScaleFactor(int scintNr, bool up, TH1D* h8)
 
         double scalingFactor = (1-efficiencyPerLayer[scintNr])/efficiencyPerLayer[scintNr]/Nstart*Nstop;
         cout << endl << endl << "Scaling b" << scintNr << " by " << scaleFactorDown[scintNr] << " or " << scalingFactor << endl << endl;
-		return scaleFactorDown[scintNr];
+		return scaleFactorDown[scintNr] * var;
 	}
 }
 
@@ -120,7 +114,7 @@ TF1* setFitFunction()
 
 // diese Funktion macht die eigentliche Arbeit
 void Lebensdauer(double xmin = 300., double xmax = 20000.,
-		const char *filename = "fp13.root")
+		const char *filename = "fp13.root", double var = 1.0)
 {
 	////////////////////////////////////////////////////////////////
 	// Einstellungen fuer graphische Darstellung der Plots setzen
@@ -141,7 +135,7 @@ void Lebensdauer(double xmin = 300., double xmax = 20000.,
 	////////////////////////////////////////////////////////////////
 	// Histogramme einlesen
 	////////////////////////////////////////////////////////////////
-	TH1D *h8 = (TH1D*)f->Get("h8");  
+	TH1D *h8 = (TH1D*)f->Get("h8");
 
 	TH1D *a[nLayers], *b[nLayers], *x[nLayers];
 	for (int i = 0; i < nLayers; ++i) {
@@ -166,16 +160,16 @@ void Lebensdauer(double xmin = 300., double xmax = 20000.,
 
         //FIXME
 		a[iLayer]->Add(x[iLayer],
-				- .6* getAfterpulseScaleFactor(iLayer, true, h8));
+				- .7* getAfterpulseScaleFactor(iLayer, true, h8)*var);
 		b[iLayer]->Add(x[iLayer],
-				- getAfterpulseScaleFactor(iLayer, false, h8));
+				- getAfterpulseScaleFactor(iLayer, false, h8)*var);
 	}
 
 	////////////////////////////////////////////////////////////////
 	// Histogramme aus den verschiedenen Szintillatoren kombinieren:
 	// erst Zerfaelle nach unten/oben separat, dann beide zusammen
 	////////////////////////////////////////////////////////////////
-	
+
 	// Wir buchen zwei Histogramme mit den selben "Abmessungen" wie
 	// a[2], und setzten diese zurueck. Dann addieren wir die
 	// Szintillatoren, die wir in unserer Messung haben wollen
@@ -290,7 +284,21 @@ void Lebensdauer(double xmin = 300., double xmax = 20000.,
 
 	TCanvas *c4 = new TCanvas("c4", "Lebensdauer kombiniert");
 	c4->cd();
-	c4->Clear();
+	c4->Clear();1
 	gPad->SetLogy();
-	hL->DrawClone("e");
+    hL->DrawClone("e");
+    c4-> Update();
+
+    // Retrieve the stat box
+    TPaveStats *ps = (TPaveStats*)c4->GetPrimitive("stats");
+    ps->SetName("mystats");
+    TList *listOfLines = ps->GetListOfLines();
+    // Add a new line in the stat box.
+    // Note that "=" is a control character
+    TLatex *myt = new TLatex(0,0,"Test = 10");
+    listOfLines->Add(myt);
+    hL->SetStats(0);
+    c4->Modified();
+
+
 }
