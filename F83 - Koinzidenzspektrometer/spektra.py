@@ -6,6 +6,7 @@ import matplotlib.ticker as tck
 import pandas as pd
 from scipy.interpolate import spline
 import numpy as np
+import uncertainties.unumpy as unp
 
 collected_data = pd.DataFrame()
 
@@ -14,34 +15,40 @@ values = {
         "marked_ch":        [76, 196, 708, 927, 1047],
         "marked_ch_err":    [5, 10, 30, 20, 10, 10],
         "energy_theo":      [1.17323, 1.33248],
-        "fitting_interval": [[875, 990], [990, 1200]]
+        "fitting_interval": [[875, 990], [990, 1200]],
+        "timeframe":        735
     },
     "cs137": {
         "marked_ch":        [78, 171, 370, 543],
         "marked_ch_err":    [5, 10, 15, 10],
         "energy_theo":      [0.6616],
-        "fitting_interval": [[480, 700]]
+        "fitting_interval": [[480, 700]],
+        "timeframe":        290
     },
     "mn54":  {
         "marked_ch":        [14, 75, 178, 497, 678],
         "marked_ch_err":    [2, 5, 10, 15, 10],
         "energy_theo":      [0.8353],
-        "fitting_interval": [[600, 800]]
+        "fitting_interval": [[600, 800]],
+        "timeframe":        298
     },
     "ba133": {
         "marked_ch":        [78, 102, 144, 257, 308],
         "marked_ch_err":    [5, 10, 10, 10, 10],
         "energy_theo":      [0.356],
-        "fitting_interval": [[275, 400]]
+        "fitting_interval": [[275, 400]],
+        "timeframe":        282
     },
     "na22":  {
         "marked_ch":        [76, 162, 420, 804, 1005],
         "marked_ch_err":    [5, 20, 10, 15, 15, 20],
         "energy_theo":      [1.2746],
-        "fitting_interval": [[900, 1100]]
+        "fitting_interval": [[900, 1100]],
+        "timeframe":        316
     }
 }
 
+distr = lambda x, m, gamma, intens: intens*(gamma**2/((x-m)**2+gamma**2))
 
 # plotting for intensity
 for f in values.keys():
@@ -55,6 +62,9 @@ for f in values.keys():
 
     # add read values into collected_data
     collected_data = pd.concat([collected_data, data], axis=1)
+
+
+    values[f]["peak_params"] = []
 
     # plotting and annotating
     # plt.plot(
@@ -76,7 +86,7 @@ for f in values.keys():
     for i, interv in enumerate(values[f]["fitting_interval"]):
         x_data = np.arange(interv[0],interv[1])
 
-        distr = lambda x, m, gamma, intens: intens*(gamma**2/((x-m)**2+gamma**2))
+
 
         p0 = [
             values[f]["marked_ch"][-depth+i],
@@ -96,6 +106,16 @@ for f in values.keys():
         values[f]["marked_ch"][-depth+i]      = fparams[0].n
         values[f]["marked_ch_err"][-depth+i] += fparams[0].s
         values[f]["marked_ch_err"][-depth+i]  = values[f]["marked_ch_err"][-depth+i]/2
+
+        values[f]["peak_params"].append([*fparams])
+        print(*unp.nominal_values([*fparams]))
+
+# add underground to dataset
+data = pd.read_table("data/" + f + "_int", header=None, decimal=',').transpose()
+data.columns = ["underground_int"]
+
+# add read values into collected_data
+collected_data = pd.concat([collected_data, data], axis=1)
 
 # fitting the calibration
 list_en = []
@@ -171,10 +191,86 @@ plt.title("Calibration Fit, Channel vs. Energy")
 plt.savefig("calibration.png")
 
 
-#########################################
-# CODE GRAVEYARD                        #
-#########################################
+ax1 = fig.add_subplot(111)
+ax2 = ax1.twiny()
 
+
+# plot intensity
+for e in values.keys():
+    ax1.cla()
+    ax1.plot(
+        collected_data.index.values,
+        collected_data[e + "_int"] - collected_data["underground_int"] / 71304 * values[e]["timeframe"],
+        color="gray"
+    )
+
+    ymax = collected_data[e + "_int"][20:].max()*1.1
+
+    for i, pos in enumerate(values[e]["marked_ch"]):
+        if e == "ba133":
+            offset = 5000
+        else:
+            offset = 0
+        ann_ypos = np.linspace( ymax*.01+offset, ymax/4+offset, 5)
+        ax1.vlines(
+            pos,
+            0,
+            ymax,
+            linestyles='dotted',
+            colors='gray'
+        )
+
+        ax1.annotate(
+                "ch = {:.0f}\nE  = ${:.3fL}$ MeV".format(pos, pos * fit_en_m+fit_en_c),
+                xy=(pos, ann_ypos[i]),
+                xycoords='data',
+                xytext=(0, 0),
+                textcoords='offset points',
+                fontsize=10,
+                bbox=dict(
+                    boxstyle="round",
+                    fc="1"
+                )
+            )
+
+    for i, interv in enumerate(values[e]["fitting_interval"]):
+        fit_xdata = np.arange(interv[0], interv[1])
+
+        ax1.plot(
+            fit_xdata,
+            distr(fit_xdata, values[e]["peak_params"][i][0].n, values[e]["peak_params"][i][1].n, values[e]["peak_params"][i][2].n)
+        )
+
+    ylimits = np.array([0, ymax])
+
+    # dummy plot
+    #ax2.plot(np.arange(0, 1, .1), np.ones(10))
+    ax2.set_xlim([0, values[e]["xlim_r"] * fit_en_m.n + fit_en_c.n])
+
+    ax2color = "#00cc00"
+
+    ax2.grid(b=True, which="major", color=ax2color)
+    ax2.spines['top'].set_color(ax2color)
+    ax2.tick_params(axis='x', colors=ax2color)
+
+    ax2.set_xlabel("Energy / MeV")
+
+    # plot meta
+    ax1.set_xlim([20, values[e]["xlim_r"]])
+    ax1.set_ylim(ylimits)
+
+    ax1.set_xlabel("Channel")
+    ax1.set_ylabel("Counts")
+    ax1.legend()
+
+    elm = e[:2].capitalize()
+    nc = e[2:]
+    plt.title("Intensityspectrum of $^{{{}}}${}".format(nc, elm), y=1.08)
+
+    plt.savefig(e + "_int.png")
+
+
+# plot intensity
 # for ch in marked_channels[f]:
 #     plt.vlines(ch, 0, data[f][ch], linestyles='dotted', colors='gray')
 #     plt.annotate(
@@ -189,6 +285,10 @@ plt.savefig("calibration.png")
 #             fc="1"
 #         )
 #     )
+
+#########################################
+# CODE GRAVEYARD                        #
+#########################################
 
 # x_data = np.arange(fparams[0].n-4*fparams[1].n, fparams[0].n+4*fparams[1].n)
 # plt.plot(
