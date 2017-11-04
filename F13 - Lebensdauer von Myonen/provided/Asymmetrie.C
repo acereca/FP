@@ -37,14 +37,14 @@ TF1* getFitFunction()
 {
 	TF1 *func = new TF1("fitFuncAsymmetrie", fitFuncAsymmetrie,
 			0., 2e4, 4);
-	func->SetParameters(0.01, 0.05, 3.4e-3, 0.0);
+	func->SetParameters(0.01, 0.1, 3.4e-4, 0.0);
 	func->SetParName(0, "BG");
 	func->SetParName(1, "P*A");
 	func->SetParName(2, "#omega_{L}");
 	func->SetParName(3, "#phi_{0}");
 	func->SetParLimits(0, -10., 10.);
 	func->SetParLimits(1, 0., 1.);
-	func->SetParLimits(2, 5e-4, 5e-2);
+	func->SetParLimits(2, 3.2e-4, 5e-2);
 	func->SetParLimits(3, -TMath::Pi(), 2.0 * TMath::Pi());
 	func->SetNpx(200);
 	func->SetLineColor(kRed);
@@ -66,43 +66,36 @@ void fitAsymmetrie(TH1D *h, double xmin, double xmax)
 // feld die Faktoren neu berechnet werden muessen! (warum?)
 double getAfterpulseScaleFactor(int scintNr, bool up, TH1D* h8)
 {
-	// die Konvention ist, negative Szintillatornummern zu uebergeben,
-	// wenn die Skalierungsfaktoren _mit_ B-Feld zurueckgegeben werden
-	// sollen
-	bool withBField = (scintNr < 0);
-	// wir wissen jetzt, welche Faktoren benoetigt werden, und brauchen
-	// eigentlich positive Szintillatornummern, daher nehmen wir den
-	// Betrag
+	//bool withBField = (scintNr < 0);
 	scintNr = abs(scintNr);
-	// FIXME: im folgenden Array werden die Skalierungsfaktoren fuer
-	// Zerfaelle nach oben/nach unten eingetragen, einmal mit, einmal
-	// ohne B-Feld
-	// alternativ koennen Sie auch Code schreiben, der die
-	// benoetigten Informationen direkt aus h8 ausliest
-	// der Code, der diese Funktion aufruft, uebergibt das jeweils
-	// "richtige" h8
-	static const double scaleFactorUpBoff[] = {
-		1.0, 1.0, 1.0, 1.0,
-		1.0, 1.0, 1.0, 1.0
+
+    //also we dont care about withBField, beacuse we do the same thing with either h8 or hm8
+
+	static const double efficiencyPerLayer[] = {
+			.926, .946, .957, .921,
+			.936, .973, .0,   .0
 	};
-	static const double scaleFactorDownBoff[] = {
-		1.0, 1.0, 1.0, 1.0,
-		1.0, 1.0, 1.0, 1.0
-	};
-	static const double scaleFactorUpBon[] = {
-		1.0, 1.0, 1.0, 1.0,
-		1.0, 1.0, 1.0, 1.0
-	};
-	static const double scaleFactorDownBon[] = {
-		1.0, 1.0, 1.0, 1.0,
-		1.0, 1.0, 1.0, 1.0
-	};
-	if (withBField) {
-		if (up) return scaleFactorUpBon[scintNr];
-		else return scaleFactorDownBon[scintNr];
+
+	// INFO: get scaling Factor out of h8
+	if (up) {
+		double Nstart = 0;
+		for (int i = scintNr ; i <= 6; i++) {
+			Nstart += h8->GetBinContent(i +1);
+		}
+
+		double Nstop = h8 -> GetBinContent(scintNr+1);
+		double scaleFactor = Nstop/Nstart;
+		return scaleFactor;
 	} else {
-		if (up) return scaleFactorUpBoff[scintNr];
-		else return scaleFactorDownBoff[scintNr];
+		double Nstart = 0;
+		for (int i = scintNr+1 ; i <= 6; i++) {
+			Nstart += h8->GetBinContent(i + 1);
+		}
+
+		double Nstop = h8 -> GetBinContent(scintNr+2);
+
+		double scalingFactor = (1-efficiencyPerLayer[scintNr])/efficiencyPerLayer[scintNr]/Nstart*Nstop;
+		return scalingFactor;
 	}
 }
 
@@ -154,14 +147,14 @@ void Asymmetrie(double xmin = 3e2, double xmax = 2e4,
 	////////////////////////////////////////////////////////////////
 	for (int i = 1; i < nLayers-1; ++i) {
 		// ohne B-Feld
-		a[i]->Add(x[i], - getAfterpulseScaleFactor(i, true, h8));
+		a[i]->Add(x[i], - .6*getAfterpulseScaleFactor(i, true, h8));
 		b[i]->Add(x[i], - getAfterpulseScaleFactor(i, false, h8));
 		// das selbe nocheinmal mit B-Feld
 		// da sich die Korrekturfaktoren fuer die Messung mit
 		// und ohne B-Feld unterscheiden werden, werden negative
 		// Szintillatornummern als Zeichen dafuer ubergeben, dass
 		// die Korrekturfaktoren mit B-Feld gewuenscht werden
-		am[i]->Add(xm[i], - getAfterpulseScaleFactor(-i, true, hm8));
+		am[i]->Add(xm[i], - .6*getAfterpulseScaleFactor(-i, true, hm8));
 		bm[i]->Add(xm[i], - getAfterpulseScaleFactor(-i, false, hm8));
 	}
 
@@ -259,20 +252,30 @@ void Asymmetrie(double xmin = 3e2, double xmax = 2e4,
 	c1->cd();
 	c1->Clear();
 	asymO->Draw("E");
-	asymO->SetAxisRange(0.0, 1.25 * xmax, "X");
-	asymO->SetAxisRange(-0.4, 0.4, "Y");
+	//asymO->SetAxisRange(0.0, 1.25 * xmax, "X");
+	asymO->SetAxisRange(-.5, .5, "Y");
 
 	TCanvas *c2 = new TCanvas("c2", asymU->GetTitle());
 	c2->cd();
 	c2->Clear();
 	asymU->Draw("E");
-	asymU->SetAxisRange(0.0, 1.25 * xmax, "X");
+	//asymU->SetAxisRange(0.0, 1.25 * xmax, "X");
 	asymU->SetAxisRange(-0.4, 0.4, "Y");
 	
 	TCanvas *c3 = new TCanvas("c3", asym->GetTitle());
 	c3->cd();
 	c3->Clear();
 	asym->Draw("E");
-	asym->SetAxisRange(0.0, 1.25 * xmax, "X");
-	asym->SetAxisRange(-0.4, 0.4, "Y");
+	//asym->SetAxisRange(0.0, 1.25 * xmax, "X");
+	asym->SetAxisRange(-.5, .5, "Y");
+
+	TCanvas *c4 = new TCanvas("c4", "h8");
+	c4 -> cd();
+	c4 -> Clear();
+	c4 -> Divide(1,2);
+	c4 -> cd(1);
+	h8 -> Draw();
+
+	c4 -> cd(2);
+	hm8 -> Draw();
 }

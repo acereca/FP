@@ -24,54 +24,36 @@ const int nLayers = 6;
 // Hilfsfunktionen
 double getAfterpulseScaleFactor(int scintNr, bool up, TH1D* h8)
 {
-	// FIXME: im folgenden Array werden die Skalierungsfaktoren fuer
-	// Zerfaelle nach oben/nach unten eingetragen
-	// alternativ koennen Sie auch Code schreiben, der die
-	// benoetigten Informationen direkt aus h8 ausliest
     static const double scaleFactorDown[] = {
 		0.0,     0.0,  .01019, .00180,
-	         .06838, 0.0, 0.0,    0.0
+		 .06838, 0.0, 0.0,    0.0
 	};
 
     static const double efficiencyPerLayer[] = {
-            .926, .946, .957, .921,
-            .936, .973, .0,   .0
+		.926, .946, .957, .921,
+		.936, .973, .0,   .0
     };
 
     // INFO: get scaling Factor out of h8
 	if (up) {
 		double Nstart = 0;
-		for (int i = scintNr+1; i <= 5; i++) {
-			Nstart += h8->GetBinContent(i + 1);
+		for (int i = scintNr ; i <= 6; i++) {
+			Nstart += h8->GetBinContent(i +1);
 		}
-
-//        double Nstop = 0;
-//        for (int i = 0; i <= scintNr; i++){
-//            Nstop += h8->GetBinContent(i+1);
-//        }
 
 		double Nstop = h8 -> GetBinContent(scintNr+1);
 		double scaleFactor = Nstop/Nstart;
-        cout << endl << endl << "Scaling a" << scintNr << " by " << scaleFactor << endl << endl;
-
 		return scaleFactor;
 	} else {
         double Nstart = 0;
-        for (int i = scintNr+2; i <= 5; i++) {
+        for (int i = scintNr+1 ; i <= 6; i++) {
             Nstart += h8->GetBinContent(i + 1);
         }
 
-//        double Nstop = 0;
-//        for (int i = 0; i <= scintNr; i++){
-//            Nstop += h8->GetBinContent(i+1);
-//        }
-
         double Nstop = h8 -> GetBinContent(scintNr+2);
 
-
         double scalingFactor = (1-efficiencyPerLayer[scintNr])/efficiencyPerLayer[scintNr]/Nstart*Nstop;
-        cout << endl << endl << "Scaling b" << scintNr << " by " << scaleFactorDown[scintNr] << " or " << scalingFactor << endl << endl;
-		return scaleFactorDown[scintNr];
+		return scalingFactor;
 	}
 }
 

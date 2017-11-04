@@ -1,0 +1,72 @@
+% !TeX program = XeLaTeX
+
+\documentclass[aspectratio=169]{beamer}
+\usetheme[logo=zeeman_splitting2.png, faculty=ped]{fibeamer}
+
+\include{preamble}
+
+\usepackage{siunitx}
+\sisetup{seperr}
+\sisetup{expproduct=\cdot,per=frac,fraction=nice}
+
+\makeatletter
+\setlength\fibeamer@lengths@logowidth{10em}
+\setlength\fibeamer@lengths@logoheight{10em}
+\newenvironment{myframe}[2][\insertsection]{%
+    \addtobeamertemplate{frametitle}{\vspace{.2cm}\hskip-.7\beamer@leftmargin\scriptsize \hspace*{.75cm}\textcolor{gray!50!white}{#1}\vspace*{-.8cm}}{}
+    \begin{frame}{#2}%
+}{%
+    \end{frame}
+}
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={alt={#1{}{invisible}}},
+  alt/.code args={<#1>#2#3}{%
+    \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+  },
+}
+
+\makeatother
+\definecolor{fibeamer@lightOrange}{HTML}{329cac}
+\definecolor{fibeamer@orange}{HTML}{228c9c}
+\setbeamertemplate{caption}[numbered]
+
+%% These macros specify information about the presentation
+\title{FP F44 - Zeemaneffekt} %% that will be typeset on the
+\author{Patrick Nisble, David Bubeck}
+
+% testing
+\newcommand{\var}{\newcommand}
+
+% vars
+\var\inclineUp{\SI{39.461+-2.198}{\milli\tesla\per\ampere}}
+\var\inclineDown{\SI{38.874+-2.192}{\milli\tesla\per\ampere}}
+\var\magnetonOne{\SI{9.956+-0.414e-24}{\joule\per\tesla}}
+\var\magnetonTheo{\SI{9.274e-24}{\joule\per\tesla}} % 0099942
+\var\magnetonTwo{\SI{8.138+-0.271e-24}{\joule\per\tesla}}
+\var\lambdaCdTheo{\SI{643.847}{nm}}
+\var\lambdaCd{\SI{643.927+-0.571}{\nano\metre}}
+\var\lambdaTh{\SI{652.250}{nm}}
+\var\lambdaXe{\SI{652.151}{nm}}
+\var\lambdaUk{\SI{652.253+-0.269}{nm}}
+
+\frenchspacing
+\begin{document}
+  \frame{\maketitle}
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[hideallsubsections]
+  \end{frame}
+
+  \AtBeginSection[]{% Print an outline at the beginning of sections
+  \begin{frame}<beamer>
+    \frametitle{Outline - \insertsection}
+    \tableofcontents[currentsection, hideothersubsections]
+  \end{frame}}
+
+
+  \input{subs/01_grundlagen}
+  \input{subs/02_magneton}
+  \input{subs/03_wellenlange}
+  \input{subs/04_zusammenfassung}
+\end{document}
