@@ -245,7 +245,7 @@ for e in values.keys():
 
     # dummy plot
     #ax2.plot(np.arange(0, 1, .1), np.ones(10))
-    ax2.set_xlim([0, values[e]["xlim_r"] * fit_en_m.n + fit_en_c.n])
+    ax2.set_xlim([fit_en_c.n, values[e]["xlim_r"] * fit_en_m.n + fit_en_c.n])
 
     ax2color = "#00cc00"
 
