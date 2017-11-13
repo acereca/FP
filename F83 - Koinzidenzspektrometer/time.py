@@ -6,6 +6,7 @@ import VisTools.printing as vto
 import pandas as pd
 import numpy as np
 import uncertainties.unumpy as unp
+import uncertainties as unc
 import scipy.optimize as opt
 
 plt.figure(figsize=(11.7, 8.3)) # DIN A4
@@ -75,7 +76,8 @@ for f in initial_data.keys():
         initial_data[f]['fit_mean'],
         initial_data[f]['theo_delay'],
         xerr=initial_data[f]['fit_dmean'],
-        fmt='.'
+        fmt='.',
+        label="peak position for {:3.0f}ns delay".format(initial_data[f]['theo_delay'])
     )
 
 p0 = [
@@ -90,9 +92,22 @@ fparams = opt.curve_fit(
 )
 plt.plot(
     [initial_data[f]['fit_mean'] for f in initial_data.keys()],
-    np.array([initial_data[f]['fit_mean'] for f in initial_data.keys()])*fparams[0][0]+fparams[0][1]
+    np.array([initial_data[f]['fit_mean'] for f in initial_data.keys()])*fparams[0][0]+fparams[0][1],
+    label="linear Fit $f = m_{c/t}\\cdot x + c$"
 )
 
+fit_m = unc.ufloat(fparams[0][0], np.sqrt(fparams[1][0][0]))
+
+vtp.annotate_unc(
+    plt,
+    fit_m,
+    name="m_{c/t}",
+    unit="\\frac{1}{ns}",
+    data_pos=(1560, 0),
+    formatting = "f"
+)
+
+plt.legend()
 plt.title('Calibration Fit, Channel vs. Time')
 plt.xlabel('channel')
 plt.ylabel('Time / ns')
@@ -128,14 +143,37 @@ fparams = opt.curve_fit(
 plt.cla()
 plt.plot(
     data.index.values[:-1],
-    data['int'][:-1]
+    data['int'][:-1],
+    label="measurement"
 )
 
 plt.plot(
     x_data,
-    distr(np.array(x_data), *fparams[0])
+    distr(np.array(x_data), *fparams[0]),
+    label="Gauss-Fit"
 )
+
+plt.hlines(
+    fparams[0][2]/2,
+    fparams[0][0]-fparams[0][1],
+    fparams[0][0]+fparams[0][1],
+    linestyles='dotted'
+)
+
+vtp.annotate_unc(
+    plt,
+    unc.ufloat(fparams[0][1], np.sqrt(fparams[1][1][1]))*2*fit_m,
+    name="FWHM",
+    unit="ns",
+    formatting="f",
+    data_pos = (150,20)
+)
+
 
 plt.xlim([0, 500])
 
+plt.legend()
+plt.title("Time dependent coincidence measurement of $^{60}$Co")
+plt.xlabel("channel")
+plt.ylabel("Intensity")
 plt.savefig('time_co60.png')
