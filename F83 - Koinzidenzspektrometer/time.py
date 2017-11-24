@@ -165,21 +165,13 @@ plt.hlines(
     linestyles='dotted'
 )
 
-vtp.annotate_unc(
-    plt,
-    unc.ufloat(fparams[0][1], np.sqrt(fparams[1][1][1]))*2*fit_m,
-    name="FWHM",
-    unit="ns",
-    formatting="f",
-    data_pos = (150,20)
-)
-
 plt.hlines(
     fparams[0][2]/2,
     fparams[0][0] -fparams[0][1],
     fparams[0][0] +fparams[0][1],
     linestyles="dotted",
-    colors="red"
+    colors="red",
+    label='FWHM'
 )
 
 fwhm = unc.ufloat(fparams[0][1], np.sqrt(fparams[1][1][1]))

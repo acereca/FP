@@ -56,6 +56,7 @@ values = {
 
 distr = lambda x, m, gamma, intens: intens*(gamma**2/((x-m)**2+gamma**2))
 
+###############################################################################
 # plotting for intensity
 for f in values.keys():
 
@@ -69,16 +70,7 @@ for f in values.keys():
     # add read values into collected_data
     collected_data = pd.concat([collected_data, data], axis=1)
 
-
     values[f]["peak_params"] = []
-
-    # plotting and annotating
-    # plt.plot(
-    #     data.index.values,
-    #     data[f],
-    #     label="Measurement",
-    #     color="gray"
-    # )
 
     # calculating right xlimit
     for i, v in enumerate(reversed(data[f + "_int"][:2000])):
@@ -92,32 +84,11 @@ for f in values.keys():
     for i, interv in enumerate(values[f]["fitting_interval"]):
         x_data = np.arange(interv[0],interv[1])
 
-        # k = 50
-        # offset = [min(data[f+"_int"][i-k:i+k]) for i in interv]
-        #
-        # moff = abs(interv[1]-interv[0])/abs(offset[1]-offset[0])
-        #
-        # coff = offset[0]-moff*interv[0]
-        #
-        # data[f+"_int"][interv[0]:interv[1]] -= coff+moff*x_data
-
         p0 = [
             values[f]["marked_ch"][-depth+i],
             70,
             data[f + "_int"][values[f]["marked_ch"][-depth+i]]
         ]
-
-        coff = 0
-
-        # if f == "co60":
-        #     k = 150
-        #     offset = [min(data[f+"_int"][i-k:i+k]) for i in interv]
-        #
-        #     coff = np.mean(offset)
-        #
-        #     values[f]["background"] = {}
-        #     values[f]["background"]["coff"] = coff
-            #values[f]["background"]["moff"] = moff
 
         fparams = vtp.fit(
             x_data,
@@ -127,7 +98,7 @@ for f in values.keys():
             [10]*len(x_data)
         )
 
-        # extrapolation by eye (bc of eres fit)
+        # extrapolation by eye (bc of energy_resolution fit)
         if f == "co60":
             if i == 1:
                 fparams[1]*=.87
@@ -171,6 +142,7 @@ fit_en_m, fit_en_c = vtp.fit_linear(
     None
 )
 
+###############################################################################
 # calibration plot
 ## figure setup
 fig = plt.figure(figsize=(11.7,8.3))
@@ -204,7 +176,8 @@ for e in values.keys():
 
 ## add the curve parameters to plot
 plt.annotate(
-    "Energy = Channel $\cdot$ m + c\n\nm = ${:.3fL}$ keV\nc  = ${:.3fL}$ keV".format(fit_en_m*1000, fit_en_c*1000),
+    "Energy = Channel $\cdot$ m + c\n\nm = $({:.3fL})$ keV\nc  = $({:.3fL})$ keV"
+        .format(fit_en_m*1000, fit_en_c*1000),
     xy=(800, 0.6),
     xycoords='data',
     xytext=(0, 0),
@@ -221,9 +194,9 @@ plt.legend()
 plt.xlabel("channel")
 plt.ylabel("Energy / MeV")
 plt.title("Calibration Fit, Channel vs. Energy")
-plt.savefig("calibration.png")
+plt.savefig("energy_calibration.png")
 
-
+###############################################################################
 # plot Energyresolution
 plt.cla()
 lims    = [.2, 1.5]
@@ -279,8 +252,12 @@ plt.plot(
 ## add the curve parameters to plot
 
 plt.annotate(
-    "$\Delta E = ({c:.3fL}) keV + ({I:.3fL}) keV \cdot e^{{E/({w:.3fL}) keV}}$".format(c=fparams[2]*1000, I=fparams[0]*1000, w=fparams[1]*1000),
-    xy=(.7, 0.05),
+    "$c = ({c:.3fL})$ keV\n$I = ({I:.3fL})$ keV\n$w = ({w:.3fL})$ keV".format(
+        c=fparams[2]*1000,
+        I=fparams[0]*1000,
+        w=fparams[1]*1000
+    ),
+    xy=(.9, 0.05),
     xycoords='data',
     xytext=(0, 0),
     textcoords='offset points',
@@ -295,7 +272,7 @@ plt.annotate(
 plt.xlabel('Energy / MeV')
 plt.ylabel('$\Delta$ Energy / MeV')
 plt.legend()
-plt.savefig("eres.png")
+plt.savefig("energy_resolution.png")
 
 
 
@@ -303,15 +280,17 @@ plt.cla()
 ax1 = fig.add_subplot(111)
 ax2 = ax1.twiny()
 
-
-
-
-# plot intensity
+###############################################################################
+# plot intensity with Energy
 for e in values.keys():
     ax1.cla()
+
+    # plot intensity measurements
     ax1.plot(
         collected_data.index.values,
-        collected_data[e + "_int"] - collected_data["underground_int"] / 71304 * values[e]["timeframe"],
+        collected_data[e + "_int"] -
+            collected_data["underground_int"] /
+            71304 * values[e]["timeframe"],
         color="gray"
     )
 
@@ -332,7 +311,10 @@ for e in values.keys():
         )
 
         ax1.annotate(
-                "ch = {:.0f}\nE  = ${:.3fL}$ MeV".format(pos, pos * fit_en_m+fit_en_c),
+                "ch = {:.0f}\nE  = ${:.3fL}$ MeV".format(
+                    pos,
+                    pos * fit_en_m+fit_en_c
+                ),
                 xy=(pos, ann_ypos[i]),
                 xycoords='data',
                 xytext=(0, 0),
@@ -384,87 +366,88 @@ for e in values.keys():
     nc = e[2:]
     plt.title("Intensityspectrum of $^{{{}}}${}".format(nc, elm), y=1.08)
 
-    plt.savefig(e + "_int.png")
+    plt.savefig("int_" + e + ".png")
+    plt.cla()
+
+###############################################################################
+# plot coincidence spectra
+
+coinc_list = {
+    "co60": {
+        "filename":         "co60_koinz",
+        "fitting_interval": [[1.2, 1.325], [1.36, 1.49]],
+        "name":             "$^{60}$Co"
+    },
+    "cs137": {
+        "filename":         "cs137_koinz_03",
+        "fitting_interval": [[0.68, 0.8]],
+        "name":             "$^{137}$Cs"
+    }
+}
+
+for e in coinc_list.keys():
+    data = pd.read_table(
+        "data/" + coinc_list[e]["filename"],
+        header=None, decimal=','
+    ).transpose()
+    data.columns = [e]
+    xdata = np.array(data.index.values.tolist())*fit_en_m.n
+
+    plt.clf()
+
+    plt.plot(
+        xdata,
+        data[e],
+        label = "measurement of {}".format(coinc_list[e]["name"])
+    )
+
+    # fit lorentzian(x, m, hwhm, int)
+    for i, interv in enumerate(coinc_list[e]["fitting_interval"]):
+        fitfilter = np.logical_and(xdata > interv[0], xdata < interv[1])
+
+        p0 = [
+            np.mean(interv),
+            .05,
+            20
+        ]
 
 
-# plot intensity
-# for ch in marked_channels[f]:
-#     plt.vlines(ch, 0, data[f][ch], linestyles='dotted', colors='gray')
-#     plt.annotate(
-#         "ch = {}".format(ch),
-#         xy=(ch, 0),
-#         xycoords='data',
-#         xytext=(0, 0),
-#         textcoords='offset points',
-#         fontsize=14,
-#         bbox=dict(
-#             boxstyle="round",
-#             fc="1"
-#         )
-#     )
+        #print(np.logical_and(xdata > interv[0], xdata < interv[1]))
+        fparams = vtp.fit(
+            xdata[fitfilter],
+            data[e][fitfilter],
+            distr,
+            p0,
+            None
+        )
+        print(fparams)
 
-#########################################
-# CODE GRAVEYARD                        #
-#########################################
+        plt.plot(
+            xdata[fitfilter],
+            distr(xdata[fitfilter], *(unp.nominal_values(fparams))),
+            label= "lorentzian fit" +
+                (" no. {}".format(i+1) if e == "co60" else "")
+        )
 
-# x_data = np.arange(fparams[0].n-4*fparams[1].n, fparams[0].n+4*fparams[1].n)
-# plt.plot(
-#     x_data,
-#     distr(x_data, fparams[0].n, fparams[1].n, fparams[2].n),
-#     label="Lorentz-Fit No. {}".format(i+1)
-# )
-# plt.hlines(
-#     fparams[2].n/2,
-#     fparams[0].n-fparams[1].n,
-#     fparams[0].n+fparams[1].n,
-#     linestyles='dotted',
-#     colors='gray'
-# )
-# plt.annotate(
-#     "FWHM = ${:.2fL}$".format(2*fparams[1]),
-#     xy=(fparams[0].n+fparams[1].n, fparams[2].n/2),
-#     xycoords='data',
-#     xytext=(0, 0),
-#     textcoords='offset points',
-#     fontsize=14,
-#     bbox=dict(
-#         boxstyle="round",
-#         fc="1"
-#     )
-# )
+        plt.errorbar(
+            xdata[np.logical_not(fitfilter)],
+            distr(
+                xdata[np.logical_not(fitfilter)],
+                *(unp.nominal_values(fparams))
+            ),
+            fmt = ".",
+            markersize=1
+        )
 
 
-
-# plot meta
-# plt.xlabel("Channel")
-# plt.ylabel("Counts")
-# plt.legend()
-#
-# elm = f.split("_")[0][:2].capitalize()
-# nc = f.split("_")[0][2:]
-# plt.title("Intensityspectrum of $^{{{}}}${}".format(nc, elm))
-# plt.savefig(f + ".png")
+    plt.hlines()
 
 
+    ilist = data[data[e] > 5].index.tolist()
+    print([min(ilist)*.9, max(ilist)*1.1])
+    plt.xlim(np.array([min(ilist)*.9, max(ilist)*1.1])*fit_en_m.n)
 
-
-#
-#
-#
-# plt.legend()
-# plt.title("Calibration of channels vs Energy")
-# plt.xlabel("Channel")
-# plt.ylabel("Energy / MeV")
-# plt.savefig("calibration.png")
-
-# plotting calibration
-# for e in theo_energy.keys():
-#     for index, line in enumerate(theo_energy[e]):
-#         plt.errorbar(
-#             marked_channels[e+"_int"][-2+index],
-#             theo_energy[e][index],
-#             xerr=10,
-#             fmt=".",
-#             label="$^{{{}}}${}".format(e[2:],e[:2].capitalize())
-#         )
-# print(collected_data.columns.values)
+    plt.xlabel("Energy / MeV")
+    plt.ylabel("Intensity")
+    plt.legend()
+    plt.savefig("coinc_" + e + ".png")
