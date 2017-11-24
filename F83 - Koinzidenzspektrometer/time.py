@@ -148,7 +148,7 @@ plt.cla()
 plt.plot(
     data.index.values[:-1],
     data['int'][:-1],
-    color="gray"
+    color="gray",
     label="measurement"
 )
 
@@ -174,7 +174,6 @@ vtp.annotate_unc(
     data_pos = (150,20)
 )
 
-<<<<<<< HEAD
 plt.hlines(
     fparams[0][2]/2,
     fparams[0][0] -fparams[0][1],
@@ -202,13 +201,10 @@ plt.annotate(
 lims = [0, 500]
 plt.xlim(lims)
 
-=======
-
 plt.xlim([0, 500])
 
 plt.legend()
 plt.title("Time dependent coincidence measurement of $^{60}$Co")
->>>>>>> 5c274c7397139533a64d8b79be075c89987249f1
 plt.xlabel("channel")
 plt.ylabel("Intensity")
 plt.savefig('time_co60.png')
