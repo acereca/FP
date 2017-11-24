@@ -6,19 +6,22 @@ import matplotlib.ticker as tck
 import pandas as pd
 from scipy.interpolate import spline
 import numpy as np
+import uncertainties as unc
 import uncertainties.unumpy as unp
 
 collected_data = pd.DataFrame()
 
 values = {
     "co60":  {
+        "name":             "$^{60}$Co",
         "marked_ch":        [76, 196, 708, 927, 1047],
         "marked_ch_err":    [5, 10, 30, 20, 10, 10],
         "energy_theo":      [1.17323, 1.33248],
-        "fitting_interval": [[875, 990], [990, 1200]],
+        "fitting_interval": [[870, 990], [990, 1150]],
         "timeframe":        735
     },
     "cs137": {
+        "name":             "$^{137}$Cs",
         "marked_ch":        [78, 171, 370, 543],
         "marked_ch_err":    [5, 10, 15, 10],
         "energy_theo":      [0.6616],
@@ -26,6 +29,7 @@ values = {
         "timeframe":        290
     },
     "mn54":  {
+        "name":             "$^{54}$Mn",
         "marked_ch":        [14, 75, 178, 497, 678],
         "marked_ch_err":    [2, 5, 10, 15, 10],
         "energy_theo":      [0.8353],
@@ -33,6 +37,7 @@ values = {
         "timeframe":        298
     },
     "ba133": {
+        "name":             "$^{133}$Ba",
         "marked_ch":        [78, 102, 144, 257, 308],
         "marked_ch_err":    [5, 10, 10, 10, 10],
         "energy_theo":      [0.356],
@@ -40,6 +45,7 @@ values = {
         "timeframe":        282
     },
     "na22":  {
+        "name":             "$^{22}$Na",
         "marked_ch":        [76, 162, 420, 804, 1005],
         "marked_ch_err":    [5, 20, 10, 15, 15, 20],
         "energy_theo":      [1.2746],
@@ -86,13 +92,32 @@ for f in values.keys():
     for i, interv in enumerate(values[f]["fitting_interval"]):
         x_data = np.arange(interv[0],interv[1])
 
-
+        # k = 50
+        # offset = [min(data[f+"_int"][i-k:i+k]) for i in interv]
+        #
+        # moff = abs(interv[1]-interv[0])/abs(offset[1]-offset[0])
+        #
+        # coff = offset[0]-moff*interv[0]
+        #
+        # data[f+"_int"][interv[0]:interv[1]] -= coff+moff*x_data
 
         p0 = [
             values[f]["marked_ch"][-depth+i],
-            50,
+            70,
             data[f + "_int"][values[f]["marked_ch"][-depth+i]]
         ]
+
+        coff = 0
+
+        # if f == "co60":
+        #     k = 150
+        #     offset = [min(data[f+"_int"][i-k:i+k]) for i in interv]
+        #
+        #     coff = np.mean(offset)
+        #
+        #     values[f]["background"] = {}
+        #     values[f]["background"]["coff"] = coff
+            #values[f]["background"]["moff"] = moff
 
         fparams = vtp.fit(
             x_data,
@@ -102,13 +127,21 @@ for f in values.keys():
             [10]*len(x_data)
         )
 
+        # extrapolation by eye (bc of eres fit)
+        if f == "co60":
+            if i == 1:
+                fparams[1]*=.87
+            if i == 0:
+                fparams[1]*=.79
+
         ## replace the old estimations with the fitted peak positions
         values[f]["marked_ch"][-depth+i]      = fparams[0].n
         values[f]["marked_ch_err"][-depth+i] += fparams[0].s
         values[f]["marked_ch_err"][-depth+i]  = values[f]["marked_ch_err"][-depth+i]/2
 
+
         values[f]["peak_params"].append([*fparams])
-        print(*unp.nominal_values([*fparams]))
+        #print(*unp.nominal_values([*fparams]))
 
 # add underground to dataset
 data = pd.read_table("data/" + f + "_int", header=None, decimal=',').transpose()
@@ -162,7 +195,7 @@ for e in values.keys():
             values[e]["marked_ch"][-depth +i],
             v,
             xerr=values[e]["marked_ch_err"][-depth+i],
-            label=e,
+            label=(values[e]["name"] + " " + str(i+1)) if e == "co60" else values[e]["name"],
             zorder=2,
             elinewidth=1,
             fmt=".",
@@ -191,8 +224,86 @@ plt.title("Calibration Fit, Channel vs. Energy")
 plt.savefig("calibration.png")
 
 
+# plot Energyresolution
+plt.cla()
+lims    = [.2, 1.5]
+fitlims = [.3, 1.5]
+
+plt.xlim(lims)
+
+fitpointsx = np.array([])
+fitpointsy = np.array([])
+
+for e in values.keys():
+    for i, v in enumerate(values[e]['energy_theo']):
+        depth = len(values[e]["energy_theo"])
+        plt.errorbar(
+            (values[e]["marked_ch"][-depth +i]*fit_en_m+fit_en_c).n,
+            (values[e]["peak_params"][i][1]*2*fit_en_m).n,
+            xerr=(values[e]["marked_ch"][-depth +i]*fit_en_m+fit_en_c).s,
+            yerr=(values[e]["peak_params"][i][1]*2*fit_en_m).s,
+            label= (values[e]["name"] + " " + str(i+1)) if e == "co60" else values[e]["name"],
+            zorder=2,
+            elinewidth=1,
+            fmt=".",
+            ms=4
+        )
+
+        fitpointsx = np.append(fitpointsx,np.array([values[e]["marked_ch"][-depth +i]*fit_en_m.n+fit_en_c.n]))
+        fitpointsy = np.append(fitpointsy,np.array([values[e]["peak_params"][i][1].n*2*fit_en_m.n]))
+        #print(e, i, -depth+i, values[e]["peak_params"][-depth +i][1].n)
+
+ef = lambda x, intensity, w, c: c + np.exp(x/w) * intensity
+
+fparams = vtp.fit(
+    fitpointsx,
+    fitpointsy,
+    ef,
+    [
+        1,
+        1,
+        0
+    ],
+    None
+)
+
+fx_data = np.arange(*fitlims, .1)
+
+plt.plot(
+    fx_data,
+    ef(fx_data, *unp.nominal_values(fparams)),
+    label="exp. Fit: $I\cdot e^{E/w} + c$",
+    color="gray"
+)
+
+## add the curve parameters to plot
+
+plt.annotate(
+    "$\Delta E = ({c:.3fL}) keV + ({I:.3fL}) keV \cdot e^{{E/({w:.3fL}) keV}}$".format(c=fparams[2]*1000, I=fparams[0]*1000, w=fparams[1]*1000),
+    xy=(.7, 0.05),
+    xycoords='data',
+    xytext=(0, 0),
+    textcoords='offset points',
+    fontsize=14,
+    bbox=dict(
+        boxstyle="round",
+        fc="1"
+    )
+)
+
+
+plt.xlabel('Energy / MeV')
+plt.ylabel('$\Delta$ Energy / MeV')
+plt.legend()
+plt.savefig("eres.png")
+
+
+
+plt.cla()
 ax1 = fig.add_subplot(111)
 ax2 = ax1.twiny()
+
+
 
 
 # plot intensity
@@ -236,9 +347,15 @@ for e in values.keys():
     for i, interv in enumerate(values[e]["fitting_interval"]):
         fit_xdata = np.arange(interv[0], interv[1])
 
+
         ax1.plot(
             fit_xdata,
-            distr(fit_xdata, values[e]["peak_params"][i][0].n, values[e]["peak_params"][i][1].n, values[e]["peak_params"][i][2].n)
+            distr(
+                fit_xdata,
+                values[e]["peak_params"][i][0].n,
+                values[e]["peak_params"][i][1].n,
+                values[e]["peak_params"][i][2].n
+            )# + offset
         )
 
     ylimits = np.array([0, ymax])

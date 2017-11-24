@@ -6,9 +6,10 @@ import VisTools.printing as vto
 import pandas as pd
 import numpy as np
 import uncertainties.unumpy as unp
+import uncertainties as unc
 import scipy.optimize as opt
 
-plt.figure(figsize=(11.7, 8.3)) # DIN A4
+fig =   plt.figure(figsize=(11.7, 8.3)) # DIN A4
 plt.style.use('bmh')
 collected_data = pd.DataFrame()
 
@@ -98,6 +99,9 @@ plt.xlabel('channel')
 plt.ylabel('Time / ns')
 plt.savefig('time_calibration.png')
 
+fit_m = unc.ufloat(fparams[0][0], np.sqrt(fparams[1][0][0]))
+fit_c = unc.ufloat(fparams[0][1], np.sqrt(fparams[1][1][1]))
+
 
 # apply calibration on co60
 
@@ -124,11 +128,13 @@ fparams = opt.curve_fit(
     p0 = p0
 )
 
-
+# plot co60
 plt.cla()
+
 plt.plot(
     data.index.values[:-1],
-    data['int'][:-1]
+    data['int'][:-1],
+    color="gray"
 )
 
 plt.plot(
@@ -136,6 +142,33 @@ plt.plot(
     distr(np.array(x_data), *fparams[0])
 )
 
-plt.xlim([0, 500])
+plt.hlines(
+    fparams[0][2]/2,
+    fparams[0][0] -fparams[0][1],
+    fparams[0][0] +fparams[0][1],
+    linestyles="dotted",
+    colors="red"
+)
 
+fwhm = unc.ufloat(fparams[0][1], np.sqrt(fparams[1][1][1]))
+
+
+plt.annotate(
+    "FWHM $=\\ {:.3fL}$\n\t$\quad=\ {:.3fL}$ ns".format(2*fwhm, 2*fwhm * fit_m),
+    xy=(50, 20),
+    xycoords='data',
+    xytext=(0, 0),
+    textcoords='offset points',
+    fontsize=14,
+    bbox=dict(
+        boxstyle="round",
+        fc="1"
+    )
+)
+
+lims = [0, 500]
+plt.xlim(lims)
+
+plt.xlabel("channel")
+plt.ylabel("Intensity")
 plt.savefig('time_co60.png')

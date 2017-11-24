@@ -99,7 +99,7 @@ fp13Analysis::~fp13Analysis()
 // PUBLIC MEMEBER FUNCTIONS
 ////////////////////////////////////////////////////////////////////////
 // Einlesen und Formatieren der Daten
-int fp13Analysis::readEvent() 
+int fp13Analysis::readEvent()
 {
 	// falls das Ende der Datei erreicht wurde, wird -1 zurueckgegeben
 	if (inputFile.eof())
@@ -182,7 +182,7 @@ int fp13Analysis::readEvent()
 					delay << " deltaData " << deltadata <<
 					"." << endl;
       //Wenn signale 40ns oder naeher zusammenliegen werden sie zusammengefuegt (endl. Zeitaufloesung)
-			if (delay <= 60){ 
+			if (delay <= 60){
 				detectorHitMask[detectorHitMask.size() - 2] = detectorHitMask[detectorHitMask.size() - 2] | hitMask;
 				detectorHitMask.pop_back();
 				detectorHitTimes.pop_back();
@@ -228,7 +228,7 @@ int fp13Analysis::readEvent()
 }
 
 // Analyse der Daten und Fuellen der Histogramme
-void fp13Analysis::analyze() 
+void fp13Analysis::analyze()
 {
 	// Mitzaehlen, wie viele Ereignisse analysiert wurden
 	++analyzedCounter;
@@ -257,8 +257,8 @@ void fp13Analysis::analyze()
 					(1 << iDetectorLayer))
 				h1->Fill(iDetectorLayer);
 		}
-		// Zeitpunkt des Hits im ersten Zeitbin in jeder Detektorlage 
-		//   -- falls es noch einen ersten Zeitbin gibt und 
+		// Zeitpunkt des Hits im ersten Zeitbin in jeder Detektorlage
+		//   -- falls es noch einen ersten Zeitbin gibt und
 		//   -- falls ein solcher vorhanden war
 		if (detectorHitMask.empty())
 			continue;
@@ -300,7 +300,7 @@ void fp13Analysis::analyze()
 		// falls nichts gefunden wurde, andernfalls wird die Lage
 		// des Nachpulses/Zerfalls angegeben
 		int where = -1;
-	
+
 		where = findDecayUpward(iTimeBin);
 		if (-1 != where) {
 			// OK, Zerfall nach oben gefunden - Flags setzen
@@ -367,7 +367,7 @@ void fp13Analysis::analyze()
 	// Fuelle Anzahl der beruecksichtigten Zeitfenster in dem Ereignis
 	// Fuelle nur, falls ein Zerfall nach oben oder unten gefunden wurde
 	if (eventFlags & FlagDecay)
-		h7->Fill(detectorHitMask.size());	
+		h7->Fill(detectorHitMask.size());
 	// Glueckwunsch - Analyse des Events ist hier beendet! ;)
 }
 
@@ -409,7 +409,7 @@ void fp13Analysis::bookHistograms()
 		40, 0., 20.);
 	h7 = new TH1D("h7",
 		"Anzahl der genommenen Slices; Slices; Anzahl der Hits",
-		40, 0., 20.);    
+		40, 0., 20.);
 	h8 = new TH1D("h8",
 		"Letzte vom einlaufenden Myon kontinuierlich getroffene Detektorlage; Detektorlage; Anzahl der Hits",
 		nLayers, -0.5, -0.5 + nLayers);
@@ -421,22 +421,22 @@ void fp13Analysis::bookHistograms()
 						"Zeit [ns]; Anzahl der Hits",
 						iDetectorLayer ),
 					40, 0.,   200.));
-		h22.push_back(new TH1D(Form("x%i", iDetectorLayer), 
+		h22.push_back(new TH1D(Form("x%i", iDetectorLayer),
 					Form("Nachpulse fuer Detektor %i; "
 						"Zeit [ns]; Anzahl der Hits",
 						iDetectorLayer),
 					125, 0., 50000.));
-		h23.push_back(new TH1D(Form("a%i", iDetectorLayer), 
+		h23.push_back(new TH1D(Form("a%i", iDetectorLayer),
 					Form("Zerfall nach oben in Lage %i; "
 						"Zeit [ns]; Anzahl der Hits",
 						iDetectorLayer),
 					125, 0., 50000.));
-		h24.push_back(new TH1D(Form("b%i", iDetectorLayer), 
+		h24.push_back(new TH1D(Form("b%i", iDetectorLayer),
 					Form("Zerfall nach unten in Lage %i; "
 						"Zeit [ns]; Anzahl der Hits",
 						iDetectorLayer),
 					125, 0., 50000.));
-		h25.push_back(new TH1D(Form("w%i", iDetectorLayer), 
+		h25.push_back(new TH1D(Form("w%i", iDetectorLayer),
 					Form("Nachpulse2 fuer Detektor %i; "
 						"Zeit [ns]; Anzahl der Hits",
 						iDetectorLayer),
@@ -506,7 +506,7 @@ int fp13Analysis::findDecayUpward(int timeBin)
 	// fertig (warum?)
 	if ((nLayers - 1) == lastMuonLayer)
 		return -1;
-	
+
 	// Teste, ob ein Teilchen nach oben emittiert wird
 	// (der Test funktioniert wie oben in der Methode
 	// determineLastLayerHitByIncomingMuon())
@@ -516,7 +516,7 @@ int fp13Analysis::findDecayUpward(int timeBin)
 		// lastMuonLayer
 		return lastMuonLayer;
 	}
-	
+
 	return -1;
 }
 
@@ -586,8 +586,9 @@ int fp13Analysis::findAfterpulsesUsingThroughGoingMuons(int timeBin,
 int fp13Analysis::findAfterpulsesImproved(int timeBin, int startLayer)
 {
 
+
     if (-1 == startLayer || startLayer >= 6)
-        startLayer = 6 - 1;
+        startLayer = lastMuonLayer;
 
     for (int iLayer = startLayer - 1; iLayer >= 0; iLayer--) {
         // teste, ob nur in der Lage iLayer ein Puls registriert wurde

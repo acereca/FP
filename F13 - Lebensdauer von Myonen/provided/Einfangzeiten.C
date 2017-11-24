@@ -144,7 +144,7 @@ void Einfangzeiten(double xmin = 300., double xmax = 20000.,
 		// die skalierten Nachpulsspektren werden hier
 		// von den gemessenen Zerfallsspektren abgezogen
 		a[iLayer]->Add(x[iLayer],
-				- .6* getAfterpulseScaleFactor(iLayer, true, h8));
+				- getAfterpulseScaleFactor(iLayer, true, h8));
 		b[iLayer]->Add(x[iLayer],
 				- getAfterpulseScaleFactor(iLayer, false, h8));
 	}

@@ -160,7 +160,7 @@ void Lebensdauer(double xmin = 300., double xmax = 20000.,
 
         //FIXME
 		a[iLayer]->Add(x[iLayer],
-				- .7* getAfterpulseScaleFactor(iLayer, true, h8)*var);
+				- getAfterpulseScaleFactor(iLayer, true, h8)*var);
 		b[iLayer]->Add(x[iLayer],
 				- getAfterpulseScaleFactor(iLayer, false, h8)*var);
 	}
