@@ -120,25 +120,25 @@ fit_c = unc.ufloat(fparams[0][1], np.sqrt(fparams[1][1][1]))
 # apply calibration on co60
 
 data = pd.read_table(
-    "data/co60_timespec",
+    "data/cs137_timespec_delaynone",
     header=None,
     decimal=','
 ).transpose()
 
 data.columns = ['int']
-
-x_data = np.arange(200, 450)
+lims = [1400, 1900]
+x_data = np.arange(*lims)
 
 p0 = [
-    325,
-    50,
-    50
+    1650,
+    100,
+    150
 ]
 
 fparams = opt.curve_fit(
     distr,
     x_data,
-    data['int'][200:450],
+    data['int'][lims[0]:lims[1]],
     p0 = p0
 )
 
@@ -175,11 +175,11 @@ plt.hlines(
 )
 
 fwhm = unc.ufloat(fparams[0][1], np.sqrt(fparams[1][1][1]))
-
+mean = unc.ufloat(fparams[0][0], np.sqrt(fparams[1][0][0]))
 
 plt.annotate(
-    "FWHM $=\\ {:.3fL}$\n\t$\quad=\ {:.3fL}$ ns".format(2*fwhm, 2*fwhm * fit_m),
-    xy=(50, 20),
+    "m $=\\ {:.3fL}$\n\t$\quad=\ {:.3fL}$ ns".format(mean, mean * fit_m),
+    xy=(1600, 20),
     xycoords='data',
     xytext=(0, 0),
     textcoords='offset points',
@@ -190,13 +190,31 @@ plt.annotate(
     )
 )
 
-lims = [0, 500]
+plt.vlines(
+    mean.n,
+    fparams[0][2],
+    0,
+    linestyles='dotted',
+    color='gray'
+)
+
+plt.annotate(
+    "FWHM $=\\ {:.3fL}$\n$\quad=\ {:.3fL}$ ns".format(2*fwhm, 2*fwhm * fit_m),
+    xy=(1420, 70),
+    xycoords='data',
+    xytext=(0, 0),
+    textcoords='offset points',
+    fontsize=14,
+    bbox=dict(
+        boxstyle="round",
+        fc="1"
+    )
+)
+
 plt.xlim(lims)
 
-plt.xlim([0, 500])
-
 plt.legend()
-plt.title("Time dependent coincidence measurement of $^{60}$Co")
+plt.title("Time dependent coincidence measurement of $^{137}$Cs")
 plt.xlabel("channel")
 plt.ylabel("Intensity")
-plt.savefig('time_co60.png')
+plt.savefig('time_cs137.png')

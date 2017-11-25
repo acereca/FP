@@ -142,6 +142,7 @@ fit_en_m, fit_en_c = vtp.fit_linear(
     None
 )
 
+
 ###############################################################################
 # calibration plot
 ## figure setup
@@ -195,6 +196,23 @@ plt.xlabel("channel")
 plt.ylabel("Energy / MeV")
 plt.title("Calibration Fit, Channel vs. Energy")
 plt.savefig("energy_calibration.png")
+
+
+###############################################################################
+# underground plot
+
+plt.clf()
+plt.plot(
+    np.array(collected_data.index.values.tolist()) * fit_en_m.n + fit_en_c.n,
+    collected_data["underground_int"]
+)
+
+plt.xlim([0,1.5])
+plt.ylim([-100,2500])
+plt.xlabel("Energy / MeV")
+plt.ylabel("Intensity")
+plt.savefig("int_underground.png")
+
 
 ###############################################################################
 # plot Energyresolution
@@ -287,10 +305,10 @@ for e in values.keys():
 
     # plot intensity measurements
     ax1.plot(
-        collected_data.index.values,
         collected_data[e + "_int"] -
             collected_data["underground_int"] /
             71304 * values[e]["timeframe"],
+        collected_data.index.values,
         color="gray"
     )
 
@@ -378,10 +396,15 @@ coinc_list = {
         "fitting_interval": [[1.2, 1.325], [1.36, 1.49]],
         "name":             "$^{60}$Co"
     },
-    "cs137": {
+    "cs137_uncal":{
+        "filename":         "cs137_koinz_02",
+        "fitting_interval": [[0.68, 0.8]],
+        "name":             "$^{137}$Cs uncalibrated"
+    },
+    "cs137_cal": {
         "filename":         "cs137_koinz_03",
         "fitting_interval": [[0.68, 0.8]],
-        "name":             "$^{137}$Cs"
+        "name":             "$^{137}$Cs calibrated"
     }
 }
 
@@ -429,18 +452,18 @@ for e in coinc_list.keys():
                 (" no. {}".format(i+1) if e == "co60" else "")
         )
 
-        plt.errorbar(
-            xdata[np.logical_not(fitfilter)],
-            distr(
-                xdata[np.logical_not(fitfilter)],
-                *(unp.nominal_values(fparams))
-            ),
-            fmt = ".",
-            markersize=1
-        )
+        # plt.errorbar(
+        #     xdata[np.logical_not(fitfilter)],
+        #     distr(
+        #         xdata[np.logical_not(fitfilter)],
+        #         *(unp.nominal_values(fparams))
+        #     ),
+        #     fmt = ".",
+        #     markersize=1
+        # )
 
 
-    plt.hlines()
+    #plt.hlines()
 
 
     ilist = data[data[e] > 5].index.tolist()
