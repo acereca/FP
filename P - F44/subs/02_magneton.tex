@@ -18,29 +18,64 @@
       $\Rightarrow$ Abweichung: < 1$\sigma$
     \end{myframe}
 
-    %TODO: insert Abb4
+    \begin{myframe}{}
+        \begin{figure}
+          \includegraphics[height=.85\paperheight]{img/hysteresis.png}
+          \caption{Hysterese}
+          \label{Hysterese}
+        \end{figure}
+    \end{myframe}
 
   \subsection{Polarisation}
     \subsubsection{longitudinal}
       \begin{myframe}{\subsecname\ - \subsubsecname}
-        \begin{itemize}
-          \item mit und ohne linearem Polarisationsfilter: 2 Linien pro Beugungsordnung
-          \item[$\rightarrow$] zirkulär polarisiert
-          \item[]
-          \item mit $\lambda /4$-Filter in linear polarisiertes umwandeln
-          \item jetzt erhält man eine Linie pro Beugungsordnung, nach linearem Polarisationsfilter
-          \item[$\rightarrow$] Rotation des Linearfilters um 90° wechselt zwischen beiden Linien
-        \end{itemize}
+        \onslide<1,3>{
+          \begin{itemize}
+            \item mit und ohne linearem Polarisationsfilter: 2 Linien pro Beugungsordnung
+            \item[$\rightarrow$] zirkulär polarisiert
+            \item[]
+            \item<3> mit $\lambda /4$-Filter in linear polarisiertes umwandeln
+            \item<3> jetzt erhält man eine Linie pro Beugungsordnung, nach linearem Polarisationsfilter
+            \item[$\rightarrow$]<3> Rotation des Linearfilters um 90° wechselt zwischen beiden Linien
+          \end{itemize}
+        }
+        \onslide<2,4>{
+          \vspace{-.35\paperheight}
+        }
+        \begin{figure}
+          \centering
+          \onslide<2>{
+            \includegraphics[height=.6\paperheight]{img/long_ohne.png}
+            \caption{longitudinale Polarisation ohne Fiter}
+            \label{long_ohne}
+          }
+          \onslide<4>{
+            \vspace{-.75\paperheight}
+            \includegraphics[width=.5\paperwidth, trim={0 650pt 0 200pt}, clip]{img/long_2}
+            \includegraphics[width=.5\paperwidth, trim={0 0 0 886pt}, clip]{img/long_1}
+            \caption{Beobachtete Linien in longitudinaler Richtung, mit $\lambda$/4-Filter und linearem Polarisationsfilter}
+            \label{long_mit}
+          }
+        \end{figure}
       \end{myframe}
 
       \subsubsection{transversal}
-       \begin{myframe}{\subsecname\ - \subsubsecname}
+        \begin{myframe}{\subsecname\ - \subsubsecname}
            \begin{itemize}
              \item Beobachtung von 3 Linien
              \item[$\rightarrow$] Rotation des Linearfilters um 90° wechselt zwischen den $\sigma$-Linien und der $\pi$-Linie
              \item[$\rightarrow$] linear polarisiert
            \end{itemize}
-       \end{myframe}
+        \end{myframe}
+
+        \begin{myframe}{\subsecname\ - \subsubsecname}
+          \begin{figure}
+            \includegraphics[width=.8\paperwidth, trim={0 300pt 0 900pt}, clip]{img/trans_pi}
+            \includegraphics[width=.8\paperwidth, trim={0 300pt 0 900pt}, clip]{img/trans_sig}
+            \caption{Beobachtete Linien in transversaler Ausrichtung, mit linearem Polarisationsfilter}
+            \label{trans}
+          \end{figure}
+        \end{myframe}
 
   \subsection{Bestimmung der Wellenlängenverschiebung}
     \subsubsection{Positionsbestimmung}

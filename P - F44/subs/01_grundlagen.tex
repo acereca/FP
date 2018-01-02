@@ -1,12 +1,15 @@
 % !TeX root = ../pres.tex
 
 \section{Einleitung}
+
+
     \subsection{Grundlagen}
         \begin{myframe}{\subsecname}
             Beschreibung des Zeeman - Effekt in einer Näherung:
             \begin{itemize}
-                \item $\vec{l} = \vec{r} \times \vec{p} = m_e \cdot v \cdot \vec{n}$
-                \item Elektron kann mit einem Strom $ I $ und magnetischen Moment $\mu_{l}$ beschrieben werden.
+                \item Drehimpuls des Elektrons: \\ $\vec{l} = \vec{r} \times \vec{p} = m_e \cdot v \cdot \vec{n}$
+                \item Elektron kann mit einem Strom $ I $ und magnetischen Moment $\mu_{l}$ beschrieben werden. \\
+                $\vec{\mu_{l}} = \underbrace{I}_{- e \frac{v}{2 \pi r}} \cdot \underbrace{\vec{A}}_{\text{Flächenvektro zur Orbitfläche}} = \frac{evr}{2} \vec{n}$
                 \item Interaktion mit externen Magnetfeld und dem magnetischen Moment ergibt sich Änderung der potentiellen Energie
                 \item mit $\vec{l}$ und $\vec{B} \parallel \vec{l}$ erhält man
                 \begin{itemize}
@@ -39,13 +42,66 @@
             \end{align*}
         \end{myframe}
 
-        \begin{myframe}{\subsecname}
 
+
+    \subsection{Auswahlregeln}
+        \begin{myframe}{\subsecname}
+            % \begin{itemize}
+                % \item Impuls-, Drehimpulserhaltung
+                % \item Symmetrieeigenschafen
+                % \item $\vec{M_{ik}} = e \int \Psi_i^* \; \vec{r} \; \Psi_k \; dV \neq 0 $
+            \begin{equation*}
+                \vec{M_{ik}} = e \int \Psi_i^* \; \vec{r} \; \Psi_k \; dV \neq 0
+            \end{equation*}
+                \begin{columns}
+                    \begin{column}{0.48\textwidth}
+                    Auswahlregeln:
+                        \begin{itemize}
+                            \item $\Delta M_J = M_{J,i} - M_{J,k} = 0, \pm 1 $
+                            \item $\Delta L = \pm 1 \text{ und } \Delta S = 0 $
+                            \item $\Delta M_J = \pm 1 \; \widehat{=}$ zirkular polarisierendem Licht mit Phasenverschiebung $\frac{\pi}{2}$ \\ ($\sigma$ - Übergang)
+                            \item $\Delta M_J = 0 \; \widehat{=}$ linear polarisierendem Licht ($\pi$ - Übergang)
+                        \end{itemize}
+                    \end{column}
+                    \begin{column}{0.48\textwidth}
+                        \begin{figure}
+                            \includegraphics[width=0.8\linewidth]{img/zeemanSplittingScheme.png}
+                            \caption{Zeeman - Effekt Thermschema, Quelle: FP 44 Versuchsscript}
+                            \label{zeemanEffektScheme}
+                        \end{figure}
+                    \end{column}
+                \end{columns}
+                % \item $\Delta M_J = \pm 1 \; \widehat{=}$ zirkular polarisierendem Licht mit Phasenverschiebung $\frac{\pi}{2}$ \\ ($\sigma$ - Übergang)
+                % \item $\Delta M_J = 0 \; \widehat{=}$ linear polarisierendem Licht ($\pi$ - Übergang)
+            % \end{itemize}
 
         \end{myframe}
 
-    \subsection{Auswahlregeln}
+
 
     \subsection{Lummer - Gehrcke Platte}
+        \begin{myframe}{\subsecname}
+            \begin{figure}
+                \includegraphics[width=0.8\linewidth]{img/lummerGehrckePlate.png}
+                \caption{Lummer - Gehrcke Platte, Quelle: FP 44 Versuchsscript}
+                \label{lummerGehrckePlate}
+            \end{figure}
+            \begin{itemize}
+                \item Licht wird nahe der Totalreflexion reflektiert
+                \item Hohe Auflösung durch Interferenz der ausfallenden Lichtstrahlen mit Gangunterschied
+                    \begin{equation*}
+                        \Delta \approx 2d \cdot \sqrt{n^2 - 1} = k \lambda \text{, } k \in \mathbb{N} \qquad \qquad \text{für } \alpha \sim 90^{\circ}
+                    \end{equation*}
+            \end{itemize}
+        \end{myframe}
+
+
 
     \subsection{Czerny - Turner Spektrometer}
+        \begin{myframe}{\subsecname}
+            \begin{figure}
+                \includegraphics[width=0.6\linewidth]{img/czernyTurnerSpectrometer_Wikipedia.png}
+                \caption{Aufbau eines Czerny - Turner Spektrometer, Quelle: https://de.wikipedia.org/wiki/Monochromator}
+                \label{czernyTurnerSpektrometer}
+            \end{figure}
+        \end{myframe}

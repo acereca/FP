@@ -237,11 +237,11 @@ void Lebensdauer(double xmin = 300., double xmax = 20000.,
 	c0->cd(); 		// Canvas ansteuern
 	c0->Clear();		// und leeren
 	c0->Divide(2, (nLayers-2)/2);	// in sechs Felder aufteilen
-	//gPad->SetLogy();	// in y logarithmische Skala setzen
+        gPad->SetLogy();	// in y logarithmische Skala setzen
 
 	for (int i = 1; i < nLayers-1; ++i) {
 		c0->cd(i);	// ein Feld ansteuern
-		//gPad->SetLogy();// in y logarithmische Skala setzen
+		gPad->SetLogy();// in y logarithmische Skala setzen
 		a[i]->DrawClone("e"); // und zeichnen
 	}
 
@@ -249,10 +249,10 @@ void Lebensdauer(double xmin = 300., double xmax = 20000.,
 	c1->cd();
 	c1->Clear();
 	c1->Divide(2,(nLayers-2)/2);
-	//gPad->SetLogy();
+	gPad->SetLogy();
 	for (int i = 1; i < nLayers-1; ++i) {
 		c1->cd(i);
-		//gPad->SetLogy();
+		gPad->SetLogy();
 		b[1 + i]->DrawClone("e");
 	}
 
@@ -260,11 +260,11 @@ void Lebensdauer(double xmin = 300., double xmax = 20000.,
 	c2->cd();
 	c2->Clear();
 	c2->Divide(2, (nLayers-2)/2);
-	//gPad->SetLogy();
+	gPad->SetLogy();
 
 	for (int i = 1; i < nLayers-1; ++i) {
 		c2->cd(i);
-		//gPad->SetLogy();
+		gPad->SetLogy();
 		x[i]->DrawClone("e");
 	}
 
