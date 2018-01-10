@@ -10,3 +10,10 @@ vendor/
 
 *.nav
 *.snm
+
+*.pdf
+*.xdv
+*.toc
+*.out
+*.fls
+*.fdb_latexmk
