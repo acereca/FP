@@ -37,7 +37,7 @@
 \setbeamertemplate{caption}[numbered]
 
 %% These macros specify information about the presentation
-\title{FP F44 - Zeemaneffekt} %% that will be typeset on the
+\title{FP F44 - Zeeman-Effekt} %% that will be typeset on the
 \author{Patrick Nisble, David Bubeck}
 
 % testing
@@ -46,14 +46,23 @@
 % vars
 \var\inclineUp{\SI{39.461+-2.198}{\milli\tesla\per\ampere}}
 \var\inclineDown{\SI{38.874+-2.192}{\milli\tesla\per\ampere}}
-\var\magnetonOne{\SI{9.956+-0.414e-24}{\joule\per\tesla}}
-\var\magnetonTheo{\SI{9.274e-24}{\joule\per\tesla}} % 0099942
-\var\magnetonTwo{\SI{8.138+-0.271e-24}{\joule\per\tesla}}
-\var\lambdaCdTheo{\SI{643.847}{nm}}
-\var\lambdaCd{\SI{643.927+-0.571}{\nano\metre}}
+
+\var\magnetonOneVal{9.956+-0.414}
+\var\magnetonOne{\SI{\magnetonOneVal e-24}{\joule\per\tesla}}
+\var\magnetonTheoVal{9.274}
+\var\magnetonTheo{\SI{\magnetonTheoVal e-24}{\joule\per\tesla}} % 0099942
+\var\magnetonTwoVal{8.138+-0.271}
+\var\magnetonTwo{\SI{\magnetonTwoVal e-24}{\joule\per\tesla}}
+
+\var\lambdaCdTheoVal{643.847}
+\var\lambdaCdTheo{\SI{\lambdaCdTheoVal}{nm}}
+\var\lambdaCdVal{643.927+-0.571}
+\var\lambdaCd{\SI{\lambdaCdVal}{\nano\metre}}
 \var\lambdaTh{\SI{652.250}{nm}}
-\var\lambdaXe{\SI{652.151}{nm}}
-\var\lambdaUk{\SI{652.253+-0.269}{nm}}
+\var\lambdaXeVal{652.151}
+\var\lambdaXe{\SI{\lambdaXeVal}{nm}}
+\var\lambdaUkVal{652.253+-0.269}
+\var\lambdaUk{\SI{\lambdaUkVal}{nm}}
 \var\pxCd{\SI{547.945+-4.310}{px}}
 
 \frenchspacing
@@ -72,6 +81,7 @@
 
 
   \input{subs/01_grundlagen}
+  \input{subs/versuchsaufbau}
   \input{subs/02_magneton}
   \input{subs/03_wellenlange}
   \input{subs/04_zusammenfassung}
