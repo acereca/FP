@@ -1,0 +1,25 @@
+\select@language {ngerman}
+\beamer@sectionintoc {1}{Einleitung}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Grundlagen}{4}{0}{1}
+\beamer@subsectionintoc {1}{2}{Auswahlregeln}{6}{0}{1}
+\beamer@subsectionintoc {1}{3}{Lummer - Gehrcke Platte}{7}{0}{1}
+\beamer@subsectionintoc {1}{4}{Czerny - Turner Spektrometer}{8}{0}{1}
+\beamer@sectionintoc {2}{Versuchsaufbau}{9}{0}{2}
+\beamer@subsectionintoc {2}{1}{1. Versuchsteil - Spektroskopie des Zeeman --- Effekts}{10}{0}{2}
+\beamer@subsectionintoc {2}{2}{2. Versuchsteil - Wellenlängenbestimmung}{12}{0}{2}
+\beamer@sectionintoc {3}{Bohr'sches Magneton}{14}{0}{3}
+\beamer@subsectionintoc {3}{1}{Hysterese Effekt}{15}{0}{3}
+\beamer@subsectionintoc {3}{2}{Polarisation}{17}{0}{3}
+\beamer@subsubsectionintoc {3}{2}{1}{longitudinal}{17}{0}{3}
+\beamer@subsubsectionintoc {3}{2}{2}{transversal}{21}{0}{3}
+\beamer@subsectionintoc {3}{3}{Bestimmung der Wellenlängenverschiebung}{23}{0}{3}
+\beamer@subsubsectionintoc {3}{3}{1}{Positionsbestimmung}{23}{0}{3}
+\beamer@subsubsectionintoc {3}{3}{2}{Ordnungsverschiebung}{25}{0}{3}
+\beamer@subsubsectionintoc {3}{3}{3}{Wellenlängenverschiebung}{27}{0}{3}
+\beamer@subsectionintoc {3}{4}{Bestimmung des Bohr'schen Magneton}{30}{0}{3}
+\beamer@subsubsectionintoc {3}{4}{1}{Methode 1: statistisches Mittel}{30}{0}{3}
+\beamer@subsubsectionintoc {3}{4}{2}{Methode 2: linearer Fit}{31}{0}{3}
+\beamer@sectionintoc {4}{Wellenlänge}{32}{0}{4}
+\beamer@subsectionintoc {4}{1}{Cadmium-Linie}{35}{0}{4}
+\beamer@subsectionintoc {4}{2}{unbekannte Linie}{37}{0}{4}
+\beamer@sectionintoc {5}{Zusammenfassung}{39}{0}{5}

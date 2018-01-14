@@ -100,7 +100,7 @@
         \begin{tabular}{p{0.48\textwidth}p{0.4\textwidth}}
           \begin{itemize}
             \item (theoretische) ganzzahligen Ordnung
-            \item kontinuierliche Polynomfitfkt
+            \item Ordnungszahl aus kontinuierlichem Polynomfit
           \end{itemize} &
           \begin{itemize}
             \item[] $\mapsto \pi$-linien
@@ -121,14 +121,6 @@
       \end{myframe}
 
     \subsubsection{Wellenlängenverschiebung}
-      \begin{myframe}{\subsecname\ - \subsubsecname}
-        für kleine Verschiebungen gilt:
-        \begin{align}
-          \delta\lambda = \frac{\delta a}{\Delta a}\cdot \Delta\lambda\approx\delta k\cdot\lambda k,
-          &\qquad\Delta\lambda = \frac{\lambda^2}{2d\cdot\sqrt{n^2-1}}\\
-        \end{align}
-        \scriptsize (n = \SI{1.4567}{}, d=\SI{4.04e-3}{m})
-      \end{myframe}
       \begin{myframe}{}
           \begin{figure}
               \centering
@@ -137,6 +129,14 @@
               \includegraphics[height=.85\paperheight]{img/diff_sco13A}
               \caption{Verschiebung der Beugungsordnung} 
           \end{figure}
+      \end{myframe}
+      \begin{myframe}{\subsecname\ - \subsubsecname}
+        für kleine Verschiebungen gilt:
+        \begin{align}
+          \delta\lambda = \frac{\delta a}{\Delta a}\cdot \Delta\lambda\approx\delta k\cdot\lambda k,
+          &\qquad\Delta\lambda = \frac{\lambda^2}{2d\cdot\sqrt{n^2-1}}\\
+        \end{align}
+        \scriptsize (n = \SI{1.4567}{}, d=\SI{4.04e-3}{m})
       \end{myframe}
       \begin{myframe}{\subsecname\ - \subsubsecname}
           mit der von uns sp\"ater bestimmten Wellenl\"ange von Cadmium
@@ -153,14 +153,12 @@
   \subsection{Bestimmung des Bohr'schen Magneton}
   \subsubsection{Methode 1: statistisches Mittel}
       \begin{myframe}{\subsecname\ - \\\subsubsecname}
-         \begin{table}[H]                                                             
-             \centering                                                               
-             \input{tbl/deltatable1}                                                  
-             \caption{$\delta\lambda$ für die drei beobachteten Stromstärken, sowie für beide $\sigma$-Linien}                                                 
-         \end{table}
-         \begin{align}
-             \Rightarrow \quad \mu_B &= \magnetonOne\\
-             \mu_{B, theo} &= \magnetonTheo \quad \rightarrow \SI{1.6}{\sigma}
+          \begin{align}
+                \Delta E         &= \frac{hc}\lambda-\frac{hc}{\lambda+\delta\lambda}\qquad
+                \Delta(\Delta E) = \frac{hc}{(\lambda+\delta\lambda)^2}\cdot\Delta(\delta\lambda              )\\
+                \mu_B&=\left| \frac{\Delta E}{B} \right|\\\nonumber\\
+                \Rightarrow \quad \mu_B &= \magnetonOne\\
+                \mu_{B, theo} &= \magnetonTheo \quad \rightarrow \SI{1.6}{\sigma}
          \end{align}
       \end{myframe}      
   \subsubsection{Methode 2: linearer Fit}
