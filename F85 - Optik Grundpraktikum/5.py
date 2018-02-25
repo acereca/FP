@@ -9,7 +9,12 @@ plt.figure(figsize=(8.27,5.83))
 plt.style.use('bmh')
 
 data = pd.read_csv('./5.csv', skipinitialspace=True)
-print(data.columns)
+
+err_dict = {
+    "V_i": .01, # V
+    "V_o": .01, #kV
+    "V_d": .15  # V
+}
 
 naming_dict = {
     'V_i': '$V_{in}$ / V',
@@ -22,12 +27,13 @@ naming_dict = {
 data.rename(columns=naming_dict, inplace=True)
 
 # 5.2.1 Amplifier Calibration
+print("# 5.2.1 - Amplifier Calibration")
 plt.errorbar(
     data[naming_dict['V_i']],
     data[naming_dict['V_o']],
     fmt='.',
-    yerr=.02,
-    xerr=.02,
+    yerr=err_dict["V_o"],
+    xerr=err_dict["V_i"],
     label="measured data"
 )
 
@@ -35,7 +41,7 @@ rm, rc = vt.fit_linear(
     data[naming_dict["V_i"]],
     data[naming_dict["V_o"]],
     [.3, 0],
-    [.1]* len(data[naming_dict["V_i"]]),
+    [err_dict["V_i"]]* len(data[naming_dict["V_i"]]),
     "linear fit: $V_{in}\cdot m + c = V_{out}$"
 )
 
@@ -54,6 +60,7 @@ vp.unc_pp('rc', rc*1000, 'V')
 print()
 
 # 5.2.2 Mach-Zehner Interferometer
+print("# 5.2.2 - Mach-Zehner Interferometer")
 fig, ax = plt.subplots(2,1, sharex=True, figsize=(8.27, 5.83))
 
 # Axis 1
@@ -89,7 +96,8 @@ print()
 ax[1].errorbar(
     data[naming_dict["V_i"]],
     data[naming_dict["V_p2"]],
-    xerr=.05,
+    xerr=err_dict["V_i"],
+    yerr=err_dict["V_d"],
     fmt='.',
     label="measurements"
 )
@@ -121,6 +129,7 @@ plt.savefig("522.png")
 plt.clf()
 
 # 5.3 intensity Modulation
+print("# 5.3 - Polarisation Manipulation")
 fig, ax = plt.subplots(2,1, sharex=True, figsize=(8.27, 5.83))
 
 ## Axis 1
@@ -128,38 +137,46 @@ ax[0].errorbar(
     data[naming_dict["V_i"]],
     data[naming_dict["V_po1"]],
     fmt='.',
-    xerr=.05,
+    xerr=err_dict["V_i"],
+    yerr=err_dict["V_d"],
     label="measurements"
 )
 
 params = vt.fit(
     data[naming_dict["V_i"]],
     data[naming_dict["V_po1"]],
-    ffunc_cos,
-    [1.75, 1/np.pi, -.5, 2],
+    ffunc_cossq,
+    [1.75, 2/np.pi, -1, 2],
     fig=ax[0]
 )
+for k, p in enumerate(params):
+    vp.unc_pp(ffunc_cos_plist[k] + "1", p, unit=ffunc_cos_plistu[k])
 vp.unc_pp("omega1", params[1]*np.pi, "V (V_i)")
 vp.unc_pp("omega1", params[1]*np.pi*300, "V (V_o)", aftercomma=3)
+print()
 
 ## Axis 2
 ax[1].errorbar(
     data[naming_dict["V_i"]],
     data[naming_dict["V_po2"]],
     fmt='.',
-    xerr=.05,
+    xerr=err_dict["V_i"],
+    yerr=err_dict["V_d"],
     label="measurements"
 )
 
 params = vt.fit(
     data[naming_dict["V_i"]],
     data[naming_dict["V_po2"]],
-    ffunc_cos,
-    [-1.75, 1/np.pi, -.5, 2],
+    ffunc_cossq,
+    [-1.75, 2/np.pi, -.5, 2],
     fig=ax[1]
 )
+for k, p in enumerate(params):
+    vp.unc_pp(ffunc_cos_plist[k] + "2", p, unit=ffunc_cos_plistu[k])
 vp.unc_pp("omega2", params[1]*np.pi, "V (V_i)")
 vp.unc_pp("omega2", params[1]*np.pi*300, "V (V_o)", aftercomma=3)
+print()
 
 ## META
 ax[0].set_title("Polarization Manipulation")
