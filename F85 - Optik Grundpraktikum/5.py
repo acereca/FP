@@ -80,7 +80,8 @@ params = vt.fit(
 for k, p in enumerate(params):
     vp.unc_pp(ffunc_cos_plist[k] + "1", p, unit=ffunc_cos_plistu[k])
 
-vp.unc_pp("omega1", params[1]*np.pi, "V")
+vp.unc_pp("omega1", params[1]*np.pi, "V (V_i)")
+vp.unc_pp("omega1", params[1]*np.pi*300, "V (V_o)", aftercomma=3)
 
 print()
 
@@ -104,7 +105,8 @@ params= vt.fit(
 for k, p in enumerate(params):
     vp.unc_pp(ffunc_cos_plist[k] + "2", p, unit=ffunc_cos_plistu[k])
 
-vp.unc_pp("omega2", params[1]*np.pi, "V")
+vp.unc_pp("omega2", params[1]*np.pi, "V (V_i)")
+vp.unc_pp("omega2", params[1]*np.pi*300, "V (V_o)", aftercomma=3)
 
 print()
 
