@@ -139,6 +139,8 @@ params = vt.fit(
     [1.75, 1/np.pi, -.5, 2],
     fig=ax[0]
 )
+vp.unc_pp("omega1", params[1]*np.pi, "V (V_i)")
+vp.unc_pp("omega1", params[1]*np.pi*300, "V (V_o)", aftercomma=3)
 
 ## Axis 2
 ax[1].errorbar(
@@ -156,6 +158,8 @@ params = vt.fit(
     [-1.75, 1/np.pi, -.5, 2],
     fig=ax[1]
 )
+vp.unc_pp("omega2", params[1]*np.pi, "V (V_i)")
+vp.unc_pp("omega2", params[1]*np.pi*300, "V (V_o)", aftercomma=3)
 
 ## META
 ax[0].set_title("Polarization Manipulation")
