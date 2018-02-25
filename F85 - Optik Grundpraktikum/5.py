@@ -46,6 +46,7 @@ plt.ylabel(naming_dict["V_o"])
 plt.xlabel(naming_dict["V_i"])
 plt.title("Amplifier Calibration")
 plt.legend()
+<<<<<<< HEAD
 plt.savefig("521.png")
 plt.clf()
 
@@ -158,3 +159,9 @@ ax[1].set_ylabel(naming_dict["V_po2"])
 ax[1].legend()
 ax[1].set_xlabel(naming_dict["V_i"])
 plt.savefig("53.png")
+=======
+plt.savefig("5.png")
+
+vp.unc_pp('rm', rm*1000, aftercomma=3)
+vp.unc_pp('rc', rc*1000, 'V')
+>>>>>>> de8350f5bf3b3ae186d8b150a7ce3090b1c2c340
