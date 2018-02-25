@@ -46,7 +46,6 @@ plt.ylabel(naming_dict["V_o"])
 plt.xlabel(naming_dict["V_i"])
 plt.title("Amplifier Calibration")
 plt.legend()
-<<<<<<< HEAD
 plt.savefig("521.png")
 plt.clf()
 
@@ -67,18 +66,21 @@ ax[0].errorbar(
 )
 
 ffunc_cos = lambda x,A,pl,dp,off: off+A*np.cos(x/pl+dp)
+ffunc_cossq = lambda x,A,pl,dp,off: off+A*np.cos(x/pl+dp)**2
 ffunc_cos_plist = ["A", "L", "Dp", "c"]
 ffunc_cos_plistu = ["V", "V", "", "V"]
 params = vt.fit(
     data[naming_dict["V_i"]],
     data[naming_dict["V_p1"]],
-    ffunc_cos,
+    ffunc_cossq,
     [.75, 8*np.pi, -.5, 1.25],
     fig=ax[0]
 )
 
 for k, p in enumerate(params):
     vp.unc_pp(ffunc_cos_plist[k] + "1", p, unit=ffunc_cos_plistu[k])
+
+vp.unc_pp("omega1", params[1]*np.pi, "V")
 
 print()
 
@@ -94,13 +96,15 @@ ax[1].errorbar(
 params= vt.fit(
     data[naming_dict["V_i"]],
     data[naming_dict["V_p2"]],
-    ffunc_cos,
-    [.05, 1/np.pi, .5, .69],
+    ffunc_cossq,
+    [.05, 2/np.pi, .5, .69],
     fig=ax[1]
 )
 
 for k, p in enumerate(params):
     vp.unc_pp(ffunc_cos_plist[k] + "2", p, unit=ffunc_cos_plistu[k])
+
+vp.unc_pp("omega2", params[1]*np.pi, "V")
 
 print()
 
@@ -159,9 +163,3 @@ ax[1].set_ylabel(naming_dict["V_po2"])
 ax[1].legend()
 ax[1].set_xlabel(naming_dict["V_i"])
 plt.savefig("53.png")
-=======
-plt.savefig("5.png")
-
-vp.unc_pp('rm', rm*1000, aftercomma=3)
-vp.unc_pp('rc', rc*1000, 'V')
->>>>>>> de8350f5bf3b3ae186d8b150a7ce3090b1c2c340
