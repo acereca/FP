@@ -44,8 +44,8 @@ params = vt.fit_linear(
     fig=ax[0]
 )
 
-vp.unc_pp("m", params[0]*1e6, "Hz/deg")
-vp.unc_pp("c", params[1], "deg")
+vp.unc_pp("m", params[0]/1e6*1e2, "s*m")
+vp.unc_pp("c", params[1]/1e2, "m")
 
 # f vs alpha
 print("\n## f vs alpha")
@@ -67,7 +67,7 @@ params = vt.fit_linear(
     fig=ax[1]
 )
 
-vp.unc_pp("m", params[0]*1e6, "Hz/deg")
+vp.unc_pp("m", params[0]*1e6, "deg/Hz")
 vp.unc_pp("c", params[1], "deg")
 
 ## META

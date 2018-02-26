@@ -1,10 +1,10 @@
 # 6.2.1.1 - Angular Measurements
 ## f vs Dx
-m = (3.44×10⁴±0.06×10⁴) Hz/deg
-c = (-2.87×10⁻²±7.03×10⁻²) deg
+m = (3.44×10⁻⁶±0.06×10⁻⁶) s*m
+c = (-2.87×10⁻⁴±7.03×10⁻⁴) m
 
 ## f vs alpha
-m = (8.80×10³±0.16×10³) Hz/deg
+m = (8.80×10³±0.16×10³) deg/Hz
 c = (-0.72×10⁻²±1.80×10⁻²) deg
 
 # 6.2.1.2 - Intensity Ratio vs Frequency
