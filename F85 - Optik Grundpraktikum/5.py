@@ -97,7 +97,7 @@ ax[1].errorbar(
     data[naming_dict["V_i"]],
     data[naming_dict["V_p2"]],
     xerr=err_dict["V_i"],
-    yerr=err_dict["V_d"],
+    yerr=err_dict["V_d"]/10,
     fmt='.',
     label="measurements"
 )
